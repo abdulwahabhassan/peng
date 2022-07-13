@@ -3,7 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/fragment_products.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/drawable-v24/bg_filter_icon.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/bg_favorite_icon.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/bg_filter_icon.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/bg_search_view.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/ic_favourite.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/ic_product_filter.xml" value="0.1115" />
+        <entry key="app/src/main/res/font/roboto_medium.xml" value="0.20051282051282052" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19427083333333334" />
+        <entry key="app/src/main/res/layout/fragment_products.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/item_product.xml" value="0.165" />
       </map>
     </option>
   </component>
@@ -12,5 +22,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.125" />
+      </ProjectState>
+    </option>
   </component>
 </project>

@@ -6,15 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.peng.databinding.FragmentProductsBinding
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProductsFragment : Fragment() {
 
     private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var productsAdapter: ProductsAdapter
     //view model
     private lateinit var viewModel: ProductsFragmentViewModel
 
@@ -22,7 +27,8 @@ class ProductsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_products, container, false)
+        _binding = FragmentProductsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,6 +37,12 @@ class ProductsFragment : Fragment() {
             this,
             viewModelFactory
         )[ProductsFragmentViewModel::class.java]
+
+        productsAdapter = ProductsAdapter { position: Int, itemAtPosition: Product ->
+            Timber.d( "${itemAtPosition.name} $position")
+        }
+        binding.productsRV.adapter = productsAdapter
+        productsAdapter.submitList(Product.products)
     }
 
     override fun onDestroy() {
