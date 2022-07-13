@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="imageview_shape_appearance_overlay_rounded_edges" parent="">
+        <item name="cornerSize">20%</item>
+    </style>
+</resources>
