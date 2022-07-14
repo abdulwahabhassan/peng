@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.peng.databinding.FragmentProductsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,14 +43,52 @@ class ProductsFragment : Fragment() {
         productsAdapter = ProductsAdapter { position: Int, itemAtPosition: Product ->
             Timber.d( "${itemAtPosition.name} $position")
         }
+
+        initRecyclerViewAdapter()
+
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            initStaggeredGridLayout(viewModel.getAppConfig().gridColumns)
+        }
+
+        binding.gridButton.setOnClickListener {
+           changeGridLayout()
+        }
+
+    }
+
+    private fun initRecyclerViewAdapter() {
         binding.productsRV.adapter = productsAdapter
-        productsAdapter.submitList(Product.products)
+        productsAdapter.submitList(Product.products.toMutableList())
+    }
+
+    private fun initStaggeredGridLayout(gridColumns: Int) {
+        binding.productsRV.layoutManager = StaggeredGridLayoutManager(
+            gridColumns,
+            LinearLayoutManager.VERTICAL
+        )
+        setGridIcon(gridColumns)
+    }
+
+    private fun changeGridLayout() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            var gridColumns = viewModel.getAppConfig().gridColumns
+            if (gridColumns == 3) gridColumns = 1 else gridColumns += 1
+            viewModel.updateGridPref(gridColumns)
+            initStaggeredGridLayout(viewModel.getAppConfig().gridColumns)
+
+        }
+    }
+
+    private fun setGridIcon(columns: Int) {
+        when(columns) {
+            1 -> { binding.gridButton.setImageResource(R.drawable.ic_grid_2_column) }
+            2 -> { binding.gridButton.setImageResource(R.drawable.ic_grid_3_column) }
+            3 -> { binding.gridButton.setImageResource(R.drawable.ic_grid_1_column) }
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
-
 }

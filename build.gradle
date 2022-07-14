@@ -21,4 +21,5 @@ ext {
     navigation_version = '2.5.0'
     hilt_version = '2.40.3'
     timber_version = '5.0.1'
+    data_store_version = '1.0.0'
 }
