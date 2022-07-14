@@ -54,7 +54,7 @@ class ProductDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.productDetailsBottomSheetDialog)
-        bottomSheetBehavior.peekHeight = 395
+        bottomSheetBehavior.peekHeight = 480
 
         binding.productDetailsFavouriteIV.setOnClickListener { view ->
             view.setBackgroundResource(R.drawable.ic_favourite_selected)
