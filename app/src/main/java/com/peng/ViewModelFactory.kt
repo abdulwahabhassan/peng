@@ -2,6 +2,8 @@ package com.peng
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.peng.repo.AppConfigRepository
+import com.peng.vm.ProductsFragmentViewModel
 import javax.inject.Inject
 
 class ViewModelFactory @Inject constructor(

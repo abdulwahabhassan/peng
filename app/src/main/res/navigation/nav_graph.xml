@@ -7,7 +7,32 @@
 
     <fragment
         android:id="@+id/productsFragment"
-        android:name="com.peng.ProductsFragment"
-        android:label="fragment_products"
-        tools:layout="@layout/fragment_products" />
+        android:name="com.peng.ui.fragment.ProductsFragment"
+        tools:layout="@layout/fragment_products">
+        <action
+            android:id="@+id/action_productsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.peng.ui.fragment.ProductDetailsFragment"
+        tools:layout="@layout/fragment_product_details">
+        <argument
+            android:name="productName"
+            app:argType="string" />
+        <argument
+            android:name="productId"
+            app:argType="string" />
+        <argument
+            android:name="productImage"
+            app:argType="string" />
+        <argument
+            android:name="productDescription"
+            app:argType="string" />
+        <argument
+            android:name="productPrice"
+            app:argType="string" />
+    </fragment>
 </navigation>

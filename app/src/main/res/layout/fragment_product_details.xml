@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.ProductDetailsFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/productDetailsMaterialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="top"
+        app:theme="@style/custom_toolbar_theme"
+        app:layout_anchorGravity="top|center_horizontal"
+        android:layout_gravity="top|center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/productDetailsFavouriteIV"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_favourite_unselected"
+            app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/productDetailsImagesVP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/productDetailsMaterialToolbar"
+        app:layout_anchorGravity="bottom|center_horizontal"
+        android:layout_gravity="bottom|center_horizontal"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productDetailsMaterialToolbar" />
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/productDetailsImagesTL"
+        android:layout_width="200dp"
+        app:layout_anchor="@id/productDetailsImagesVP"
+        app:layout_anchorGravity="bottom|center_horizontal"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productDetailsImagesVP"
+        app:tabIconTint="@color/black"
+        app:tabIndicatorColor="@color/gray_purple"
+        app:tabRippleColor="@color/gray_purple" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/productDetailsBottomSheetDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="58dp"
+            android:background="@drawable/bg_product_details_bottom_sheet_dialog"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <TextView
+                android:id="@+id/productDetailsNameTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Facial Cleanser"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/appCompatRatingBar"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/productDetailsReviewTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="170 Reviews"
+                app:layout_constraintEnd_toEndOf="@+id/appCompatRatingBar"
+                app:layout_constraintTop_toBottomOf="@+id/appCompatRatingBar" />
+
+            <TextView
+                android:id="@+id/productDetailsPriceTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="21dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="$9.90"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/productDetailsCartButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productExtraDetailsTV" />
+
+            <TextView
+                android:id="@+id/productExtraDetailsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Size: 7.60fl oz/ 225ml"
+                app:layout_constraintStart_toStartOf="@+id/productDetailsNameTV"
+                app:layout_constraintTop_toBottomOf="@+id/productDetailsNameTV" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/appCompatRatingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:progress="75"
+                android:progressTint="@color/purple_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/productDetailsNameTV" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/productDetailsCartButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Cart"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:cornerRadius="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/productDetailsPriceTV"
+                app:layout_constraintEnd_toStartOf="@+id/productDetailsAddToCartButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/productDetailsPriceTV"
+                app:layout_constraintTop_toTopOf="@+id/productDetailsPriceTV" />
+
+            <ImageButton
+                android:id="@+id/productDetailsAddToCartButton"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/bg_favorite_icon"
+                android:padding="6dp"
+                android:layout_marginHorizontal="16dp"
+                android:src="@drawable/ic_add_to_cart"
+                app:layout_constraintBottom_toBottomOf="@+id/productDetailsCartButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/productDetailsCartButton"
+                app:layout_constraintTop_toTopOf="@+id/productDetailsCartButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

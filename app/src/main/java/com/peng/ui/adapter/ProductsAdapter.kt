@@ -1,12 +1,14 @@
-package com.peng
+package com.peng.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.peng.R
 import com.peng.databinding.ItemProductBinding
 import com.peng.databinding.ItemResultFoundBinding
+import com.peng.model.Product
 import timber.log.Timber
 
 class ProductsAdapter(
@@ -69,7 +71,7 @@ class ProductsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemAtPosition = currentList[position]
         if (position == 0) {
-            (holder as ResultTextVH)
+            (holder as ResultTextVH).bind(currentList.size - 1)
         } else {
             (holder as ProductVH).bind(itemAtPosition)
         }
@@ -96,7 +98,12 @@ class ProductsAdapter(
 
     inner class ResultTextVH(private val binding: ItemResultFoundBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
+        fun bind(size: Int) {
+            Timber.d("$size")
+            with(binding) {
+               binding.resultTV.text = "Found \n$size Result"
+            }
+        }
     }
 
     companion object {

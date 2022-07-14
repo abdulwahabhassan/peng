@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="imageview_shape_appearance_overlay_rounded_edges" parent="">
+
+<!--    Image view shape appearance overlay style-->
+    <style name="imageview_shape_appearance_overlay_rounded_edges_20_percent" parent="">
         <item name="cornerSize">20%</item>
+    </style>
+    <style name="imageview_shape_appearance_overlay_rounded_edges_5_percent" parent="">
+        <item name="cornerSize">5%</item>
+    </style>
+<!--    Customize color of navigation back arrow-->
+    <style name="custom_toolbar_theme" >
+        <item name="colorControlNormal">@color/black</item>
     </style>
 </resources>

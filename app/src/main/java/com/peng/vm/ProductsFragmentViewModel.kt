@@ -1,6 +1,7 @@
-package com.peng
+package com.peng.vm
 
 import androidx.lifecycle.ViewModel
+import com.peng.repo.AppConfigRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

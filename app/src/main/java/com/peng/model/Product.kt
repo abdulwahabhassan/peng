@@ -1,4 +1,4 @@
-package com.peng
+package com.peng.model
 
 data class Product(
     val id: String,

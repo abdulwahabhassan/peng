@@ -18,9 +18,12 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/productIV"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="100dp"
+            android:maxWidth="100dp"
             android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:src="@drawable/img_cleanser"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +74,8 @@
 
         <ImageButton
             android:id="@+id/addToCartButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@drawable/bg_favorite_icon"
             android:padding="6dp"
             android:layout_marginTop="8dp"

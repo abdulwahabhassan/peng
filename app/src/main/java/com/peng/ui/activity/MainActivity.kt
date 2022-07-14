@@ -1,7 +1,8 @@
-package com.peng
+package com.peng.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.peng.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
