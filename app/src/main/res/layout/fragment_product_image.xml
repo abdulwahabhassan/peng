@@ -30,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_5_percent"
-            app:srcCompat="@drawable/img_cleanser" />
+            app:srcCompat="@drawable/img_profile_pic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

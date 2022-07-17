@@ -2,4 +2,7 @@
     <string name="app_name">Peng</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="drag_up">drag up</string>
+    <string name="shopping_bag_icon">shopping bag icon</string>
+    <string name="size_7_60_fl_oz_225ml">Size 7.60 fl oz / 225ml</string>
+    <string name="facial_cleanser">Facial Cleanser</string>
 </resources>

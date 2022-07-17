@@ -7,6 +7,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
@@ -18,11 +19,13 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayoutMediator
 import com.peng.R
+import com.peng.Utils
 import com.peng.ViewModelFactory
 import com.peng.databinding.FragmentProductDetailsBinding
 import com.peng.model.Review
 import com.peng.ui.adapter.ReviewsAdapter
 import com.peng.vm.ProductDetailsFragmentViewModel
+import com.peng.vm.ProductsFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.abs
@@ -52,6 +55,11 @@ class ProductDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(
+            this,
+            viewModelFactory
+        )[ProductDetailsFragmentViewModel::class.java]
+
         bindViewsToValuesAndActions()
 
         setUpBottomSheetDialog()
@@ -77,15 +85,20 @@ class ProductDetailsFragment : Fragment() {
             view.setBackgroundResource(R.drawable.ic_favourite_selected)
         }
 
+        binding.productDetailsCartButton.setOnClickListener {
+            val action = ProductDetailsFragmentDirections
+                .actionProductDetailsFragmentToCartFragment()
+            findNavController().navigate(action)
+        }
         binding.productDetailsNameTV.text = args.productName
         binding.productExtraDetailsTV.text = args.productDescription
-        binding.productDetailsPriceTV.text = "₦${args.productPrice}"
+        binding.productDetailsPriceTV.text = "₦${Utils().formatCurrency(args.productPrice)}"
         binding.productDetailsRB.progress = args.productRating / binding.productDetailsRB.max
     }
 
     private fun setUpBottomSheetDialog() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.productDetailsBottomSheetDialog)
-        bottomSheetBehavior.peekHeight = 560
+        bottomSheetBehavior.peekHeight = 550
         bottomSheetBehavior.isHideable = true
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {

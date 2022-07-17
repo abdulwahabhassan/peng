@@ -25,7 +25,7 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="16dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_favourite_unselected"
             app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent" />

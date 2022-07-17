@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.peng.R
+import com.peng.Utils
 import com.peng.databinding.ItemProductBinding
 import com.peng.databinding.ItemResultFoundBinding
 import com.peng.model.Product
@@ -91,7 +92,7 @@ class ProductsAdapter(
             with(binding) {
                 binding.productNameTV.text = product.name
                 binding.productDescriptionTV.text = product.description
-                binding.productPriceTV.text = "₦${product.price}"
+                binding.productPriceTV.text = "₦${Utils().formatCurrency(product.price)}"
             }
         }
     }
