@@ -8,6 +8,9 @@
     <style name="imageview_shape_appearance_overlay_rounded_edges_5_percent" parent="">
         <item name="cornerSize">5%</item>
     </style>
+    <style name="imageview_shape_appearance_overlay_rounded_edges_50_percent" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
 <!--    Customize color of navigation back arrow-->
     <style name="custom_toolbar_theme" >
         <item name="colorControlNormal">@color/black</item>

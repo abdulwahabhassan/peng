@@ -4,15 +4,13 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -22,12 +20,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.peng.R
 import com.peng.ViewModelFactory
 import com.peng.databinding.FragmentProductDetailsBinding
-import com.peng.databinding.FragmentProductsBinding
-import com.peng.ui.adapter.ProductsAdapter
+import com.peng.model.Review
+import com.peng.ui.adapter.ReviewsAdapter
 import com.peng.vm.ProductDetailsFragmentViewModel
-import com.peng.vm.ProductsFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class ProductDetailsFragment : Fragment() {
@@ -38,8 +36,9 @@ class ProductDetailsFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: ProductDetailsFragmentViewModel
-    private lateinit var viewPager: ViewPager2
-    private lateinit var viewPagerAdapter: FragmentStateAdapter
+    private lateinit var productImagesViewPager: ViewPager2
+    private lateinit var productImagesViewPagerAdapter: FragmentStateAdapter
+    private lateinit var reviewsRecyclerViewAdapter: ReviewsAdapter
     private var pageChangeCallBack: ViewPager2.OnPageChangeCallback? = null
 
     override fun onCreateView(
@@ -53,18 +52,88 @@ class ProductDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.productDetailsBottomSheetDialog)
-        bottomSheetBehavior.peekHeight = 480
+        bindViewsToValuesAndActions()
+
+        setUpBottomSheetDialog()
+
+        initProductImagesAdapter()
+
+        initProductImagesViewPagerAdapter()
+
+        setProductImagesViewPagerCompositePageTransformer()
+
+        setUpTabLayoutMediator()
+
+        initReviewsAdapter()
+
+        initRecyclerViewAdapter()
+
+    }
+
+    private fun bindViewsToValuesAndActions() {
+        binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
 
         binding.productDetailsFavouriteIV.setOnClickListener { view ->
             view.setBackgroundResource(R.drawable.ic_favourite_selected)
         }
 
-        binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
+        binding.productDetailsNameTV.text = args.productName
+        binding.productExtraDetailsTV.text = args.productDescription
+        binding.productDetailsPriceTV.text = "₦${args.productPrice}"
+        binding.productDetailsRB.progress = args.productRating / binding.productDetailsRB.max
+    }
 
-        viewPager = binding.productDetailsImagesVP
+    private fun setUpBottomSheetDialog() {
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.productDetailsBottomSheetDialog)
+        bottomSheetBehavior.peekHeight = 560
+        bottomSheetBehavior.isHideable = true
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when(newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        binding.showBottomSheetButton.visibility = VISIBLE
+                    }
+                    else -> {
+                        binding.showBottomSheetButton.visibility = INVISIBLE
+                    }
+                }
+            }
 
-        viewPagerAdapter = object : FragmentStateAdapter(childFragmentManager, lifecycle) {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                when(slideOffset) {
+                    in -1F..0F -> {
+                        binding.showBottomSheetButton.visibility = VISIBLE
+                        binding.showBottomSheetButton.alpha = abs(slideOffset)
+                    }
+                }
+            }
+
+        })
+        binding.showBottomSheetButton.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+    }
+
+    private fun setProductImagesViewPagerCompositePageTransformer() {
+        val compositePageTransformer = CompositePageTransformer()
+        compositePageTransformer.addTransformer(MarginPageTransformer(40))
+        compositePageTransformer.addTransformer { page, position ->
+            val r = 1 - Math.abs(position)
+            page.scaleY = 0.85f + r * 0.15f
+        }
+        productImagesViewPager.setPageTransformer(compositePageTransformer)
+    }
+
+    private fun initProductImagesViewPagerAdapter() {
+        productImagesViewPager = binding.productDetailsImagesVP
+        productImagesViewPager.adapter = productImagesViewPagerAdapter
+        productImagesViewPager.offscreenPageLimit = 3
+        productImagesViewPager.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+    }
+
+    private fun initProductImagesAdapter() {
+
+        productImagesViewPagerAdapter = object : FragmentStateAdapter(childFragmentManager, lifecycle) {
             private val fragments = arrayOf(
                 ProductImageFragment(""),
                 ProductImageFragment(""),
@@ -79,19 +148,11 @@ class ProductDetailsFragment : Fragment() {
             override fun getItemCount(): Int = fragments.size
         }
 
-        viewPager.adapter = viewPagerAdapter
-        viewPager.offscreenPageLimit = 3
-        viewPager.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer(40))
-        compositePageTransformer.addTransformer { page, position ->
-            val r = 1 - Math.abs(position)
-            page.scaleY = 0.85f + r * 0.15f
-        }
-        viewPager.setPageTransformer(compositePageTransformer)
+    }
 
-        TabLayoutMediator(binding.productDetailsImagesTL, viewPager) { tab, tabPosition ->
+    private fun setUpTabLayoutMediator() {
+        TabLayoutMediator(binding.productDetailsImagesTL, productImagesViewPager) { tab, tabPosition ->
             tab.setIcon(R.drawable.ic_tab_indicator_inactive)
             pageChangeCallBack = object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -103,15 +164,25 @@ class ProductDetailsFragment : Fragment() {
                     }
                 }
             }
-            pageChangeCallBack?.let { viewPager.registerOnPageChangeCallback(it) }
+            pageChangeCallBack?.let { productImagesViewPager.registerOnPageChangeCallback(it) }
         }.attach()
+    }
 
+    private fun initRecyclerViewAdapter() {
+        binding.reviewsRV.adapter = reviewsRecyclerViewAdapter
+        reviewsRecyclerViewAdapter.submitList(Review.reviews.toMutableList())
+    }
+
+    private fun initReviewsAdapter() {
+        reviewsRecyclerViewAdapter = ReviewsAdapter {position: Int, itemAtPosition: Review ->
+
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-        pageChangeCallBack?.let { viewPager.unregisterOnPageChangeCallback(it) }
+        pageChangeCallBack?.let { productImagesViewPager.unregisterOnPageChangeCallback(it) }
     }
 
 }

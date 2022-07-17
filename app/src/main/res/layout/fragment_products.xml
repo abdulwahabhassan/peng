@@ -16,27 +16,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="24dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="Search Product"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="128dp"
-            tools:layout_editor_absoluteY="16dp" />
+            android:layout_gravity="start">
 
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Peng"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="164dp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/purple_500"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shapeableImageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="12dp"
             android:scaleType="centerCrop"
             android:src="@drawable/img_profile_pic"
-            app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent" />
+            app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent"
+            android:layout_marginEnd="16dp" />
+
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout

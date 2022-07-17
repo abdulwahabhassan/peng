@@ -34,5 +34,8 @@
         <argument
             android:name="productPrice"
             app:argType="string" />
+        <argument
+            android:name="productRating"
+            app:argType="integer" />
     </fragment>
 </navigation>

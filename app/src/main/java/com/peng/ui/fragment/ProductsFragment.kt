@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.peng.vm.ProductsFragmentViewModel
@@ -19,7 +17,6 @@ import com.peng.databinding.FragmentProductsBinding
 import com.peng.model.Product
 import com.peng.ui.adapter.ProductsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,19 +46,9 @@ class ProductsFragment : Fragment() {
             viewModelFactory
         )[ProductsFragmentViewModel::class.java]
 
-        productsAdapter = ProductsAdapter { position: Int, itemAtPosition: Product ->
-            findNavController().navigate(
-                ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment(
-                    itemAtPosition.name,
-                    itemAtPosition.id,
-                    itemAtPosition.image,
-                    itemAtPosition.description,
-                    itemAtPosition.price.toString()
-                )
-            )
-        }
+        initProductsAdapter()
 
-        initRecyclerViewAdapter()
+        initProductsRecyclerViewAdapter()
 
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             initStaggeredGridLayoutManager(viewModel.getAppConfig().gridColumns)
@@ -71,9 +58,27 @@ class ProductsFragment : Fragment() {
            changeGridLayout()
         }
 
+        binding.productsFilterButton.setOnClickListener {
+        }
+
     }
 
-    private fun initRecyclerViewAdapter() {
+    private fun initProductsAdapter() {
+        productsAdapter = ProductsAdapter { position: Int, itemAtPosition: Product ->
+            findNavController().navigate(
+                ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment(
+                    itemAtPosition.name,
+                    itemAtPosition.id,
+                    itemAtPosition.image,
+                    itemAtPosition.description,
+                    itemAtPosition.price.toString(),
+                    itemAtPosition.rating
+                )
+            )
+        }
+    }
+
+    private fun initProductsRecyclerViewAdapter() {
         binding.productsRV.adapter = productsAdapter
         productsAdapter.submitList(Product.products.toMutableList())
     }

@@ -5,12 +5,15 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/bg_filter_icon.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/bg_add_to_cart.xml" value="0.1155" />
+        <entry key="app/src/main/res/drawable/bg_drag_up.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/bg_favorite_icon.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/bg_filter_icon.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/bg_product_details_bottom_sheet_dialog.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/bg_review.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/bg_search_view.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/ic_add_to_cart.xml" value="0.1155" />
         <entry key="app/src/main/res/drawable/ic_back_arrow.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/ic_drag_up.xml" value="0.1755" />
         <entry key="app/src/main/res/drawable/ic_favourite.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/ic_favourite_selected.xml" value="0.1185" />
         <entry key="app/src/main/res/drawable/ic_favourite_unselected.xml" value="0.1185" />
@@ -23,10 +26,12 @@
         <entry key="app/src/main/res/font/roboto_medium.xml" value="0.20051282051282052" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/layout/fragment_product.xml" value="0.23177083333333334" />
-        <entry key="app/src/main/res/layout/fragment_product_details.xml" value="0.125" />
-        <entry key="app/src/main/res/layout/fragment_products.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_product_details.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_product_image.xml" value="0.23385416666666667" />
+        <entry key="app/src/main/res/layout/fragment_products.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_product.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_result_found.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/item_review.xml" value="0.2203125" />
       </map>
     </option>
   </component>

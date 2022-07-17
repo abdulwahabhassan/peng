@@ -16,11 +16,6 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
-<!--        <style name="ToolbarTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">-->
-<!--            &lt;!&ndash; Customize color of navigation drawer icon and back arrow &ndash;&gt;-->
-<!--            <item name="colorControlNormal">@color/black</item>-->
-<!--        </style>-->
-
     </style>
 
 </resources>

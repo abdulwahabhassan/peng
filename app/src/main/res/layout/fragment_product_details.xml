@@ -62,10 +62,29 @@
         app:tabIndicatorColor="@color/gray_purple"
         app:tabRippleColor="@color/gray_purple" />
 
+    <ImageButton
+        android:id="@+id/showBottomSheetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:alpha="0"
+        android:background="@drawable/bg_drag_up"
+        android:padding="8dp"
+        android:src="@drawable/ic_drag_up"
+        app:layout_anchor="@id/productDetailsImagesTL"
+        app:layout_anchorGravity="bottom|center_horizontal"
+        android:layout_gravity="bottom|center_horizontal"
+        android:textAllCaps="false"
+        app:cornerRadius="24dp"
+        app:tint="@color/white"
+        android:contentDescription="@string/drag_up" />
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/productDetailsBottomSheetDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="2dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,24 +104,17 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Facial Cleanser"
+                tools:text="Facial Cleanser"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/appCompatRatingBar"
+                app:layout_constraintEnd_toStartOf="@+id/productDetailsRB"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/productDetailsReviewTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="170 Reviews"
-                app:layout_constraintEnd_toEndOf="@+id/appCompatRatingBar"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatRatingBar" />
 
             <TextView
                 android:id="@+id/productDetailsPriceTV"
@@ -111,9 +123,9 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="21dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="$9.90"
+                tools:text="$9.90"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/productDetailsCartButton"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -122,22 +134,29 @@
 
             <TextView
                 android:id="@+id/productExtraDetailsTV"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Size: 7.60fl oz/ 225ml"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_medium"
+                android:maxLines="2"
+                app:layout_constraintEnd_toEndOf="@+id/productDetailsRB"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/productDetailsNameTV"
-                app:layout_constraintTop_toBottomOf="@+id/productDetailsNameTV" />
+                app:layout_constraintTop_toBottomOf="@+id/productDetailsNameTV"
+                tools:text="Size: 7.60fl oz/ 225ml Size: 7.60fl oz/ 225ml Pajbjklsbklja jbkajbkjs kjbaksjbja kbkajbsjkbajklbjbas kjbksjbjasbj kajbkjabs kjsbjka" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/appCompatRatingBar"
+                android:id="@+id/productDetailsRB"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:progress="75"
+                tools:progress="75"
+                android:max="100"
                 android:progressTint="@color/purple_500"
+                android:isIndicator="true"
+                app:layout_constraintBottom_toTopOf="@+id/productExtraDetailsTV"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/productDetailsNameTV" />
 
@@ -150,6 +169,8 @@
                 android:textAllCaps="false"
                 android:textStyle="bold"
                 app:cornerRadius="24dp"
+                app:strokeColor="@color/purple_500"
+                app:strokeWidth="1.5dp"
                 app:layout_constraintBottom_toBottomOf="@+id/productDetailsPriceTV"
                 app:layout_constraintEnd_toStartOf="@+id/productDetailsAddToCartButton"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -169,6 +190,44 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/productDetailsCartButton"
                 app:layout_constraintTop_toTopOf="@+id/productDetailsCartButton" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Reviews"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/productDetailsCartButton" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/purple_500"
+                app:layout_constraintEnd_toEndOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="@id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewsRV"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:overScrollMode="never"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/view2"
+                tools:listitem="@layout/item_review" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

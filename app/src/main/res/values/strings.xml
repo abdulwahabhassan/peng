@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Peng</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="drag_up">drag up</string>
 </resources>

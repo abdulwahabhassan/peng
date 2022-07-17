@@ -64,7 +64,7 @@ class ProductsAdapter(
     override fun getItemCount(): Int = currentList.size
 
     override fun submitList(list: MutableList<Product>?) {
-        list?.add(0, Product("", "", "", 0.00, ""))
+        list?.add(0, Product("", "", "", 0.00, "", 0))
         super.submitList(list)
     }
 
