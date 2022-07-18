@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.peng.R
+import com.peng.Utils
 import com.peng.databinding.ItemCartItemBinding
 import com.peng.model.CartItem
 import timber.log.Timber
@@ -81,7 +82,7 @@ class CartAdapter(
                 cartItemNameTV.text = cartItem.name
                 cartItemDescriptionTV.text = cartItem.description
                 cartItemIV.setImageResource(R.drawable.img_cleanser)
-                cartItemPrice.text = "₦${cartItem.price}"
+                cartItemPrice.text = "₦${Utils().formatCurrency(cartItem.price)}"
                 cartItemQuantityTV.text = cartItem.quantity.toString()
             }
         }

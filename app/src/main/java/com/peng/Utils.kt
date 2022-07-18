@@ -20,4 +20,5 @@ class Utils {
         val df = DecimalFormat("##,###,##0.00")
         return df.format(valueToBeFormatted)
     }
+
 }

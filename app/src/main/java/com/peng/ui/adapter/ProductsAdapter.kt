@@ -13,7 +13,8 @@ import com.peng.model.Product
 import timber.log.Timber
 
 class ProductsAdapter(
-    private val onItemClicked: (position: Int, itemAtPosition: Product) -> Unit
+    private val onItemClicked: (position: Int, itemAtPosition: Product) -> Unit,
+    private val onItemAddedToCart: (position: Int, itemAtPosition: Product) -> Unit
 ) : ListAdapter<Product, RecyclerView.ViewHolder>(object :
     DiffUtil.ItemCallback<Product>() {
 
@@ -44,10 +45,17 @@ class ProductsAdapter(
                     parent,
                     false)
                 val binding = ItemProductBinding.bind(view)
-                viewHolder = ProductVH(binding, onItemClick = { position ->
-                    val itemAtPosition = currentList[position]
-                    this.onItemClicked(position, itemAtPosition)
-                })
+                viewHolder = ProductVH(
+                    binding,
+                    onItemClick = { position ->
+                        val itemAtPosition = currentList[position]
+                        this.onItemClicked(position, itemAtPosition)
+                    },
+                    onItemAddToCart = { position ->
+                        val itemAtPosition = currentList[position]
+                        this.onItemAddedToCart(position, itemAtPosition)
+                    }
+                )
             }
         }
         return viewHolder!!
@@ -78,12 +86,20 @@ class ProductsAdapter(
         }
     }
 
-    inner class ProductVH(private val binding: ItemProductBinding, onItemClick: (position: Int) -> Unit) :
+    inner class ProductVH(
+        private val binding: ItemProductBinding,
+        onItemClick: (position: Int,) -> Unit,
+        onItemAddToCart: (position: Int) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.root.setOnClickListener {
                 onItemClick(adapterPosition)
+            }
+
+            binding.addToCartButton.setOnClickListener {
+                onItemAddToCart(adapterPosition)
             }
         }
 
@@ -93,6 +109,12 @@ class ProductsAdapter(
                 binding.productNameTV.text = product.name
                 binding.productDescriptionTV.text = product.description
                 binding.productPriceTV.text = "₦${Utils().formatCurrency(product.price)}"
+                binding.addToCartButton.setImageResource(
+                    if (product.isInCart)
+                        R.drawable.ic_added_to_cart
+                    else
+                        R.drawable.ic_add_to_cart
+                )
             }
         }
     }

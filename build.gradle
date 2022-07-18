@@ -22,4 +22,6 @@ ext {
     hilt_version = '2.40.3'
     timber_version = '5.0.1'
     data_store_version = '1.0.0'
+    room_version = '2.4.1'
+    room_ktx_runtime_version = '2.4.2'
 }

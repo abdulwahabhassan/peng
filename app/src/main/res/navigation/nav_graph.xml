@@ -44,6 +44,5 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.peng.ui.fragment.CartFragment"
-        android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
 </navigation>

@@ -5,22 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.peng.R
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.peng.Utils
 import com.peng.ViewModelFactory
 import com.peng.databinding.FragmentCartBinding
-import com.peng.databinding.FragmentProductDetailsBinding
 import com.peng.model.CartItem
+import com.peng.model.VMResult
 import com.peng.ui.adapter.CartAdapter
-import com.peng.ui.adapter.ReviewsAdapter
-import com.peng.vm.CartFragmentViewModel
-import com.peng.vm.ProductDetailsFragmentViewModel
-import com.peng.vm.ProductsFragmentViewModel
+import com.peng.vm.SharedActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,7 +28,7 @@ class CartFragment : Fragment() {
     private val binding get() = _binding!!
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: CartFragmentViewModel
+    private val viewModel: SharedActivityViewModel by activityViewModels()
     private lateinit var cartRecyclerViewAdapter: CartAdapter
 
     override fun onCreateView(
@@ -44,33 +42,38 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(
-            this,
-            viewModelFactory
-        )[CartFragmentViewModel::class.java]
+        binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
 
         binding.cartProceedToCheckOutButton.setOnClickListener {
 
         }
 
-        val subtotal = CartItem.cartItems.fold(0.00) {
-                acc: Double, cartItem: CartItem -> acc + cartItem.price
-        }
-        val fee = 40.00
-        binding.cartQuantityTV.text = CartItem.cartItems.size.toString()
-        binding.cartShippingFeeTV.text = "₦${Utils().formatCurrency(fee)}"
-        binding.cartSubTotalTV.text = "₦${Utils().formatCurrency(subtotal)}"
-        binding.cartTotalTV.text = "₦${Utils().formatCurrency(subtotal + fee)}"
-
         initCartAdapter()
 
         initCartRecyclerViewAdapter()
 
+        viewModel.cartItems.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is VMResult.Success -> {
+                    val subtotal = result.data.fold(0.00) { acc: Double, cartItem: CartItem ->
+                        acc + cartItem.price
+                    }
+                    val fee = 40.00
+                    binding.cartQuantityTV.text = result.data.size.toString()
+                    binding.cartShippingFeeTV.text = "₦${Utils().formatCurrency(fee)}"
+                    binding.cartSubTotalTV.text = "₦${Utils().formatCurrency(subtotal)}"
+                    binding.cartTotalTV.text = "₦${Utils().formatCurrency(subtotal + fee)}"
+
+                    cartRecyclerViewAdapter.submitList(result.data)
+                }
+                is VMResult.Error -> {}
+                is VMResult.Loading -> {}
+            }
+        }
     }
 
     private fun initCartRecyclerViewAdapter() {
         binding.cartRV.adapter = cartRecyclerViewAdapter
-        cartRecyclerViewAdapter.submitList(CartItem.cartItems)
     }
 
     private fun initCartAdapter() {
@@ -78,15 +81,11 @@ class CartFragment : Fragment() {
             onItemClicked = { position: Int, itemAtPosition: CartItem ->
 
             }, onMinusButtonClicked = { position: Int, itemAtPosition: CartItem ->
-                val qty = itemAtPosition.quantity
-                if (qty == 0) {
-                    cartRecyclerViewAdapter.currentList.removeAt(position)
-                    cartRecyclerViewAdapter.notifyItemRemoved(position)
-                } else {
-                    itemAtPosition.quantity -= 1
-                }
+                Toast.makeText(requireContext(), "${itemAtPosition.quantity}", Toast.LENGTH_SHORT).show()
+                viewModel.updateCartItemQuantity(itemAtPosition.copy(quantity = itemAtPosition.quantity - 1))
             }, onPlusButtonClicked = { position: Int, itemAtPosition: CartItem ->
-                itemAtPosition.quantity += 1
+                Toast.makeText(requireContext(), "${itemAtPosition.quantity}", Toast.LENGTH_SHORT).show()
+                viewModel.updateCartItemQuantity(itemAtPosition.copy(quantity = itemAtPosition.quantity + 1))
             })
     }
 }

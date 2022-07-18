@@ -54,7 +54,6 @@
             android:fontFamily="@font/roboto"
             android:maxLines="1"
             android:text="@string/size_7_60_fl_oz_225ml"
-            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/cartItemNameTV"
             app:layout_constraintStart_toStartOf="@+id/cartItemNameTV"
             app:layout_constraintTop_toBottomOf="@+id/cartItemNameTV" />
@@ -70,17 +69,17 @@
             android:text="$19.98"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/cartItemIV"
+            app:layout_constraintBottom_toBottomOf="@+id/cartItemMinusButton"
             app:layout_constraintEnd_toStartOf="@+id/cartItemMinusButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/cartItemIV"
             app:layout_constraintStart_toStartOf="@+id/cartItemDescriptionTV"
-            app:layout_constraintTop_toBottomOf="@+id/cartItemDescriptionTV" />
+            app:layout_constraintTop_toTopOf="@+id/cartItemMinusButton" />
 
         <ImageButton
             android:id="@+id/cartItemPlusButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@drawable/bg_cart_plus"
             android:src="@drawable/ic_cart_plus"
             app:layout_constraintBottom_toBottomOf="@+id/cartItemMinusButton"
@@ -91,15 +90,16 @@
 
         <ImageButton
             android:id="@+id/cartItemMinusButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/bg_cart_minus"
             android:src="@drawable/ic_cart_minus"
-            app:layout_constraintBottom_toBottomOf="@+id/cartItemPrice"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cartItemQuantityTV"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/cartItemPrice"
-            app:layout_constraintTop_toTopOf="@+id/cartItemPrice" />
+            app:layout_constraintTop_toBottomOf="@+id/cartItemDescriptionTV" />
 
         <TextView
             android:id="@+id/cartItemQuantityTV"
@@ -109,7 +109,6 @@
             android:fontFamily="@font/roboto_bold"
             android:text="01"
             android:textColor="@color/black"
-            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/cartItemPlusButton"
             app:layout_constraintEnd_toStartOf="@+id/cartItemPlusButton"

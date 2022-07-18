@@ -1,13 +1,16 @@
 package com.peng.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
@@ -17,18 +20,22 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.peng.R
 import com.peng.Utils
 import com.peng.ViewModelFactory
 import com.peng.databinding.FragmentProductDetailsBinding
+import com.peng.model.Product
 import com.peng.model.Review
+import com.peng.model.mapToCartItem
 import com.peng.ui.adapter.ReviewsAdapter
-import com.peng.vm.ProductDetailsFragmentViewModel
-import com.peng.vm.ProductsFragmentViewModel
+import com.peng.vm.SharedActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
+import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class ProductDetailsFragment : Fragment() {
@@ -38,12 +45,12 @@ class ProductDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: ProductDetailsFragmentViewModel
+    private val viewModel: SharedActivityViewModel by activityViewModels()
     private lateinit var productImagesViewPager: ViewPager2
     private lateinit var productImagesViewPagerAdapter: FragmentStateAdapter
     private lateinit var reviewsRecyclerViewAdapter: ReviewsAdapter
     private var pageChangeCallBack: ViewPager2.OnPageChangeCallback? = null
-
+    private var isInCart by Delegates.notNull<Boolean>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,10 +62,7 @@ class ProductDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(
-            this,
-            viewModelFactory
-        )[ProductDetailsFragmentViewModel::class.java]
+        binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
 
         bindViewsToValuesAndActions()
 
@@ -79,8 +83,13 @@ class ProductDetailsFragment : Fragment() {
     }
 
     private fun bindViewsToValuesAndActions() {
-        binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
 
+        setAddToCartButtonIcon()
+
+        binding.productDetailsAddToCartButton.setOnClickListener {
+            isInCart = !isInCart //for addToCartIcon toggle
+            addProductToCart()
+        }
         binding.productDetailsFavouriteIV.setOnClickListener { view ->
             view.setBackgroundResource(R.drawable.ic_favourite_selected)
         }
@@ -94,6 +103,39 @@ class ProductDetailsFragment : Fragment() {
         binding.productExtraDetailsTV.text = args.productDescription
         binding.productDetailsPriceTV.text = "₦${Utils().formatCurrency(args.productPrice)}"
         binding.productDetailsRB.progress = args.productRating / binding.productDetailsRB.max
+    }
+
+    private fun setAddToCartButtonIcon() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            if (viewModel.isItemInCart(args.productId)) {
+                isInCart = true
+                binding.productDetailsAddToCartButton.setImageResource(R.drawable.ic_added_to_cart)
+            }
+            else {
+                isInCart = false
+                binding.productDetailsAddToCartButton.setImageResource(R.drawable.ic_add_to_cart)
+            }
+        }
+    }
+
+    private fun addProductToCart() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            Log.d("PO", "Clicked")
+            viewModel.addOrRemoveItemFromCart(
+                Product(
+                    args.productId,
+                    args.productName,
+                    args.productDescription,
+                    args.productPrice.toDouble(),
+                    args.productImage,
+                    args.productRating
+                ).mapToCartItem()
+            )
+            if (isInCart)
+                binding.productDetailsAddToCartButton.setImageResource(R.drawable.ic_added_to_cart)
+            else
+                binding.productDetailsAddToCartButton.setImageResource(R.drawable.ic_add_to_cart)
+        }
     }
 
     private fun setUpBottomSheetDialog() {
