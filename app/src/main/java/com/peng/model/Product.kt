@@ -7,7 +7,8 @@ data class Product(
     val price: Double,
     val image: String,
     val rating: Int,
-    val isInCart: Boolean = false
+    val isInCart: Boolean = false,
+    val isInFavourite: Boolean = false
 ) {
 
     companion object {
@@ -109,5 +110,15 @@ fun Product.mapToCartItem(): CartItem {
         price = this.price,
         image = this.image,
         quantity = 1
+    )
+}
+
+fun Product.mapToFavouriteItem(): FavouriteItem {
+    return FavouriteItem(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        price = this.price,
+        image = this.image
     )
 }

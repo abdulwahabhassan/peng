@@ -3,6 +3,7 @@ package com.peng.di
 import android.content.Context
 import com.peng.db.CartItemLocalDao
 import com.peng.db.Database
+import com.peng.db.FavouriteItemLocalDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,10 +17,18 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideVehicleLocalDAO(
+    fun provideCartItemLocalDao(
         @ApplicationContext appContext: Context
     ): CartItemLocalDao {
         return Database.getInstance(appContext).cartItemLocalDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavouriteItemLocalDao(
+        @ApplicationContext appContext: Context
+    ): FavouriteItemLocalDao {
+        return Database.getInstance(appContext).favouriteItemLocalDao()
     }
 
 }

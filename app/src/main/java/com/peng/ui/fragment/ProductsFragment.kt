@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.peng.R
 import com.peng.ViewModelFactory
@@ -42,7 +43,11 @@ class ProductsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(requireContext(), "Back to base", Toast.LENGTH_SHORT).show()
+
+        binding.productsShoppingCartLAV.setOnClickListener {
+            val action = ProductsFragmentDirections.actionProductsFragmentToCartFragment()
+            findNavController().navigate(action)
+        }
 
         initProductsAdapter()
 
@@ -87,8 +92,12 @@ class ProductsFragment : Fragment() {
         },
         onItemAddedToCart = { position: Int, itemAtPosition: Product ->
             viewModel.addOrRemoveItemFromCart(itemAtPosition.mapToCartItem())
+            if (!itemAtPosition.isInCart) {
+                binding.productsShoppingCartLAV.playAnimation()
+            }
             productsAdapter.notifyItemChanged(position)
         })
+        productsAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
     private fun initProductsRecyclerViewAdapter() {

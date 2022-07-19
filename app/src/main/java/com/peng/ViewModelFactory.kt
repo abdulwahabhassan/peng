@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.peng.repo.CartRepository
 import com.peng.repo.DataStorePrefsRepository
+import com.peng.repo.FavouriteRepository
 import com.peng.vm.CartFragmentViewModel
 import com.peng.vm.ProductDetailsFragmentViewModel
 import com.peng.vm.ProductsFragmentViewModel
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 class ViewModelFactory @Inject constructor(
     private val dataStorePrefsRepository: DataStorePrefsRepository,
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val favouriteRepository: FavouriteRepository
 ) : ViewModelProvider.Factory{
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -29,7 +31,8 @@ class ViewModelFactory @Inject constructor(
             modelClass.isAssignableFrom(CartFragmentViewModel::class.java) -> {
                 return SharedActivityViewModel(
                     dataStorePrefsRepository,
-                    cartRepository
+                    cartRepository,
+                    favouriteRepository
                 ) as T
             }
         }

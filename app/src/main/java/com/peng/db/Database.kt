@@ -8,7 +8,8 @@ import timber.log.Timber
 
 @androidx.room.Database(
     entities = [
-        CartItemEntity::class
+        CartItemEntity::class,
+        FavouriteItemEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -16,6 +17,7 @@ import timber.log.Timber
 abstract class Database : RoomDatabase() {
 
     abstract fun cartItemLocalDao(): CartItemLocalDao
+    abstract fun favouriteItemLocalDao(): FavouriteItemLocalDao
 
     companion object {
         @Volatile private var instance: Database? = null

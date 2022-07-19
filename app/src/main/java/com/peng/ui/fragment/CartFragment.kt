@@ -58,7 +58,7 @@ class CartFragment : Fragment() {
                     val subtotal = result.data.fold(0.00) { acc: Double, cartItem: CartItem ->
                         acc + cartItem.price
                     }
-                    val fee = 40.00
+                    val fee = 0.00
                     binding.cartQuantityTV.text = result.data.size.toString()
                     binding.cartShippingFeeTV.text = "₦${Utils().formatCurrency(fee)}"
                     binding.cartSubTotalTV.text = "₦${Utils().formatCurrency(subtotal)}"
@@ -81,10 +81,8 @@ class CartFragment : Fragment() {
             onItemClicked = { position: Int, itemAtPosition: CartItem ->
 
             }, onMinusButtonClicked = { position: Int, itemAtPosition: CartItem ->
-                Toast.makeText(requireContext(), "${itemAtPosition.quantity}", Toast.LENGTH_SHORT).show()
                 viewModel.updateCartItemQuantity(itemAtPosition.copy(quantity = itemAtPosition.quantity - 1))
             }, onPlusButtonClicked = { position: Int, itemAtPosition: CartItem ->
-                Toast.makeText(requireContext(), "${itemAtPosition.quantity}", Toast.LENGTH_SHORT).show()
                 viewModel.updateCartItemQuantity(itemAtPosition.copy(quantity = itemAtPosition.quantity + 1))
             })
     }

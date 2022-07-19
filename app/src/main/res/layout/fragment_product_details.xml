@@ -25,10 +25,27 @@
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_gravity="end"
+            android:paddingTop="6dp"
             android:layout_marginEnd="16dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_favourite_unselected"
             app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/productDetailsShoppingCartLAV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="end"
+            android:visibility="visible"
+            android:paddingBottom="4dp"
+            android:layout_marginHorizontal="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="shopping-cart.json"
+            app:lottie_loop="false" />
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -68,11 +85,10 @@
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:alpha="0"
+        android:layout_margin="24dp"
         android:background="@drawable/bg_drag_up"
         android:padding="8dp"
         android:src="@drawable/ic_drag_up"
-        app:layout_anchor="@id/productDetailsImagesTL"
-        app:layout_anchorGravity="bottom|center_horizontal"
         android:layout_gravity="bottom|center_horizontal"
         android:textAllCaps="false"
         app:cornerRadius="24dp"
@@ -121,16 +137,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="21dp"
                 android:fontFamily="@font/roboto_bold"
-                tools:text="$9.90"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/productDetailsCartButton"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintBottom_toBottomOf="@+id/productDetailsAddToCartButton"
+                app:layout_constraintEnd_toStartOf="@+id/productDetailsAddToCartButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/productExtraDetailsTV" />
+                app:layout_constraintTop_toTopOf="@+id/productDetailsAddToCartButton"
+                tools:text="$9.90" />
 
             <TextView
                 android:id="@+id/productExtraDetailsTV"
@@ -160,59 +175,44 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/productDetailsNameTV" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/productDetailsCartButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Cart"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                app:cornerRadius="24dp"
-                app:strokeColor="@color/purple_500"
-                app:strokeWidth="1.5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/productDetailsPriceTV"
-                app:layout_constraintEnd_toStartOf="@+id/productDetailsAddToCartButton"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/productDetailsPriceTV"
-                app:layout_constraintTop_toTopOf="@+id/productDetailsPriceTV" />
-
             <ImageButton
                 android:id="@+id/productDetailsAddToCartButton"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="16dp"
                 android:background="@drawable/bg_favorite_icon"
                 android:padding="6dp"
-                android:layout_marginHorizontal="16dp"
-                android:src="@drawable/ic_add_to_cart"
-                app:layout_constraintBottom_toBottomOf="@+id/productDetailsCartButton"
+                android:layout_marginTop="12dp"
+                tools:src="@drawable/ic_add_to_cart"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/productDetailsCartButton"
-                app:layout_constraintTop_toTopOf="@+id/productDetailsCartButton" />
+                app:layout_constraintTop_toBottomOf="@+id/productExtraDetailsTV" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/productDetailsReviewTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="Reviews"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:visibility="invisible"
+                android:alpha="0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/productDetailsCartButton" />
+                app:layout_constraintTop_toBottomOf="@+id/productDetailsAddToCartButton" />
 
             <View
-                android:id="@+id/view2"
+                android:id="@+id/productsDetailsReviewTextUnderlineView"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
+                android:visibility="invisible"
+                android:alpha="0"
                 android:background="@color/purple_500"
-                app:layout_constraintEnd_toEndOf="@+id/textView"
-                app:layout_constraintStart_toStartOf="@id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintEnd_toEndOf="@+id/productDetailsReviewTV"
+                app:layout_constraintStart_toStartOf="@id/productDetailsReviewTV"
+                app:layout_constraintTop_toBottomOf="@+id/productDetailsReviewTV" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reviewsRV"
@@ -222,11 +222,13 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:overScrollMode="never"
+                android:visibility="invisible"
+                android:alpha="0"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@+id/view2"
+                app:layout_constraintTop_toBottomOf="@+id/productsDetailsReviewTextUnderlineView"
                 tools:listitem="@layout/item_review" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

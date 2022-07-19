@@ -49,6 +49,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shapeableImageView"
             android:layout_width="40dp"
@@ -58,6 +59,21 @@
             android:src="@drawable/img_profile_pic"
             app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent"
             android:layout_marginEnd="16dp" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/productsShoppingCartLAV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="end"
+            android:visibility="visible"
+            android:layout_marginHorizontal="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_fileName="shopping-cart.json"
+            app:lottie_loop="false" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 

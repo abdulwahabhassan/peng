@@ -29,6 +29,7 @@ import com.peng.databinding.FragmentProductDetailsBinding
 import com.peng.model.Product
 import com.peng.model.Review
 import com.peng.model.mapToCartItem
+import com.peng.model.mapToFavouriteItem
 import com.peng.ui.adapter.ReviewsAdapter
 import com.peng.vm.SharedActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,6 +52,7 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var reviewsRecyclerViewAdapter: ReviewsAdapter
     private var pageChangeCallBack: ViewPager2.OnPageChangeCallback? = null
     private var isInCart by Delegates.notNull<Boolean>()
+    private var isFavourite by Delegates.notNull<Boolean>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +65,10 @@ class ProductDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
+
+        setFavouriteButtonIcon()
+
+        setAddToCartButtonIcon()
 
         bindViewsToValuesAndActions()
 
@@ -84,21 +90,27 @@ class ProductDetailsFragment : Fragment() {
 
     private fun bindViewsToValuesAndActions() {
 
-        setAddToCartButtonIcon()
-
-        binding.productDetailsAddToCartButton.setOnClickListener {
-            isInCart = !isInCart //for addToCartIcon toggle
-            addProductToCart()
-        }
-        binding.productDetailsFavouriteIV.setOnClickListener { view ->
-            view.setBackgroundResource(R.drawable.ic_favourite_selected)
-        }
-
-        binding.productDetailsCartButton.setOnClickListener {
+        binding.productDetailsShoppingCartLAV.setOnClickListener {
             val action = ProductDetailsFragmentDirections
                 .actionProductDetailsFragmentToCartFragment()
             findNavController().navigate(action)
         }
+
+        binding.productDetailsAddToCartButton.setOnClickListener {
+            isInCart = !isInCart //for addToCartIcon toggle
+            addProductToCart()
+            if (isInCart) {
+                binding.productDetailsShoppingCartLAV.playAnimation()
+            }
+        }
+        binding.productDetailsFavouriteIV.setOnClickListener { view ->
+            isFavourite = !isFavourite //for favouriteIcon toggle
+            addProductToFavourite()
+            if (isFavourite) {
+                //play animation
+            }
+        }
+
         binding.productDetailsNameTV.text = args.productName
         binding.productExtraDetailsTV.text = args.productDescription
         binding.productDetailsPriceTV.text = "₦${Utils().formatCurrency(args.productPrice)}"
@@ -114,6 +126,19 @@ class ProductDetailsFragment : Fragment() {
             else {
                 isInCart = false
                 binding.productDetailsAddToCartButton.setImageResource(R.drawable.ic_add_to_cart)
+            }
+        }
+    }
+
+    private fun setFavouriteButtonIcon() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            if (viewModel.isItemInFavourite(args.productId)) {
+                isFavourite = true
+                binding.productDetailsFavouriteIV.setImageResource(R.drawable.ic_favourite_selected)
+            }
+            else {
+                isFavourite = false
+                binding.productDetailsFavouriteIV.setImageResource(R.drawable.ic_favourite_unselected)
             }
         }
     }
@@ -138,6 +163,25 @@ class ProductDetailsFragment : Fragment() {
         }
     }
 
+    private fun addProductToFavourite() {
+        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+            viewModel.addOrRemoveItemFromFavourite(
+                Product(
+                    args.productId,
+                    args.productName,
+                    args.productDescription,
+                    args.productPrice.toDouble(),
+                    args.productImage,
+                    args.productRating
+                ).mapToFavouriteItem()
+            )
+            if (isFavourite)
+                binding.productDetailsFavouriteIV.setImageResource(R.drawable.ic_favourite_selected)
+            else
+                binding.productDetailsFavouriteIV.setImageResource(R.drawable.ic_favourite_unselected)
+        }
+    }
+
     private fun setUpBottomSheetDialog() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.productDetailsBottomSheetDialog)
         bottomSheetBehavior.peekHeight = 550
@@ -159,6 +203,36 @@ class ProductDetailsFragment : Fragment() {
                     in -1F..0F -> {
                         binding.showBottomSheetButton.visibility = VISIBLE
                         binding.showBottomSheetButton.alpha = abs(slideOffset)
+                    }
+                }
+            }
+
+        })
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED, BottomSheetBehavior.STATE_HIDDEN -> {
+                        binding.reviewsRV.visibility = INVISIBLE
+                        binding.productDetailsReviewTV.visibility = INVISIBLE
+                        binding.productsDetailsReviewTextUnderlineView.visibility = INVISIBLE
+                    }
+                    else -> {
+                        binding.reviewsRV.visibility = VISIBLE
+                        binding.productDetailsReviewTV.visibility = VISIBLE
+                        binding.productsDetailsReviewTextUnderlineView.visibility = VISIBLE
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                when(slideOffset) {
+                    in 0F..1F -> {
+                        binding.reviewsRV.visibility = VISIBLE
+                        binding.productDetailsReviewTV.visibility = VISIBLE
+                        binding.productsDetailsReviewTextUnderlineView.visibility = VISIBLE
+                        binding.reviewsRV.alpha = slideOffset
+                        binding.productDetailsReviewTV.alpha = slideOffset
+                        binding.productsDetailsReviewTextUnderlineView.alpha = slideOffset
                     }
                 }
             }
