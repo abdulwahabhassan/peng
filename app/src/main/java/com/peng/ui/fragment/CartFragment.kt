@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -59,6 +61,11 @@ class CartFragment : Fragment() {
                         acc + cartItem.price
                     }
                     val fee = 0.00
+                    if (result.data.isEmpty()) {
+                        binding.cartProceedToCheckOutButton.visibility = INVISIBLE
+                    } else {
+                        binding.cartProceedToCheckOutButton.visibility = VISIBLE
+                    }
                     binding.cartQuantityTV.text = result.data.size.toString()
                     binding.cartShippingFeeTV.text = "₦${Utils().formatCurrency(fee)}"
                     binding.cartSubTotalTV.text = "₦${Utils().formatCurrency(subtotal)}"

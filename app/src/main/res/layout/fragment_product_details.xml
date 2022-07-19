@@ -11,7 +11,6 @@
         android:id="@+id/productDetailsMaterialToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="top"
         app:theme="@style/custom_toolbar_theme"
         app:layout_anchorGravity="top|center_horizontal"
@@ -20,32 +19,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/productDetailsFavouriteIV"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="end"
-            android:paddingTop="6dp"
-            android:layout_marginEnd="16dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_favourite_unselected"
-            app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_gravity="center">
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/productDetailsShoppingCartLAV"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="centerCrop"
-            android:layout_gravity="end"
-            android:visibility="visible"
-            android:paddingBottom="4dp"
-            android:layout_marginHorizontal="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_fileName="shopping-cart.json"
-            app:lottie_loop="false" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/productDetailsFavouriteIV"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:paddingTop="6dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_favourite_unselected"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/productDetailsShoppingCartLAV"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="32dp"
+                android:paddingBottom="4dp"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/productDetailsFavouriteIV"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:lottie_fileName="shopping-cart.json"
+                app:lottie_loop="false" />
+
+            <TextView
+                android:id="@+id/cartQuantityTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/bg_cart_quantity"
+                android:fontFamily="@font/roboto_bold"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                tools:text="17"
+                android:layout_marginStart="40dp"
+                android:layout_marginBottom="40dp"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/productDetailsShoppingCartLAV"
+                app:layout_constraintHorizontal_bias="0.561"
+                app:layout_constraintStart_toStartOf="@+id/productDetailsShoppingCartLAV"
+                app:layout_constraintTop_toTopOf="@+id/productDetailsShoppingCartLAV" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.viewpager2.widget.ViewPager2
@@ -139,7 +166,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/productDetailsAddToCartButton"
                 app:layout_constraintEnd_toStartOf="@+id/productDetailsAddToCartButton"
@@ -193,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_bold"
                 android:text="Reviews"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:visibility="invisible"

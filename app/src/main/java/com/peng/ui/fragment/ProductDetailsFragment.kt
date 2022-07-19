@@ -26,10 +26,7 @@ import com.peng.R
 import com.peng.Utils
 import com.peng.ViewModelFactory
 import com.peng.databinding.FragmentProductDetailsBinding
-import com.peng.model.Product
-import com.peng.model.Review
-import com.peng.model.mapToCartItem
-import com.peng.model.mapToFavouriteItem
+import com.peng.model.*
 import com.peng.ui.adapter.ReviewsAdapter
 import com.peng.vm.SharedActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,6 +62,15 @@ class ProductDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
+
+        viewModel.cartItems.observe(viewLifecycleOwner) { result ->
+            when(result) {
+                is VMResult.Success -> {
+                    binding.cartQuantityTV.text = result.data.size.toString()
+                }
+                else -> {}
+            }
+        }
 
         setFavouriteButtonIcon()
 

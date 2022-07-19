@@ -10,7 +10,6 @@
         android:id="@+id/productsMaterialToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,30 +49,59 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:scaleType="centerCrop"
-            android:src="@drawable/img_profile_pic"
-            app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent"
-            android:layout_marginEnd="16dp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/productsShoppingCartLAV"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="centerCrop"
-            android:layout_gravity="end"
-            android:visibility="visible"
-            android:layout_marginHorizontal="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_fileName="shopping-cart.json"
-            app:lottie_loop="false" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/shapeableImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/img_profile_pic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/productsShoppingCartLAV"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginHorizontal="32dp"
+                android:scaleType="centerCrop"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/shapeableImageView"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.65"
+                app:lottie_fileName="shopping-cart.json"
+                app:lottie_loop="false" />
+
+            <TextView
+                android:id="@+id/productsCartQuantityTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/bg_cart_quantity"
+                android:fontFamily="@font/roboto_bold"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                tools:text="17"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/productsShoppingCartLAV"
+                app:layout_constraintEnd_toEndOf="@+id/productsShoppingCartLAV"
+                app:layout_constraintHorizontal_bias="0.561"
+                app:layout_constraintStart_toStartOf="@+id/productsShoppingCartLAV"
+                app:layout_constraintTop_toTopOf="@+id/productsShoppingCartLAV" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
 

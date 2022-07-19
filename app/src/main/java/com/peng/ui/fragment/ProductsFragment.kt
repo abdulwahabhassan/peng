@@ -44,6 +44,18 @@ class ProductsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.cartItems.observe(viewLifecycleOwner) { result ->
+            when(result) {
+                is VMResult.Success -> {
+                    binding.productsCartQuantityTV.text = result.data.size.toString()
+                }
+                else -> {}
+            }
+        }
+
+        //set profile pic
+        binding.shapeableImageView.setImageResource(R.drawable.img_profile_pic)
+
         binding.productsShoppingCartLAV.setOnClickListener {
             val action = ProductsFragmentDirections.actionProductsFragmentToCartFragment()
             findNavController().navigate(action)

@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
             android:layout_height="80dp"
             android:background="@color/white"
             android:layout_marginStart="8dp"
-            android:src="@drawable/img_cleanser"
+            tools:src="@drawable/img_cleanser"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cartItemNameTV"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +34,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/facial_cleanser"
+            tools:text="@string/facial_cleanser"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:maxLines="1"
@@ -53,7 +54,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/roboto"
             android:maxLines="1"
-            android:text="@string/size_7_60_fl_oz_225ml"
+            tools:text="@string/size_7_60_fl_oz_225ml"
             app:layout_constraintEnd_toEndOf="@+id/cartItemNameTV"
             app:layout_constraintStart_toStartOf="@+id/cartItemNameTV"
             app:layout_constraintTop_toBottomOf="@+id/cartItemNameTV" />
@@ -66,7 +67,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/roboto_bold"
             android:maxLines="1"
-            android:text="$19.98"
+            tools:text="$19.98"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/cartItemMinusButton"

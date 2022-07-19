@@ -17,11 +17,9 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/productImageIV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
             android:adjustViewBounds="true"
-            android:maxWidth="220dp"
-            android:maxHeight="220dp"
             android:scaleType="fitCenter"
             android:tintMode="multiply"
             android:tint="@color/gray_purple"
@@ -30,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_5_percent"
-            app:srcCompat="@drawable/img_profile_pic" />
+            tools:srcCompat="@drawable/img_profile_pic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
