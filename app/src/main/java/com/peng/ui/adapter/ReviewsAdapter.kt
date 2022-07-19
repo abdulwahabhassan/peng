@@ -43,8 +43,11 @@ class ReviewsAdapter(
     override fun getItemCount(): Int = currentList.size
 
     override fun onBindViewHolder(holder: ReviewVH, position: Int) {
+        val animation = android.view.animation.AnimationUtils
+            .loadAnimation(holder.itemView.context, android.R.anim.slide_in_left)
         val itemAtPosition = currentList[position]
         holder.bind(itemAtPosition)
+        holder.itemView.startAnimation(animation)
     }
 
     inner class ReviewVH(private val binding: ItemReviewBinding, onItemClick: (position: Int) -> Unit) :

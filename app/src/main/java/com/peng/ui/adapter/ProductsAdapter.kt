@@ -106,6 +106,7 @@ class ProductsAdapter(
         fun bind(product: Product) {
             Timber.d("$product")
             with(binding) {
+                binding.productIV.setImageResource(R.drawable.img_cleanser)
                 binding.productNameTV.text = product.name
                 binding.productDescriptionTV.text = product.description
                 binding.productPriceTV.text = "₦${Utils().formatCurrency(product.price)}"
