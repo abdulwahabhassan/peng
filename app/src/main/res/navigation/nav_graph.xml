@@ -13,17 +13,20 @@
             android:id="@+id/action_productsFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:launchSingleTop="true" />
         <action
             android:id="@+id/action_productsFragment_to_cartFragment"
             app:destination="@id/cartFragment"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:launchSingleTop="true" />
         <action
             android:id="@+id/action_productsFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:launchSingleTop="true" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -59,5 +62,14 @@
         android:id="@+id/profileFragment"
         android:name="com.peng.ui.fragment.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_profileFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:launchSingleTop="true" />
+    </fragment>
 </navigation>

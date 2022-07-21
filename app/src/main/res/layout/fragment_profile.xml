@@ -272,7 +272,7 @@
                 app:layout_constraintTop_toTopOf="@+id/profileFavouriteLAV" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/profileCartRV"
+                android:id="@+id/profileFavouriteRV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -292,7 +292,7 @@
                 android:layout_marginTop="24dp"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileCartRV"
+                app:layout_constraintTop_toBottomOf="@+id/profileFavouriteRV"
                 app:lottie_autoPlay="true"
                 app:lottie_cacheComposition="true"
                 app:lottie_fileName="password.json"
@@ -315,16 +315,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:drawableEnd="@drawable/ic_edit"
                 android:drawablePadding="4dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="*******"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/profilePasswordTV"
-                app:layout_constraintTop_toBottomOf="@+id/profilePasswordLAV" />
+                app:layout_constraintTop_toBottomOf="@+id/profilePasswordLAV"
+                app:layout_constraintVertical_bias="0.0"
+                app:drawableEndCompat="@drawable/ic_edit" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

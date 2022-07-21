@@ -203,6 +203,7 @@ fun Product.mapToFavouriteItem(): FavouriteItem {
         name = this.name,
         description = this.description,
         price = this.price,
-        image = this.image
+        image = this.image,
+        rating = this.rating
     )
 }

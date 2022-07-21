@@ -18,7 +18,9 @@ data class FavouriteItemEntity (
     @ColumnInfo(name = "price")
     val price: Double,
     @ColumnInfo(name = "image")
-    val image: String
+    val image: String,
+    @ColumnInfo(name = "rating")
+    val rating: Int
 )
 
 fun FavouriteItemEntity.mapToFavouriteItem(): FavouriteItem {
@@ -27,6 +29,7 @@ fun FavouriteItemEntity.mapToFavouriteItem(): FavouriteItem {
         this.name,
         this.description,
         this.price,
-        this.image
+        this.image,
+        this.rating
     )
 }
