@@ -7,29 +7,21 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.peng.Utils
-import com.peng.ViewModelFactory
 import com.peng.databinding.FragmentCartBinding
 import com.peng.model.CartItem
 import com.peng.model.VMResult
 import com.peng.ui.adapter.CartAdapter
 import com.peng.vm.SharedActivityViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: SharedActivityViewModel by activityViewModels()
     private lateinit var cartRecyclerViewAdapter: CartAdapter
 
@@ -92,5 +84,10 @@ class CartFragment : Fragment() {
             }, onPlusButtonClicked = { position: Int, itemAtPosition: CartItem ->
                 viewModel.updateCartItemQuantity(itemAtPosition.copy(quantity = itemAtPosition.quantity + 1))
             })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

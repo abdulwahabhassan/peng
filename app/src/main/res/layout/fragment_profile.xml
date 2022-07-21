@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.ProfileFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/profileDetailsMaterialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        app:theme="@style/custom_toolbar_theme"
+        app:layout_anchorGravity="top|center_horizontal"
+        android:layout_gravity="top|center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_gravity="center">
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/profileDetailsMaterialToolbar"
+        tools:layout_editor_absoluteX="0dp">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/profileLAV"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_cacheComposition="true"
+            app:lottie_fileName="profile.json"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/profileTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Profile"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/profileLAV"
+            app:layout_constraintStart_toEndOf="@+id/profileLAV"
+            app:layout_constraintTop_toTopOf="@+id/profileLAV" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profileLAV"
+            app:layout_constraintTop_toBottomOf="@+id/profileLAV">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/shapeableImageView"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_profile_pic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_50_percent" />
+
+            <TextView
+                android:id="@+id/profileNameTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="4dp"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Hassan Abdulwahab"
+                android:textColor="@color/black"
+                app:drawableEndCompat="@drawable/ic_edit"
+                app:layout_constraintBottom_toTopOf="@+id/profileEmailAddressTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                app:layout_constraintTop_toTopOf="@+id/shapeableImageView" />
+
+
+            <TextView
+                android:id="@+id/profileDeliveryAddressTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="4dp"
+                android:drawablePadding="4dp"
+                android:text="No. 12 6th Avenue, Boulevard Road, Lagos Island"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_medium"
+                app:drawableEndCompat="@drawable/ic_edit"
+                app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                app:layout_constraintTop_toBottomOf="@+id/profileEmailAddressTV" />
+
+            <TextView
+                android:id="@+id/profileEmailAddressTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="4dp"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="devhassan.org@gmail.com"
+                android:textColor="@color/black"
+                app:drawableEndCompat="@drawable/ic_edit"
+                app:layout_constraintBottom_toTopOf="@+id/profileDeliveryAddressTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                app:layout_constraintTop_toBottomOf="@+id/profileNameTV" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/profilePaymentLAV"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+            app:lottie_autoPlay="true"
+            app:lottie_cacheComposition="true"
+            app:lottie_fileName="payment.json"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/profilePaymentTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Payment"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/profilePaymentLAV"
+            app:layout_constraintStart_toEndOf="@+id/profilePaymentLAV"
+            app:layout_constraintTop_toTopOf="@+id/profilePaymentLAV" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profilePaymentRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profilePaymentLAV"
+            app:layout_constraintTop_toBottomOf="@+id/profilePaymentLAV"
+            tools:itemCount="2"
+            tools:listitem="@layout/item_cart_item" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/profileShoppingCartLAV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profilePaymentRV"
+            app:lottie_autoPlay="true"
+            app:tintMode="multiply"
+            app:lottie_speed="0.5"
+            app:tint="@color/gray_purple"
+            app:lottie_cacheComposition="true"
+            app:lottie_fileName="favourite.json"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/profileFavouriteTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Favourite"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/profileShoppingCartLAV"
+            app:layout_constraintStart_toEndOf="@+id/profileShoppingCartLAV"
+            app:layout_constraintTop_toTopOf="@+id/profileShoppingCartLAV" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/profileCartRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileShoppingCartLAV"
+            tools:listitem="@layout/item_favourite_item" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/profileSettingLAV"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:visibility="visible"
+            app:lottie_speed="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profilePasswordLAV"
+            app:lottie_autoPlay="true"
+            app:lottie_cacheComposition="true"
+            app:lottie_fileName="setting.json"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/profileSettingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Setting"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/profileSettingLAV"
+            app:layout_constraintStart_toEndOf="@+id/profileSettingLAV"
+            app:layout_constraintTop_toTopOf="@+id/profileSettingLAV" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/profilePasswordLAV"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileCartRV"
+            app:lottie_autoPlay="true"
+            app:lottie_cacheComposition="true"
+            app:lottie_fileName="password.json"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/profilePasswordTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Password"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/profilePasswordLAV"
+            app:layout_constraintStart_toEndOf="@+id/profilePasswordLAV"
+            app:layout_constraintTop_toTopOf="@+id/profilePasswordLAV" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/profileLogoutLAV"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileSettingLAV"
+            app:lottie_autoPlay="true"
+            app:lottie_cacheComposition="true"
+            app:lottie_fileName="logout.json"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/profileLogoutTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Log out"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/profileLogoutLAV"
+            app:layout_constraintStart_toEndOf="@+id/profileLogoutLAV"
+            app:layout_constraintTop_toTopOf="@+id/profileLogoutLAV" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,7 +55,7 @@
             >
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/shapeableImageView"
+                android:id="@+id/productProfilePhotoIV"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="end"
@@ -76,7 +76,7 @@
                 android:visibility="visible"
                 app:lottie_cacheComposition="true"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/shapeableImageView"
+                app:layout_constraintEnd_toStartOf="@+id/productProfilePhotoIV"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.65"
                 app:lottie_fileName="shopping-cart.json"

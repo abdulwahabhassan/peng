@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -9,45 +10,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="8dp"
+        android:background="@drawable/bg_profile_favourite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/cartItemIV"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:id="@+id/favouriteItemIV"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:background="@color/white"
             android:layout_marginStart="8dp"
             tools:src="@drawable/img_cleanser"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cartItemNameTV"
+            app:layout_constraintEnd_toStartOf="@+id/favouriteItemNameTV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/imageview_shape_appearance_overlay_rounded_edges_20_percent" />
 
         <TextView
-            android:id="@+id/cartItemNameTV"
+            android:id="@+id/favouriteItemNameTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
             tools:text="@string/facial_cleanser"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:maxLines="1"
+            android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:fontFamily="@font/roboto_medium"
-            app:layout_constraintBottom_toTopOf="@+id/cartItemDescriptionTV"
+            app:layout_constraintBottom_toTopOf="@+id/favouriteItemDescriptionTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cartItemIV"
+            app:layout_constraintStart_toEndOf="@+id/favouriteItemIV"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/cartItemDescriptionTV"
+            android:id="@+id/favouriteItemDescriptionTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
@@ -56,12 +57,12 @@
             android:maxLines="1"
             android:textSize="13sp"
             tools:text="@string/size_7_60_fl_oz_225ml"
-            app:layout_constraintEnd_toEndOf="@+id/cartItemNameTV"
-            app:layout_constraintStart_toStartOf="@+id/cartItemNameTV"
-            app:layout_constraintTop_toBottomOf="@+id/cartItemNameTV" />
+            app:layout_constraintEnd_toEndOf="@+id/favouriteItemNameTV"
+            app:layout_constraintStart_toStartOf="@+id/favouriteItemNameTV"
+            app:layout_constraintTop_toBottomOf="@+id/favouriteItemNameTV" />
 
         <TextView
-            android:id="@+id/cartItemPrice"
+            android:id="@+id/favouriteItemPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -71,52 +72,26 @@
             tools:text="$19.98"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/cartItemMinusButton"
-            app:layout_constraintEnd_toStartOf="@+id/cartItemMinusButton"
+            app:layout_constraintBottom_toBottomOf="@+id/favouriteItemFavouriteButton"
+            app:layout_constraintEnd_toStartOf="@+id/favouriteItemFavouriteButton"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cartItemIV"
-            app:layout_constraintStart_toStartOf="@+id/cartItemDescriptionTV"
-            app:layout_constraintTop_toTopOf="@+id/cartItemMinusButton" />
+            app:layout_constraintStart_toEndOf="@+id/favouriteItemIV"
+            app:layout_constraintStart_toStartOf="@+id/favouriteItemDescriptionTV"
+            app:layout_constraintTop_toTopOf="@+id/favouriteItemFavouriteButton" />
 
         <ImageButton
-            android:id="@+id/cartItemPlusButton"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="@drawable/bg_cart_plus"
-            android:src="@drawable/ic_cart_plus"
-            app:layout_constraintBottom_toBottomOf="@+id/cartItemMinusButton"
-            app:layout_constraintEnd_toEndOf="@+id/cartItemDescriptionTV"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cartItemQuantityTV"
-            app:layout_constraintTop_toTopOf="@+id/cartItemMinusButton" />
-
-        <ImageButton
-            android:id="@+id/cartItemMinusButton"
+            android:id="@+id/favouriteItemFavouriteButton"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginTop="4dp"
-            android:background="@drawable/bg_cart_minus"
-            android:src="@drawable/ic_cart_minus"
+            android:layout_marginHorizontal="8dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_favourite_selected"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cartItemQuantityTV"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cartItemPrice"
-            app:layout_constraintTop_toBottomOf="@+id/cartItemDescriptionTV" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/favouriteItemPrice"
+            app:layout_constraintTop_toBottomOf="@+id/favouriteItemDescriptionTV" />
 
-        <TextView
-            android:id="@+id/cartItemQuantityTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="01"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/cartItemPlusButton"
-            app:layout_constraintEnd_toStartOf="@+id/cartItemPlusButton"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/cartItemMinusButton"
-            app:layout_constraintTop_toTopOf="@+id/cartItemMinusButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

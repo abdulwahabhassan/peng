@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,23 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.peng.R
-import com.peng.ViewModelFactory
 import com.peng.databinding.FragmentProductsBinding
 import com.peng.model.Product
 import com.peng.model.VMResult
 import com.peng.model.mapToCartItem
 import com.peng.ui.adapter.ProductsAdapter
 import com.peng.vm.SharedActivityViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class ProductsFragment : Fragment() {
 
     private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
     private lateinit var productsAdapter: ProductsAdapter
     private val viewModel: SharedActivityViewModel by activityViewModels()
 
@@ -54,7 +48,12 @@ class ProductsFragment : Fragment() {
         }
 
         //set profile pic
-        binding.shapeableImageView.setImageResource(R.drawable.img_profile_pic)
+        binding.productProfilePhotoIV.setImageResource(R.drawable.img_profile_pic)
+
+        binding.productProfilePhotoIV.setOnClickListener {
+            val action = ProductsFragmentDirections.actionProductsFragmentToProfileFragment()
+            findNavController().navigate(action)
+        }
 
         binding.productsShoppingCartLAV.setOnClickListener {
             val action = ProductsFragmentDirections.actionProductsFragmentToCartFragment()

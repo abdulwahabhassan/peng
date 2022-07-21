@@ -39,6 +39,7 @@ class SharedActivityViewModel @Inject constructor(
         viewModelScope.launch {
             fetchAndUpdateCartItemList()
             fetchProducts()
+            fetchAndUpdateFavouriteItemList()
         }
     }
 

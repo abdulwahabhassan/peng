@@ -8,7 +8,6 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -20,29 +19,22 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.peng.R
 import com.peng.Utils
-import com.peng.ViewModelFactory
 import com.peng.databinding.FragmentProductDetailsBinding
 import com.peng.model.*
 import com.peng.ui.adapter.ReviewsAdapter
 import com.peng.vm.SharedActivityViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
-@AndroidEntryPoint
+
 class ProductDetailsFragment : Fragment() {
 
     private val args: ProductDetailsFragmentArgs by navArgs()
     private var _binding: FragmentProductDetailsBinding? = null
     private val binding get() = _binding!!
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: SharedActivityViewModel by activityViewModels()
     private lateinit var productImagesViewPager: ViewPager2
     private lateinit var productImagesViewPagerAdapter: FragmentStateAdapter
