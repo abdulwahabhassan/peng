@@ -50,7 +50,7 @@ class CartFragment : Fragment() {
             when (result) {
                 is VMResult.Success -> {
                     val subtotal = result.data.fold(0.00) { acc: Double, cartItem: CartItem ->
-                        acc + cartItem.price
+                        acc + (cartItem.price * cartItem.quantity)
                     }
                     val fee = 0.00
                     if (result.data.isEmpty()) {
