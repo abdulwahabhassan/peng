@@ -66,13 +66,13 @@ class CartAdapter(
 
         init {
             binding.root.setOnClickListener {
-                onItemClick(adapterPosition)
+                onItemClick(bindingAdapterPosition)
             }
             binding.cartItemMinusButton.setOnClickListener {
-                onMinusButtonClick(adapterPosition)
+                onMinusButtonClick(bindingAdapterPosition)
             }
             binding.cartItemPlusButton.setOnClickListener {
-                onPlusButtonClick(adapterPosition)
+                onPlusButtonClick(bindingAdapterPosition)
             }
         }
 

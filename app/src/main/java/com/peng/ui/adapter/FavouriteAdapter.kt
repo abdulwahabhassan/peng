@@ -60,10 +60,10 @@ class FavouriteAdapter(
 
         init {
             binding.root.setOnClickListener {
-                onItemClick(adapterPosition)
+                onItemClick(bindingAdapterPosition)
             }
             binding.favouriteItemFavouriteButton.setOnClickListener {
-                onFavouriteButtonClick(adapterPosition)
+                onFavouriteButtonClick(bindingAdapterPosition)
             }
         }
 

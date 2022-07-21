@@ -5,13 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.peng.db.PaymentCardEntity
 import com.peng.db.mapToCartItem
 import com.peng.db.mapToFavouriteItem
+import com.peng.db.mapToPaymentCard
 import com.peng.model.*
 import com.peng.repo.CartRepository
 import com.peng.repo.DataStorePrefsRepository
 import com.peng.repo.FavouriteRepository
+import com.peng.repo.PaymentCardRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import java.text.FieldPosition
 import javax.inject.Inject
@@ -20,7 +25,8 @@ import javax.inject.Inject
 class SharedActivityViewModel @Inject constructor(
     private val dataStorePrefsRepository: DataStorePrefsRepository,
     private val cartRepository: CartRepository,
-    private val favouriteRepository: FavouriteRepository
+    private val favouriteRepository: FavouriteRepository,
+    private val paymentCardRepository: PaymentCardRepository
 ): ViewModel() {
 
     private var _products:
@@ -35,11 +41,16 @@ class SharedActivityViewModel @Inject constructor(
             MutableLiveData<VMResult<List<FavouriteItem>>> = MutableLiveData(VMResult.Loading())
     val favouriteItems: LiveData<VMResult<List<FavouriteItem>>> = _favouriteItems
 
+    private var _paymentCards:
+            MutableLiveData<VMResult<List<PaymentCard>>> = MutableLiveData(VMResult.Loading())
+    val paymentCards: LiveData<VMResult<List<PaymentCard>>> = _paymentCards
+
     init {
         viewModelScope.launch {
             fetchAndUpdateCartItemList()
             fetchProducts()
             fetchAndUpdateFavouriteItemList()
+            fetchAndUpdatePaymentCardList()
         }
     }
 
@@ -84,6 +95,18 @@ class SharedActivityViewModel @Inject constructor(
         _favouriteItems.value = VMResult.Success(favouriteItems)
     }
 
+    private suspend fun fetchAndUpdatePaymentCardList() {
+        val paymentCards = PaymentCardEntity.paymentCardEntities.map { favouriteItemEntity ->
+            favouriteItemEntity.mapToPaymentCard()
+        }.map { paymentCard ->
+            if (paymentCard.cardNumber == getAppConfig().selectedPaymentCard)
+                paymentCard.copy(selected = true)
+            else
+                paymentCard
+        }
+        _paymentCards.value = VMResult.Success(paymentCards)
+    }
+
     fun addOrRemoveItemFromCart(item: CartItem) {
         viewModelScope.launch {
             val entity = cartRepository.getCartItem(item.id)
@@ -107,6 +130,28 @@ class SharedActivityViewModel @Inject constructor(
             }
             updateProductList(_products.value ?: VMResult.Success(emptyList()))
             fetchAndUpdateFavouriteItemList()
+        }
+    }
+
+    fun insertItemToPaymentCards(item: PaymentCard) {
+        viewModelScope.launch {
+            val entity = paymentCardRepository.getPaymentCard(item.cardNumber)
+            if (entity != null && entity.cardType == item.cardType) {
+                paymentCardRepository.updatePaymentCard(entity)
+            } else {
+                paymentCardRepository.insertPaymentCard(item.mapToPaymentCardEntity())
+            }
+            fetchAndUpdatePaymentCardList()
+        }
+    }
+
+    fun removeItemFromPaymentCards(item: PaymentCard) {
+        viewModelScope.launch {
+            val entity = paymentCardRepository.getPaymentCard(item.cardNumber)
+            if (entity != null && entity.cardType == item.cardType) {
+                paymentCardRepository.removePaymentCard(entity)
+            }
+            fetchAndUpdatePaymentCardList()
         }
     }
 
@@ -168,6 +213,11 @@ class SharedActivityViewModel @Inject constructor(
 
     suspend fun updateGridPref(columns: Int) {
         dataStorePrefsRepository.updateGridPref(columns)
+    }
+
+    suspend fun updateSelectedPaymentCard(cardNumber: String) {
+        dataStorePrefsRepository.updateSelectedPaymentCard(cardNumber)
+        fetchAndUpdatePaymentCardList()
     }
 
 }

@@ -1,10 +1,7 @@
 package com.peng.repo
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -37,14 +34,21 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
     // preferences in data store
     private fun mapUserPreferences(preferences: Preferences): AppConfigPreferences {
         return AppConfigPreferences(
-            gridColumns = preferences[PreferencesKeys.GRID] ?: 2
+            gridColumns = preferences[PreferencesKeys.GRID] ?: 2,
+            selectedPaymentCard = preferences[PreferencesKeys.PAYMENT_CARD] ?: "9090 9833 7331 0900"
         )
     }
 
     // update the grid columns pref
     suspend fun updateGridPref(columns: Int) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.GRID] = columns
+        dataStore.edit { mutablePreferences ->
+            mutablePreferences[PreferencesKeys.GRID] = columns
+        }
+    }
+
+    suspend fun updateSelectedPaymentCard(cardNumber: String) {
+        dataStore.edit { mutablePreferences ->
+            mutablePreferences[PreferencesKeys.PAYMENT_CARD] = cardNumber
         }
     }
 
@@ -52,11 +56,14 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
     // data class to hold all configurable fields in app settings screen and in-app configurable actions
     // that represent a user's preferences
     data class AppConfigPreferences(
-        val gridColumns: Int
+        val gridColumns: Int,
+        val selectedPaymentCard: String
     )
 
     // object to hold preference keys used to retrieve and update user preferences
     private object PreferencesKeys {
         val GRID = intPreferencesKey("grid")
+        val PAYMENT_CARD = stringPreferencesKey("preferred_payment_card")
+
     }
 }

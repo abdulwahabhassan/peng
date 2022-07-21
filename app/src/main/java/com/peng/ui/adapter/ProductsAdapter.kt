@@ -95,11 +95,11 @@ class ProductsAdapter(
 
         init {
             binding.root.setOnClickListener {
-                onItemClick(adapterPosition)
+                onItemClick(bindingAdapterPosition)
             }
 
             binding.addToCartButton.setOnClickListener {
-                onItemAddToCart(adapterPosition)
+                onItemAddToCart(bindingAdapterPosition)
             }
         }
 

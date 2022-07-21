@@ -4,6 +4,7 @@ import android.content.Context
 import com.peng.db.CartItemLocalDao
 import com.peng.db.Database
 import com.peng.db.FavouriteItemLocalDao
+import com.peng.db.PaymentCardLocalDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +30,14 @@ object DatabaseModule {
         @ApplicationContext appContext: Context
     ): FavouriteItemLocalDao {
         return Database.getInstance(appContext).favouriteItemLocalDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providePaymentCardLocalDao(
+        @ApplicationContext appContext: Context
+    ): PaymentCardLocalDao {
+        return Database.getInstance(appContext).paymentCardLocalDao()
     }
 
 }

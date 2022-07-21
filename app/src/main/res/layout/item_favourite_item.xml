@@ -55,7 +55,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/roboto_medium"
             android:maxLines="1"
-            android:textSize="13sp"
+            android:textSize="13.5sp"
             tools:text="@string/size_7_60_fl_oz_225ml"
             app:layout_constraintEnd_toEndOf="@+id/favouriteItemNameTV"
             app:layout_constraintStart_toStartOf="@+id/favouriteItemNameTV"
