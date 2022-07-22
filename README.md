@@ -7,6 +7,14 @@
   <a href="https://github.com/abdulwahabhassan/peng/actions"><img alt="Build Status" src="https://github.com/abdulwahabhassan/peng/workflows/Build/badge.svg"/></a> 
 </p>
 
+<p align="center">Peng is an e-commerce mobile application built with the latest and modern Android development tools</p>
+
+## Preview
+
+|            |            |            |            |
+|------------|------------|------------|------------|
+| ![img one](products.png) | ![img two](settings.png) | ![img three](reviews.png) | ![img four](cart.png) |
+
 ## Configurations
 - Minimum SDK level 23
 - Compile SDK version 32
