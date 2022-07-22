@@ -67,5 +67,7 @@ dependencies {
     kapt"androidx.room:room-compiler:$room_version"
     //Lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
+    //Pay stack
+    implementation 'co.paystack.android:paystack:3.1.2'
 
 }
