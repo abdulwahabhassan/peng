@@ -22,3 +22,14 @@ fun CartItem.mapToCartItemEntity(): CartItemEntity {
         this.quantity
     )
 }
+
+fun CartItem.mapToCheckOutItem(): CheckOutItem {
+    return CheckOutItem(
+        this.id,
+        this.name,
+        this.description,
+        this.price,
+        this.image,
+        this.quantity
+    )
+}

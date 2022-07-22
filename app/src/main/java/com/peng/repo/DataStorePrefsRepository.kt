@@ -35,7 +35,7 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
     private fun mapUserPreferences(preferences: Preferences): AppConfigPreferences {
         return AppConfigPreferences(
             gridColumns = preferences[PreferencesKeys.GRID] ?: 2,
-            selectedPaymentCard = preferences[PreferencesKeys.PAYMENT_CARD] ?: "9090 9833 7331 0900"
+            selectedPaymentCardNumber = preferences[PreferencesKeys.SELECTED_PAYMENT_CARD] ?: "9090 9833 7331 0900"
         )
     }
 
@@ -48,7 +48,7 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
 
     suspend fun updateSelectedPaymentCard(cardNumber: String) {
         dataStore.edit { mutablePreferences ->
-            mutablePreferences[PreferencesKeys.PAYMENT_CARD] = cardNumber
+            mutablePreferences[PreferencesKeys.SELECTED_PAYMENT_CARD] = cardNumber
         }
     }
 
@@ -57,13 +57,13 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
     // that represent a user's preferences
     data class AppConfigPreferences(
         val gridColumns: Int,
-        val selectedPaymentCard: String
+        val selectedPaymentCardNumber: String
     )
 
     // object to hold preference keys used to retrieve and update user preferences
     private object PreferencesKeys {
         val GRID = intPreferencesKey("grid")
-        val PAYMENT_CARD = stringPreferencesKey("preferred_payment_card")
+        val SELECTED_PAYMENT_CARD = stringPreferencesKey("preferred_payment_card")
 
     }
 }

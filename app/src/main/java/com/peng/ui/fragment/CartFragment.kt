@@ -39,7 +39,8 @@ class CartFragment : Fragment() {
         binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
 
         binding.cartProceedToCheckOutButton.setOnClickListener {
-
+            val action = CartFragmentDirections.actionCartFragmentToCheckOutFragment()
+            findNavController().navigate(action)
         }
 
         initCartAdapter()

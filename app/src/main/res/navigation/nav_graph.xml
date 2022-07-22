@@ -57,12 +57,15 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.peng.ui.fragment.CartFragment"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_checkOutFragment"
+            app:destination="@id/checkOutFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.peng.ui.fragment.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment"
@@ -72,4 +75,8 @@
             app:destination="@id/cartFragment"
             app:launchSingleTop="true" />
     </fragment>
+    <fragment
+        android:id="@+id/checkOutFragment"
+        android:name="com.peng.ui.fragment.CheckOutFragment"
+        tools:layout="@layout/fragment_check_out" />
 </navigation>

@@ -1,6 +1,5 @@
 package com.peng.vm
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,10 +14,7 @@ import com.peng.repo.DataStorePrefsRepository
 import com.peng.repo.FavouriteRepository
 import com.peng.repo.PaymentCardRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import java.text.FieldPosition
 import javax.inject.Inject
 
 @HiltViewModel
@@ -99,7 +95,7 @@ class SharedActivityViewModel @Inject constructor(
         val paymentCards = PaymentCardEntity.paymentCardEntities.map { favouriteItemEntity ->
             favouriteItemEntity.mapToPaymentCard()
         }.map { paymentCard ->
-            if (paymentCard.cardNumber == getAppConfig().selectedPaymentCard)
+            if (paymentCard.cardNumber == getAppConfig().selectedPaymentCardNumber)
                 paymentCard.copy(selected = true)
             else
                 paymentCard
