@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.ProductsFragment">
 
@@ -114,19 +116,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productsMaterialToolbar">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/productsSearchView"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/productsSearchViewET"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
             android:background="@drawable/bg_search_view"
-            android:imeOptions="actionDone"
-            android:layout_margin="16dp"
+            android:backgroundTintMode="src_over"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:hint="Search products... "
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingHorizontal="12dp"
+            android:textSize="13.5sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/productsFilterButton"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:queryHint="Search" />
+            app:queryBackground="@drawable/bg_search_view" />
 
         <ImageButton
             android:id="@+id/productsFilterButton"
@@ -135,12 +145,30 @@
             android:background="@drawable/bg_filter_icon"
             android:padding="4dp"
             android:src="@drawable/ic_product_filter"
-            app:layout_constraintBottom_toBottomOf="@+id/productsSearchView"
+            app:layout_constraintBottom_toBottomOf="@+id/productsSearchViewET"
             app:layout_constraintEnd_toStartOf="@+id/productsGridButton"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/productsSearchView"
-            app:layout_constraintTop_toTopOf="@+id/productsSearchView"
+            app:layout_constraintStart_toEndOf="@+id/productsSearchViewET"
+            app:layout_constraintTop_toTopOf="@+id/productsSearchViewET"
             app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/searchProductsCancelTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/bg_cancel"
+            android:fontFamily="@font/roboto_bold"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="6dp"
+            android:text="Cancel"
+            android:textColor="@color/black"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/productsSearchViewET"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/productsSearchViewET"
+            app:layout_constraintTop_toTopOf="@+id/productsSearchViewET" />
 
         <ImageButton
             android:id="@+id/productsGridButton"
@@ -150,11 +178,11 @@
             android:padding="4dp"
             android:layout_marginHorizontal="16dp"
             android:src="@drawable/ic_grid_3_column"
-            app:layout_constraintBottom_toBottomOf="@+id/productsSearchView"
+            app:layout_constraintBottom_toBottomOf="@+id/productsFilterButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/productsFilterButton"
-            app:layout_constraintTop_toTopOf="@+id/productsSearchView"
+            app:layout_constraintTop_toTopOf="@+id/productsFilterButton"
             app:tint="@color/black" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -167,12 +195,35 @@
         android:layout_marginStart="6dp"
         android:layout_marginEnd="6dp"
         android:orientation="vertical"
+        android:visibility="visible"
+
         tools:listitem="@layout/item_product"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/productsSearchRV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_search_recycler_view"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:visibility="invisible"
+        android:paddingBottom="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0"
+        app:spanCount="2"
+        tools:listitem="@layout/item_product_search" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,6 +29,10 @@ class SharedActivityViewModel @Inject constructor(
             MutableLiveData<VMResult<List<Product>>> = MutableLiveData(VMResult.Loading())
     val products: LiveData<VMResult<List<Product>>> = _products
 
+    private var _searchProductSuggestion:
+            MutableLiveData<VMResult<List<SearchProductSuggestion>>> = MutableLiveData(VMResult.Loading())
+    val searchProductSuggestion: LiveData<VMResult<List<SearchProductSuggestion>>> = _searchProductSuggestion
+
     private var _cartItems:
             MutableLiveData<VMResult<List<CartItem>>> = MutableLiveData(VMResult.Loading())
     val cartItems: LiveData<VMResult<List<CartItem>>> = _cartItems
@@ -47,11 +51,18 @@ class SharedActivityViewModel @Inject constructor(
             fetchProducts()
             fetchAndUpdateFavouriteItemList()
             fetchAndUpdatePaymentCardList()
+            updateSearchProductsResult("")
         }
     }
 
-    private suspend fun fetchProducts() {
-        val products = Product.products
+    suspend fun fetchProducts(queryText: String = "") {
+        val products: List<Product> = if (queryText.isNotEmpty()) {
+            Product.products.filter { product ->
+                product.name.contains(queryText, true)
+            }
+        } else {
+            Product.products
+        }
         updateProductList(VMResult.Success(products))
     }
 
@@ -76,6 +87,13 @@ class SharedActivityViewModel @Inject constructor(
         }
     }
 
+    fun updateSearchProductsResult(searchQuery: String) {
+        viewModelScope.launch {
+            _searchProductSuggestion.value = VMResult.Success(
+                SearchProductSuggestion.results.filter { it.text.contains(searchQuery, true) }
+            )
+        }
+    }
 
     private suspend fun fetchAndUpdateCartItemList() {
         val cartItems = cartRepository.getAllCartItems().map { cartItemEntity ->

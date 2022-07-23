@@ -19,7 +19,10 @@ class ProductsAdapter(
     DiffUtil.ItemCallback<Product>() {
 
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem.id == newItem.id
+        //trigger change for result found text everytime a new list is submit by forcing
+        //the equality check to return false
+        return if (oldItem.id == "*" && newItem.id == "*") false
+        else oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
@@ -70,12 +73,11 @@ class ProductsAdapter(
         return viewType
     }
 
-    override fun getItemCount(): Int = currentList.size
-
     override fun submitList(list: MutableList<Product>?) {
-        list?.add(0, Product("", "", "", 0.00, "", 0))
+        list?.add(0, Product("*", "*", "*", 0.00, "*", 0))
         super.submitList(list)
     }
+    override fun getItemCount(): Int = currentList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemAtPosition = currentList[position]

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.peng">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".Peng"
         android:allowBackup="true"
@@ -12,7 +14,8 @@
         android:theme="@style/Theme.Peng">
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

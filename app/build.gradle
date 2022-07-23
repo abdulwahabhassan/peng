@@ -68,6 +68,6 @@ dependencies {
     //Lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
     //Pay stack
-    implementation 'co.paystack.android:paystack:3.1.2'
+    implementation 'co.paystack.android:paystack:3.1.3'
 
 }

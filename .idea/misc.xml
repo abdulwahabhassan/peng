@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable-v24/bg_filter_icon.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1465" />
         <entry key="app/src/main/res/drawable/bg_add_to_cart.xml" value="0.1155" />
+        <entry key="app/src/main/res/drawable/bg_cancel.xml" value="0.2165" />
         <entry key="app/src/main/res/drawable/bg_cart_minus.xml" value="0.2225" />
         <entry key="app/src/main/res/drawable/bg_cart_plus.xml" value="0.2225" />
         <entry key="app/src/main/res/drawable/bg_cart_quantity.xml" value="0.2225" />
@@ -17,6 +18,7 @@
         <entry key="app/src/main/res/drawable/bg_product_details_bottom_sheet_dialog.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/bg_profile_favourite.xml" value="0.2335" />
         <entry key="app/src/main/res/drawable/bg_review.xml" value="0.1755" />
+        <entry key="app/src/main/res/drawable/bg_search_recycler_view.xml" value="0.2495" />
         <entry key="app/src/main/res/drawable/bg_search_view.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/bg_shopping_cart.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_add_card.xml" value="0.2335" />
@@ -35,14 +37,17 @@
         <entry key="app/src/main/res/drawable/ic_grid_1_column.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_grid_2_column.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_grid_3_column.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_more.xml" value="0.212" />
         <entry key="app/src/main/res/drawable/ic_product_filter.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/ic_radio_button_active.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/ic_radio_button_inactive.xml" value="0.209" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.2235" />
         <entry key="app/src/main/res/drawable/ic_shopping_bag.xml" value="0.262" />
         <entry key="app/src/main/res/drawable/ic_tab_indicator_active.xml" value="0.1185" />
         <entry key="app/src/main/res/drawable/ic_tab_indicator_inactive.xml" value="0.1185" />
         <entry key="app/src/main/res/font/roboto_medium.xml" value="0.20051282051282052" />
+        <entry key="app/src/main/res/layout-v26/fragment_products.xml" value="0.2046875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_check_out.xml" value="0.25" />
@@ -57,6 +62,7 @@
         <entry key="app/src/main/res/layout/item_payment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_payment_card.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_product.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_product_search.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/layout/item_result_found.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/item_review.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/item_shopping_item.xml" value="0.375" />

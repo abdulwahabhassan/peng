@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.peng.R
+import com.peng.databinding.ItemCartItemBinding
 import com.peng.databinding.ItemProductBinding
 import com.peng.databinding.ItemResultFoundBinding
 import com.peng.databinding.ItemReviewBinding
@@ -29,12 +30,10 @@ class ReviewsAdapter(
 }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewVH {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_review,
-            parent,
-            false)
-        val binding = ItemReviewBinding.bind(view)
-        return ReviewVH(binding, onItemClick = { position ->
+        val binding = ItemReviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ReviewVH(
+            binding,
+            onItemClick = { position ->
             val itemAtPosition = currentList[position]
             this.onItemClicked(position, itemAtPosition)
         })

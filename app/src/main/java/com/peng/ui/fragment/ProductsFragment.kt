@@ -1,10 +1,12 @@
 package com.peng.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
+import android.view.View.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -12,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.peng.R
+import com.peng.Utils
 import com.peng.databinding.FragmentProductsBinding
 import com.peng.model.Product
+import com.peng.model.SearchProductSuggestion
 import com.peng.model.VMResult
 import com.peng.model.mapToCartItem
 import com.peng.ui.adapter.ProductsAdapter
+import com.peng.ui.adapter.SearchProductSuggestionsAdapter
 import com.peng.vm.SharedActivityViewModel
 
 
@@ -25,7 +30,40 @@ class ProductsFragment : Fragment() {
     private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
     private lateinit var productsAdapter: ProductsAdapter
+    private lateinit var searchProductSuggestionsAdapter: SearchProductSuggestionsAdapter
     private val viewModel: SharedActivityViewModel by activityViewModels()
+    private val productsAdapterObserver = object : RecyclerView.AdapterDataObserver() {
+        override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
+            super.onItemRangeChanged(positionStart, itemCount)
+            binding.productsRV.visibility = VISIBLE
+            binding.productsRV.scrollToPosition(0)
+        }
+
+        override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            super.onItemRangeInserted(positionStart, itemCount)
+            binding.productsRV.visibility = VISIBLE
+            binding.productsRV.scrollToPosition(0)
+        }
+
+        override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+            super.onItemRangeMoved(fromPosition, toPosition, itemCount)
+            binding.productsRV.visibility = VISIBLE
+            binding.productsRV.scrollToPosition(0)
+        }
+
+        override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            super.onItemRangeRemoved(positionStart, itemCount)
+            binding.productsRV.visibility = VISIBLE
+            binding.productsRV.scrollToPosition(0)
+        }
+
+        override fun onChanged() {
+            super.onChanged()
+            binding.productsRV.visibility = VISIBLE
+            binding.productsRV.scrollToPosition(0)
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +73,57 @@ class ProductsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.productsSearchViewET.setOnTouchListener { _, _ ->
+            binding.productsSearchViewET.isCursorVisible = true
+            binding.productsRV.visibility = GONE
+            binding.productsFilterButton.visibility = GONE
+            binding.productsGridButton.visibility = GONE
+            binding.searchProductsCancelTV.visibility = VISIBLE
+            binding.productsSearchRV.visibility = VISIBLE
+            false
+        }
+
+        binding.searchProductsCancelTV.setOnClickListener {
+            binding.root.requestFocus()
+            binding.productsSearchViewET.isCursorVisible = false
+            Utils().hideKeyboard(requireContext(), binding.productsSearchViewET)
+            binding.productsSearchViewET.setText("")
+            binding.searchProductsCancelTV.visibility = INVISIBLE
+            binding.productsSearchRV.visibility = INVISIBLE
+            binding.productsFilterButton.visibility = VISIBLE
+            binding.productsGridButton.visibility = VISIBLE
+            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                viewModel.fetchProducts()
+            }
+            false
+        }
+
+        binding.productsSearchViewET.setOnKeyListener { searchView, i, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
+                binding.root.requestFocus()
+                binding.productsSearchViewET.isCursorVisible = false
+                Utils().hideKeyboard(requireContext(), searchView)
+                binding.productsSearchRV.visibility = INVISIBLE
+                viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                    viewModel.fetchProducts(binding.productsSearchViewET.text.toString())
+                }
+            }
+            return@setOnKeyListener true
+        }
+
+        binding.productsSearchViewET.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0 != null) {
+                    viewModel.updateSearchProductsResult(p0.toString())
+                }
+            }
+        })
 
         viewModel.cartItems.observe(viewLifecycleOwner) { result ->
             when(result) {
@@ -47,7 +134,6 @@ class ProductsFragment : Fragment() {
             }
         }
 
-        //set profile pic
         binding.productProfilePhotoIV.setImageResource(R.drawable.img_profile_pic)
 
         binding.productProfilePhotoIV.setOnClickListener {
@@ -61,8 +147,10 @@ class ProductsFragment : Fragment() {
         }
 
         initProductsAdapter()
-
         initProductsRecyclerViewAdapter()
+
+        initSearchProductSuggestionsAdapter()
+        initSearchProductSuggestionsAdapterRVAdapter()
 
         viewModel.products.observe(viewLifecycleOwner) { result ->
             when(result) {
@@ -74,17 +162,45 @@ class ProductsFragment : Fragment() {
             }
         }
 
+        viewModel.searchProductSuggestion.observe(viewLifecycleOwner) { result ->
+            when(result) {
+                is VMResult.Success -> {
+                    searchProductSuggestionsAdapter.submitList(result.data)
+                }
+                is VMResult.Error -> {}
+                is VMResult.Loading -> {}
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             initStaggeredGridLayoutManager(viewModel.getAppConfig().gridColumns)
         }
 
-        binding.productsGridButton.setOnClickListener {
-           changeGridLayout()
-        }
+        binding.productsGridButton.setOnClickListener { changeGridLayout() }
 
-        binding.productsFilterButton.setOnClickListener {
-        }
+        binding.productsFilterButton.setOnClickListener {  }
 
+    }
+
+    private fun initSearchProductSuggestionsAdapter() {
+        searchProductSuggestionsAdapter = SearchProductSuggestionsAdapter (
+            onItemClicked = { position: Int, itemAtPosition: SearchProductSuggestion ->
+                binding.root.requestFocus()
+                binding.productsSearchViewET.isCursorVisible = false
+                binding.productsSearchRV.visibility = INVISIBLE
+                binding.productsSearchViewET.setText(itemAtPosition.text)
+                Utils().hideKeyboard(requireContext(), binding.productsSearchViewET)
+                viewLifecycleOwner.lifecycleScope.launchWhenResumed {
+                    viewModel.fetchProducts(itemAtPosition.text)
+                }
+            }
+        )
+        searchProductSuggestionsAdapter
+            .stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
+    private fun initSearchProductSuggestionsAdapterRVAdapter() {
+        binding.productsSearchRV.adapter = searchProductSuggestionsAdapter
     }
 
     private fun initProductsAdapter() {
@@ -108,7 +224,8 @@ class ProductsFragment : Fragment() {
             }
             productsAdapter.notifyItemChanged(position)
         })
-        productsAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        productsAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
     private fun initProductsRecyclerViewAdapter() {
@@ -140,6 +257,15 @@ class ProductsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        productsAdapter.registerAdapterDataObserver(productsAdapterObserver)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        productsAdapter.unregisterAdapterDataObserver(productsAdapterObserver)
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
