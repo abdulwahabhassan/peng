@@ -19,14 +19,15 @@ class ProductsAdapter(
     DiffUtil.ItemCallback<Product>() {
 
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-        //trigger change for result found text everytime a new list is submit by forcing
-        //the equality check to return false
-        return if (oldItem.id == "*" && newItem.id == "*") false
-        else oldItem.id == newItem.id
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem == newItem
+        //trigger change for result found text everytime a new list is submit by forcing
+        //the equality check to return false
+        return if (oldItem.id == "*" && newItem.id == "*") false
+        else oldItem == newItem
+
     }
 
 }) {
@@ -74,7 +75,8 @@ class ProductsAdapter(
     }
 
     override fun submitList(list: MutableList<Product>?) {
-        list?.add(0, Product("*", "*", "*", 0.00, "*", 0))
+        //add dummy product
+        list?.add(0, Product("*", "*", "*", 0.00, "*", list.size))
         super.submitList(list)
     }
     override fun getItemCount(): Int = currentList.size

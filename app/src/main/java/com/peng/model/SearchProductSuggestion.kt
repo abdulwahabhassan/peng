@@ -8,7 +8,9 @@ data class SearchProductSuggestion(
             SearchProductSuggestion("Iphone x"),
             SearchProductSuggestion("Cranberry juice"),
             SearchProductSuggestion("Bottle neck clip"),
+            SearchProductSuggestion("Facial"),
             SearchProductSuggestion("Samsung plasma TV"),
+            SearchProductSuggestion("Body"),
             SearchProductSuggestion("Toiletries")
 
         )

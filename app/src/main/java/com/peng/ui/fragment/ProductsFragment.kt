@@ -120,7 +120,7 @@ class ProductsFragment : Fragment() {
             override fun afterTextChanged(p0: Editable?) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0 != null) {
-                    viewModel.updateSearchProductsResult(p0.toString())
+                    viewModel.updateSearchProductsResult(p0.trim().toString())
                 }
             }
         })
