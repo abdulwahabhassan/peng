@@ -18,14 +18,10 @@
         <action
             android:id="@+id/action_productsFragment_to_cartFragment"
             app:destination="@id/cartFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
             app:launchSingleTop="true" />
         <action
             android:id="@+id/action_productsFragment_to_profileFragment"
             app:destination="@id/profileFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
             app:launchSingleTop="true" />
     </fragment>
     <fragment
@@ -52,7 +48,9 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_productDetailsFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+            app:destination="@id/cartFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -69,6 +67,8 @@
         <action
             android:id="@+id/action_profileFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
             app:launchSingleTop="true" />
         <action
             android:id="@+id/action_profileFragment_to_cartFragment"
@@ -78,5 +78,16 @@
     <fragment
         android:id="@+id/checkOutFragment"
         android:name="com.peng.ui.fragment.CheckOutFragment"
-        tools:layout="@layout/fragment_check_out" />
+        tools:layout="@layout/fragment_check_out" >
+        <action
+            android:id="@+id/action_checkOutFragment_to_successFragment"
+            app:destination="@id/successFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="com.peng.ui.fragment.SuccessFragment"
+        android:label="fragment_success"
+        tools:layout="@layout/fragment_success" />
 </navigation>

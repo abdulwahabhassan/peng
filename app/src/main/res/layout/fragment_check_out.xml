@@ -280,6 +280,19 @@
             app:strokeColor="@color/purple_500"
             app:strokeWidth="1.5dp" />
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/checkOutProgressIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:indicatorColor="@color/black"
+            app:trackColor="@color/gray_purple"
+            app:layout_constraintBottom_toBottomOf="@+id/checkoutPayButton"
+            app:layout_constraintEnd_toEndOf="@+id/checkoutPayButton"
+            app:layout_constraintStart_toStartOf="@+id/checkoutPayButton"
+            app:layout_constraintTop_toTopOf="@+id/checkoutPayButton" />
+
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"

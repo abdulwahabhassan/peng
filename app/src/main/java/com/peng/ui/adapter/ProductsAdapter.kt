@@ -14,7 +14,8 @@ import timber.log.Timber
 
 class ProductsAdapter(
     private val onItemClicked: (position: Int, itemAtPosition: Product) -> Unit,
-    private val onItemAddedToCart: (position: Int, itemAtPosition: Product) -> Unit
+    private val onItemAddedToCart: (position: Int, itemAtPosition: Product) -> Unit,
+    private val utils: Utils
 ) : ListAdapter<Product, RecyclerView.ViewHolder>(object :
     DiffUtil.ItemCallback<Product>() {
 
@@ -52,12 +53,17 @@ class ProductsAdapter(
                 viewHolder = ProductVH(
                     binding,
                     onItemClick = { position ->
-                        val itemAtPosition = currentList[position]
-                        this.onItemClicked(position, itemAtPosition)
+                       try {
+                           val itemAtPosition = currentList[position]
+                           this.onItemClicked(position, itemAtPosition)
+                       } catch (e: Exception) { }
                     },
                     onItemAddToCart = { position ->
-                        val itemAtPosition = currentList[position]
-                        this.onItemAddedToCart(position, itemAtPosition)
+                        try {
+                            val itemAtPosition = currentList[position]
+                            this.onItemAddedToCart(position, itemAtPosition)
+                        } catch (e: Exception) { }
+
                     }
                 )
             }
@@ -110,11 +116,11 @@ class ProductsAdapter(
         fun bind(product: Product) {
             Timber.d("$product")
             with(binding) {
-                binding.productIV.setImageResource(R.drawable.img_cleanser)
-                binding.productNameTV.text = product.name
-                binding.productDescriptionTV.text = product.description
-                binding.productPriceTV.text = "₦${Utils().formatCurrency(product.price)}"
-                binding.addToCartButton.setImageResource(
+                productIV.setImageResource(R.drawable.img_cleanser)
+                productNameTV.text = product.name
+                productDescriptionTV.text = product.description
+                productPriceTV.text = "₦${utils.formatCurrency(product.price)}"
+                addToCartButton.setImageResource(
                     if (product.isInCart)
                         R.drawable.ic_added_to_cart
                     else

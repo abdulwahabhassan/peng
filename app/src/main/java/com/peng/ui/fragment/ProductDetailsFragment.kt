@@ -26,10 +26,12 @@ import com.peng.databinding.FragmentProductDetailsBinding
 import com.peng.model.*
 import com.peng.ui.adapter.ReviewsAdapter
 import com.peng.vm.SharedActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.properties.Delegates
 
-
+@AndroidEntryPoint
 class ProductDetailsFragment : Fragment() {
 
     private val args: ProductDetailsFragmentArgs by navArgs()
@@ -42,6 +44,9 @@ class ProductDetailsFragment : Fragment() {
     private var pageChangeCallBack: ViewPager2.OnPageChangeCallback? = null
     private var isInCart by Delegates.notNull<Boolean>()
     private var isFavourite by Delegates.notNull<Boolean>()
+    @Inject
+    lateinit var utils: Utils
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,7 +116,7 @@ class ProductDetailsFragment : Fragment() {
 
         binding.productDetailsNameTV.text = args.productName
         binding.productExtraDetailsTV.text = args.productDescription
-        binding.productDetailsPriceTV.text = "₦${Utils().formatCurrency(args.productPrice)}"
+        binding.productDetailsPriceTV.text = "₦${utils.formatCurrency(args.productPrice)}"
         binding.productDetailsRB.progress = args.productRating / binding.productDetailsRB.max
     }
 

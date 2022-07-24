@@ -18,4 +18,7 @@ interface CartItemLocalDao {
 
     @Delete
     suspend fun removeCartItem(item: CartItemEntity)
+
+    @Delete
+    suspend fun removeAllCartItems(items: List<CartItemEntity>)
 }

@@ -23,8 +23,11 @@ import com.peng.model.mapToCartItem
 import com.peng.ui.adapter.ProductsAdapter
 import com.peng.ui.adapter.SearchProductSuggestionsAdapter
 import com.peng.vm.SharedActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class ProductsFragment : Fragment() {
 
     private var _binding: FragmentProductsBinding? = null
@@ -32,35 +35,38 @@ class ProductsFragment : Fragment() {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var searchProductSuggestionsAdapter: SearchProductSuggestionsAdapter
     private val viewModel: SharedActivityViewModel by activityViewModels()
+    @Inject
+    lateinit var utils: Utils
     private val productsAdapterObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
             super.onItemRangeChanged(positionStart, itemCount)
-            binding.productsRV.visibility = VISIBLE
             binding.productsRV.scrollToPosition(0)
+            binding.productsRV.visibility = VISIBLE
         }
 
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            binding.productsRV.visibility = VISIBLE
             binding.productsRV.scrollToPosition(0)
+            binding.productsRV.visibility = VISIBLE
         }
 
         override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
             super.onItemRangeMoved(fromPosition, toPosition, itemCount)
-            binding.productsRV.visibility = VISIBLE
             binding.productsRV.scrollToPosition(0)
+            binding.productsRV.visibility = VISIBLE
+
         }
 
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
             super.onItemRangeRemoved(positionStart, itemCount)
-            binding.productsRV.visibility = VISIBLE
             binding.productsRV.scrollToPosition(0)
+            binding.productsRV.visibility = VISIBLE
         }
 
         override fun onChanged() {
             super.onChanged()
-            binding.productsRV.visibility = VISIBLE
             binding.productsRV.scrollToPosition(0)
+            binding.productsRV.visibility = VISIBLE
         }
     }
 
@@ -79,7 +85,7 @@ class ProductsFragment : Fragment() {
 
         binding.productsSearchViewET.setOnTouchListener { _, _ ->
             binding.productsSearchViewET.isCursorVisible = true
-            binding.productsRV.visibility = GONE
+            binding.productsRV.visibility = INVISIBLE
             binding.productsFilterButton.visibility = GONE
             binding.productsGridButton.visibility = GONE
             binding.searchProductsCancelTV.visibility = VISIBLE
@@ -90,7 +96,7 @@ class ProductsFragment : Fragment() {
         binding.searchProductsCancelTV.setOnClickListener {
             binding.root.requestFocus()
             binding.productsSearchViewET.isCursorVisible = false
-            Utils().hideKeyboard(requireContext(), binding.productsSearchViewET)
+            utils.hideKeyboard(requireContext(), binding.productsSearchViewET)
             binding.productsSearchViewET.setText("")
             binding.searchProductsCancelTV.visibility = INVISIBLE
             binding.productsSearchRV.visibility = INVISIBLE
@@ -106,7 +112,7 @@ class ProductsFragment : Fragment() {
             if ((event.action == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
                 binding.root.requestFocus()
                 binding.productsSearchViewET.isCursorVisible = false
-                Utils().hideKeyboard(requireContext(), searchView)
+                utils.hideKeyboard(requireContext(), searchView)
                 binding.productsSearchRV.visibility = INVISIBLE
                 viewLifecycleOwner.lifecycleScope.launchWhenResumed {
                     viewModel.fetchProducts(binding.productsSearchViewET.text.toString())
@@ -172,9 +178,7 @@ class ProductsFragment : Fragment() {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            initStaggeredGridLayoutManager(viewModel.getAppConfig().gridColumns)
-        }
+        initStaggeredGridLayoutManager(viewModel.appConfigPreferences.value?.gridColumns!!)
 
         binding.productsGridButton.setOnClickListener { changeGridLayout() }
 
@@ -189,7 +193,7 @@ class ProductsFragment : Fragment() {
                 binding.productsSearchViewET.isCursorVisible = false
                 binding.productsSearchRV.visibility = INVISIBLE
                 binding.productsSearchViewET.setText(itemAtPosition.text)
-                Utils().hideKeyboard(requireContext(), binding.productsSearchViewET)
+                utils.hideKeyboard(requireContext(), binding.productsSearchViewET)
                 viewLifecycleOwner.lifecycleScope.launchWhenResumed {
                     viewModel.fetchProducts(itemAtPosition.text)
                 }
@@ -223,7 +227,9 @@ class ProductsFragment : Fragment() {
                 binding.productsShoppingCartLAV.playAnimation()
             }
             productsAdapter.notifyItemChanged(position)
-        })
+        },
+            utils
+        )
         productsAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
@@ -242,10 +248,10 @@ class ProductsFragment : Fragment() {
 
     private fun changeGridLayout() {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-            var gridColumns = viewModel.getAppConfig().gridColumns
+            var gridColumns = viewModel.appConfigPreferences.value?.gridColumns!!
             if (gridColumns == 3) gridColumns = 1 else gridColumns += 1
             viewModel.updateGridPref(gridColumns)
-            initStaggeredGridLayoutManager(viewModel.getAppConfig().gridColumns)
+            initStaggeredGridLayoutManager(viewModel.appConfigPreferences.value?.gridColumns!!)
         }
     }
 

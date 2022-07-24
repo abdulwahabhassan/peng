@@ -16,14 +16,19 @@ import com.peng.model.CartItem
 import com.peng.model.VMResult
 import com.peng.ui.adapter.CartAdapter
 import com.peng.vm.SharedActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SharedActivityViewModel by activityViewModels()
     private lateinit var cartRecyclerViewAdapter: CartAdapter
+    @Inject
+    lateinit var utils: Utils
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,9 +65,9 @@ class CartFragment : Fragment() {
                         binding.cartProceedToCheckOutButton.visibility = VISIBLE
                     }
                     binding.cartQuantityTV.text = result.data.size.toString()
-                    binding.cartShippingFeeTV.text = "₦${Utils().formatCurrency(fee)}"
-                    binding.cartSubTotalTV.text = "₦${Utils().formatCurrency(subtotal)}"
-                    binding.cartTotalTV.text = "₦${Utils().formatCurrency(subtotal + fee)}"
+                    binding.cartShippingFeeTV.text = "₦${utils.formatCurrency(fee)}"
+                    binding.cartSubTotalTV.text = "₦${utils.formatCurrency(subtotal)}"
+                    binding.cartTotalTV.text = "₦${utils.formatCurrency(subtotal + fee)}"
 
                     cartRecyclerViewAdapter.submitList(result.data)
                 }
@@ -84,7 +89,8 @@ class CartFragment : Fragment() {
                 viewModel.updateCartItemQuantity(itemAtPosition.copy(quantity = itemAtPosition.quantity - 1))
             }, onPlusButtonClicked = { position: Int, itemAtPosition: CartItem ->
                 viewModel.updateCartItemQuantity(itemAtPosition.copy(quantity = itemAtPosition.quantity + 1))
-            })
+            },
+            utils)
     }
 
     override fun onDestroy() {

@@ -12,7 +12,8 @@ import com.peng.Utils
 import timber.log.Timber
 
 class CheckOutItemsAdapter(
-    private val onItemClicked: (position: Int, itemAtPosition: CheckOutItem) -> Unit
+    private val onItemClicked: (position: Int, itemAtPosition: CheckOutItem) -> Unit,
+    private val utils: Utils
 ) : ListAdapter<CheckOutItem, CheckOutItemsAdapter.CheckOutItemVH>(object :
     DiffUtil.ItemCallback<CheckOutItem>() {
 
@@ -31,8 +32,10 @@ class CheckOutItemsAdapter(
         return CheckOutItemVH(
             binding,
             onItemClick = { position ->
-                val itemAtPosition = currentList[position]
-                this.onItemClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onItemClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
             }
         )
 
@@ -65,7 +68,7 @@ class CheckOutItemsAdapter(
                 checkOutItemNameTV.text = checkOutItem.name
                 checkOutItemDescriptionTV.text = checkOutItem.description
                 checkOutItemIV.setImageResource(R.drawable.img_cleanser)
-                checkOutItemPrice.text = "₦${Utils().formatCurrency(checkOutItem.price)}"
+                checkOutItemPrice.text = "₦${utils.formatCurrency(checkOutItem.price)}"
                 checkOutItemQuantity.text = "x${checkOutItem.quantity}"
             }
         }

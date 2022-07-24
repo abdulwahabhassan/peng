@@ -35,7 +35,8 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
     private fun mapUserPreferences(preferences: Preferences): AppConfigPreferences {
         return AppConfigPreferences(
             gridColumns = preferences[PreferencesKeys.GRID] ?: 2,
-            selectedPaymentCardNumber = preferences[PreferencesKeys.SELECTED_PAYMENT_CARD] ?: "9090 9833 7331 0900"
+            selectedPaymentCardNumber = preferences[PreferencesKeys.SELECTED_PAYMENT_CARD] ?: "5060666666666666666",
+            userEmail = preferences[PreferencesKeys.USER_EMAIL] ?: "devhassan.org@gmail.com"
         )
     }
 
@@ -52,18 +53,25 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
         }
     }
 
+    suspend fun updateUserEmail(email: String) {
+        dataStore.edit { mutablePreferences ->
+            mutablePreferences[PreferencesKeys.USER_EMAIL] = email
+        }
+    }
 
     // data class to hold all configurable fields in app settings screen and in-app configurable actions
     // that represent a user's preferences
     data class AppConfigPreferences(
-        val gridColumns: Int,
-        val selectedPaymentCardNumber: String
+        val gridColumns: Int = 2,
+        val selectedPaymentCardNumber: String = "",
+        val userEmail: String = ""
     )
 
     // object to hold preference keys used to retrieve and update user preferences
     private object PreferencesKeys {
         val GRID = intPreferencesKey("grid")
         val SELECTED_PAYMENT_CARD = stringPreferencesKey("preferred_payment_card")
+        val USER_EMAIL = stringPreferencesKey("user_email")
 
     }
 }

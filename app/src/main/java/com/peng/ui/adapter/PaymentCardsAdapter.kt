@@ -33,12 +33,18 @@ class PaymentCardsAdapter(
         return PaymentCardVH(
             binding,
             onItemClick = { position ->
-                val itemAtPosition = currentList[position]
-                this.onItemClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onItemClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
+
             },
             onActivateRadioButtonClick = { position ->
-                val itemAtPosition = currentList[position]
-                this.onActivateRadioButtonClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onActivateRadioButtonClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
+
             }
         )
 
@@ -74,7 +80,7 @@ class PaymentCardsAdapter(
                 paymentCardNameTV.text = paymentCard.cardType.replace("_", " ")
                     .lowercase(Locale.getDefault())
                     .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-                paymentCardNumberTV.text = paymentCard.cardNumber
+                paymentCardNumberTV.text = paymentCard.cardNumber.chunked(4).joinToString(" ")
                 when(paymentCard.cardType) {
                     PaymentCardOptions.MASTER_CARD.name -> {
                         paymentCardIV.setImageResource(R.drawable.ic_master_card)

@@ -7,13 +7,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.peng.R
 import com.peng.Utils
+
 import com.peng.databinding.ItemFavouriteItemBinding
 import com.peng.model.FavouriteItem
 import timber.log.Timber
 
 class FavouriteAdapter(
     private val onItemClicked: (position: Int, itemAtPosition: FavouriteItem) -> Unit,
-    private val onFavouriteButtonClicked: (position: Int, itemAtPosition: FavouriteItem) -> Unit
+    private val onFavouriteButtonClicked: (position: Int, itemAtPosition: FavouriteItem) -> Unit,
+    private val utils: Utils
 ) : ListAdapter<FavouriteItem, FavouriteAdapter.FavouriteItemVH>(object :
     DiffUtil.ItemCallback<FavouriteItem>() {
 
@@ -32,12 +34,17 @@ class FavouriteAdapter(
         return FavouriteItemVH(
             binding,
             onItemClick = { position ->
-                val itemAtPosition = currentList[position]
-                this.onItemClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onItemClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
+
             },
             onFavouriteButtonClick = { position ->
-                val itemAtPosition = currentList[position]
-                this.onFavouriteButtonClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onFavouriteButtonClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
             }
         )
 
@@ -73,7 +80,7 @@ class FavouriteAdapter(
                 favouriteItemNameTV.text = favouriteItem.name
                 favouriteItemDescriptionTV.text = favouriteItem.description
                 favouriteItemIV.setImageResource(R.drawable.img_cleanser)
-                favouriteItemPrice.text = "₦${Utils().formatCurrency(favouriteItem.price)}"
+                favouriteItemPrice.text = "₦${utils.formatCurrency(favouriteItem.price)}"
             }
         }
 

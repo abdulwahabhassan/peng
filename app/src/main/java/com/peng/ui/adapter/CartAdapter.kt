@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.peng.R
 import com.peng.Utils
+
 import com.peng.databinding.ItemCartItemBinding
 import com.peng.model.CartItem
 import timber.log.Timber
@@ -14,7 +15,8 @@ import timber.log.Timber
 class CartAdapter(
     private val onItemClicked: (position: Int, itemAtPosition: CartItem) -> Unit,
     private val onMinusButtonClicked: (position: Int, itemAtPosition: CartItem) -> Unit,
-    private val onPlusButtonClicked: (position: Int, itemAtPosition: CartItem) -> Unit
+    private val onPlusButtonClicked: (position: Int, itemAtPosition: CartItem) -> Unit,
+    private val utils: Utils
 ) : ListAdapter<CartItem, CartAdapter.CartItemVH>(object :
     DiffUtil.ItemCallback<CartItem>() {
 
@@ -33,16 +35,25 @@ class CartAdapter(
         return CartItemVH(
             binding,
             onItemClick = { position ->
-                val itemAtPosition = currentList[position]
-                this.onItemClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onItemClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
+
             },
             onMinusButtonClick = { position ->
-                val itemAtPosition = currentList[position]
-                this.onMinusButtonClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onMinusButtonClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
+
             },
             onPlusButtonClick = { position ->
-                val itemAtPosition = currentList[position]
-                this.onPlusButtonClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onPlusButtonClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
+
             }
         )
 
@@ -82,7 +93,7 @@ class CartAdapter(
                 cartItemNameTV.text = cartItem.name
                 cartItemDescriptionTV.text = cartItem.description
                 cartItemIV.setImageResource(R.drawable.img_cleanser)
-                cartItemPrice.text = "₦${Utils().formatCurrency(cartItem.price)}"
+                cartItemPrice.text = "₦${utils.formatCurrency(cartItem.price)}"
                 cartItemQuantityTV.text = cartItem.quantity.toString()
             }
         }

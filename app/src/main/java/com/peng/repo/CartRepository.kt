@@ -31,4 +31,8 @@ class CartRepository @Inject constructor (private val cartItemLocalDao: CartItem
     suspend fun removeCartItem(item: CartItemEntity) {
         cartItemLocalDao.removeCartItem(item)
     }
+
+    suspend fun removeAllCartItems(items: List<CartItemEntity>) {
+        cartItemLocalDao.removeAllCartItems(items)
+    }
 }

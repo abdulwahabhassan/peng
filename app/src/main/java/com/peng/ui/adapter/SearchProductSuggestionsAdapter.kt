@@ -29,8 +29,11 @@ class SearchProductSuggestionsAdapter(
         return SearchProductsResultVH(
             binding,
             onItemClick = { position ->
-            val itemAtPosition = currentList[position]
-            this.onItemClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onItemClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
+
         })
     }
 
@@ -41,7 +44,10 @@ class SearchProductSuggestionsAdapter(
         holder.bind(itemAtPosition)
     }
 
-    inner class SearchProductsResultVH(private val binding: ItemProductSearchBinding, onItemClick: (position: Int) -> Unit) :
+    inner class SearchProductsResultVH(
+        private val binding: ItemProductSearchBinding,
+        onItemClick: (position: Int) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -53,7 +59,7 @@ class SearchProductSuggestionsAdapter(
         fun bind(searchProductSuggestion: SearchProductSuggestion) {
             Timber.d("$searchProductSuggestion")
             with(binding) {
-                binding.itemProductSearchResultTV.text = searchProductSuggestion.text
+                itemProductSearchResultTV.text = searchProductSuggestion.text
             }
         }
     }

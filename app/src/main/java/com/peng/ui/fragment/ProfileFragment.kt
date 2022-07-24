@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.peng.Utils
 import com.peng.databinding.FragmentProfileBinding
 import com.peng.model.FavouriteItem
 import com.peng.model.PaymentCard
@@ -18,8 +19,11 @@ import com.peng.model.VMResult
 import com.peng.ui.adapter.FavouriteAdapter
 import com.peng.ui.adapter.PaymentCardsAdapter
 import com.peng.vm.SharedActivityViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
@@ -27,7 +31,8 @@ class ProfileFragment : Fragment() {
     private val viewModel: SharedActivityViewModel by activityViewModels()
     private lateinit var favouriteRecyclerViewAdapter: FavouriteAdapter
     private lateinit var paymentCardsRecyclerViewAdapter: PaymentCardsAdapter
-
+    @Inject
+    lateinit var utils: Utils
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -118,7 +123,9 @@ class ProfileFragment : Fragment() {
 
             }, onFavouriteButtonClicked = { position: Int, itemAtPosition: FavouriteItem ->
                 viewModel.addOrRemoveItemFromFavourite(itemAtPosition)
-            })
+            },
+            utils
+        )
     }
 
     private fun initPaymentCardsRecyclerViewAdapter() {

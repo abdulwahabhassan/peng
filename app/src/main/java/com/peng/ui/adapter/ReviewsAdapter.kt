@@ -34,8 +34,11 @@ class ReviewsAdapter(
         return ReviewVH(
             binding,
             onItemClick = { position ->
-            val itemAtPosition = currentList[position]
-            this.onItemClicked(position, itemAtPosition)
+                try {
+                    val itemAtPosition = currentList[position]
+                    this.onItemClicked(position, itemAtPosition)
+                } catch (e: Exception) { }
+
         })
     }
 
@@ -61,11 +64,11 @@ class ReviewsAdapter(
         fun bind(review: Review) {
             Timber.d("$review")
             with(binding) {
-                binding.reviewerNameTV.text = review.name
-                binding.reviewerCommentTV.text = review.comment
-                binding.reviewerIV.setImageResource(R.drawable.img_profile_pic)
-                binding.reviewTimeStampTV.text = review.date
-                binding.reviewRB.progress = review.rating / binding.reviewRB.max
+                reviewerNameTV.text = review.name
+                reviewerCommentTV.text = review.comment
+                reviewerIV.setImageResource(R.drawable.img_profile_pic)
+                reviewTimeStampTV.text = review.date
+                reviewRB.progress = review.rating / binding.reviewRB.max
             }
         }
     }

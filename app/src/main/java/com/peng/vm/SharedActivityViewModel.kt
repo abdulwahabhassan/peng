@@ -1,5 +1,6 @@
 package com.peng.vm
 
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import com.peng.repo.DataStorePrefsRepository
 import com.peng.repo.FavouriteRepository
 import com.peng.repo.PaymentCardRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,13 +47,26 @@ class SharedActivityViewModel @Inject constructor(
             MutableLiveData<VMResult<List<PaymentCard>>> = MutableLiveData(VMResult.Loading())
     val paymentCards: LiveData<VMResult<List<PaymentCard>>> = _paymentCards
 
+    private var _appConfigPreferences:
+            MutableLiveData<DataStorePrefsRepository.AppConfigPreferences> = MutableLiveData(DataStorePrefsRepository.AppConfigPreferences())
+    val appConfigPreferences: LiveData<DataStorePrefsRepository.AppConfigPreferences> = _appConfigPreferences
+
     init {
+        collectAppConfigPreferences()
         viewModelScope.launch {
             fetchAndUpdateCartItemList()
             fetchProducts()
             fetchAndUpdateFavouriteItemList()
             fetchAndUpdatePaymentCardList()
             updateSearchProductsResult("")
+        }
+    }
+
+    private fun collectAppConfigPreferences() {
+        viewModelScope.launch {
+            dataStorePrefsRepository.appConfigPreferencesFlow.collectLatest { prefs ->
+                _appConfigPreferences.value = prefs
+            }
         }
     }
 
@@ -113,7 +128,8 @@ class SharedActivityViewModel @Inject constructor(
         val paymentCards = PaymentCardEntity.paymentCardEntities.map { favouriteItemEntity ->
             favouriteItemEntity.mapToPaymentCard()
         }.map { paymentCard ->
-            if (paymentCard.cardNumber == getAppConfig().selectedPaymentCardNumber)
+            if (paymentCard.cardNumber ==
+                dataStorePrefsRepository.fetchInitialPreferences().selectedPaymentCardNumber)
                 paymentCard.copy(selected = true)
             else
                 paymentCard
@@ -128,6 +144,17 @@ class SharedActivityViewModel @Inject constructor(
                 cartRepository.removeCartItem(entity)
             } else {
                 cartRepository.insertCartItem(item.mapToCartItemEntity())
+            }
+            updateProductList(_products.value ?: VMResult.Success(emptyList()))
+            fetchAndUpdateCartItemList()
+        }
+    }
+
+    fun clearCart() {
+        viewModelScope.launch {
+            val entities = cartRepository.getAllCartItems()
+            if (entities.isNotEmpty()) {
+                cartRepository.removeAllCartItems(entities)
             }
             updateProductList(_products.value ?: VMResult.Success(emptyList()))
             fetchAndUpdateCartItemList()
@@ -221,9 +248,9 @@ class SharedActivityViewModel @Inject constructor(
         }
     }
 
-    suspend fun getAppConfig(): DataStorePrefsRepository.AppConfigPreferences {
-        return dataStorePrefsRepository.fetchInitialPreferences()
-    }
+//    suspend fun getAppConfig(): DataStorePrefsRepository.AppConfigPreferences {
+//        return dataStorePrefsRepository.fetchInitialPreferences()
+//    }
 
     suspend fun updateGridPref(columns: Int) {
         dataStorePrefsRepository.updateGridPref(columns)
