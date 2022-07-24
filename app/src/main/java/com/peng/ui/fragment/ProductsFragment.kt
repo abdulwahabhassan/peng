@@ -40,7 +40,6 @@ class ProductsFragment : Fragment() {
     private val productsAdapterObserver = object : RecyclerView.AdapterDataObserver() {
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
             super.onItemRangeChanged(positionStart, itemCount)
-            binding.productsRV.scrollToPosition(0)
             binding.productsRV.visibility = VISIBLE
         }
 
@@ -65,7 +64,6 @@ class ProductsFragment : Fragment() {
 
         override fun onChanged() {
             super.onChanged()
-            binding.productsRV.scrollToPosition(0)
             binding.productsRV.visibility = VISIBLE
         }
     }

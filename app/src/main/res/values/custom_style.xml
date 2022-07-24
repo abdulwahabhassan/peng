@@ -15,4 +15,15 @@
     <style name="custom_toolbar_theme" >
         <item name="colorControlNormal">@color/black</item>
     </style>
+    <!-- Style for Bottom sheet dialog -->
+    <style name="custom_app_bottom_sheet_dialog_theme"
+        parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="colorPrimary">@color/black</item>
+        <item name="bottomSheetStyle">@style/app_bottom_sheet_modal_style</item>
+    </style>
+
+    <style name="app_bottom_sheet_modal_style"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_profile_edit_bottom_sheet_dialog</item>
+    </style>
 </resources>

@@ -248,10 +248,6 @@ class SharedActivityViewModel @Inject constructor(
         }
     }
 
-//    suspend fun getAppConfig(): DataStorePrefsRepository.AppConfigPreferences {
-//        return dataStorePrefsRepository.fetchInitialPreferences()
-//    }
-
     suspend fun updateGridPref(columns: Int) {
         dataStorePrefsRepository.updateGridPref(columns)
     }

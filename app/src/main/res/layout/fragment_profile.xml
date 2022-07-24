@@ -121,8 +121,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
                 android:layout_width="0dp"
+
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/profileLAV"
                 app:layout_constraintTop_toBottomOf="@+id/profileLAV">
@@ -146,14 +148,30 @@
                     android:layout_marginVertical="4dp"
                     android:drawableStart="@drawable/ic_profile"
                     android:drawablePadding="4dp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/roboto_medium"
+                    android:maxLines="2"
                     android:text="Hassan Abdulwahab"
                     android:textColor="@color/black"
-                    app:drawableEndCompat="@drawable/ic_edit"
                     app:layout_constraintBottom_toTopOf="@+id/profileEmailAddressTV"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/profileNameEditButton"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
-                    app:layout_constraintTop_toTopOf="@+id/shapeableImageView" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/profileNameEditButton"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/bg_edit"
+                    android:src="@drawable/ic_edit"
+                    android:tint="@color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/profileEmailAddressEditButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/profileNameTV"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <TextView
@@ -164,14 +182,30 @@
                     android:layout_marginVertical="4dp"
                     android:drawableStart="@drawable/ic_location"
                     android:drawablePadding="4dp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="No. 12 6th Avenue, Boulevard Road, Lagos Island"
+                    android:maxLines="2"
+                    android:text="No. 12 Boulevard Avenue, Lagos Island"
                     android:textColor="@color/black"
-                    app:drawableEndCompat="@drawable/ic_edit"
-                    app:layout_constraintBottom_toBottomOf="@+id/shapeableImageView"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/profilePhoneNumberTV"
+                    app:layout_constraintEnd_toStartOf="@+id/profileDeliveryAddressEditButton"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
                     app:layout_constraintTop_toBottomOf="@+id/profileEmailAddressTV" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/profileDeliveryAddressEditButton"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/bg_edit"
+                    android:src="@drawable/ic_edit"
+                    android:tint="@color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/profilePhoneNumberEditButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/profileDeliveryAddressTV"
+                    app:layout_constraintTop_toBottomOf="@+id/profileEmailAddressEditButton" />
 
                 <TextView
                     android:id="@+id/profileEmailAddressTV"
@@ -181,14 +215,63 @@
                     android:layout_marginVertical="4dp"
                     android:drawableStart="@drawable/ic_email"
                     android:drawablePadding="4dp"
+                    android:ellipsize="end"
                     android:fontFamily="@font/roboto_medium"
+                    android:maxLines="2"
                     android:text="devhassan.org@gmail.com"
                     android:textColor="@color/black"
-                    app:drawableEndCompat="@drawable/ic_edit"
                     app:layout_constraintBottom_toTopOf="@+id/profileDeliveryAddressTV"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/profileEmailAddressEditButton"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
                     app:layout_constraintTop_toBottomOf="@+id/profileNameTV" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/profileEmailAddressEditButton"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/bg_edit"
+                    android:src="@drawable/ic_edit"
+                    android:tint="@color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/profileDeliveryAddressEditButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/profileEmailAddressTV"
+                    app:layout_constraintTop_toBottomOf="@+id/profileNameEditButton" />
+
+                <TextView
+                    android:id="@+id/profilePhoneNumberTV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginVertical="4dp"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawablePadding="4dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_medium"
+                    android:maxLines="2"
+                    android:text="+2348167039661"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/profilePhoneNumberEditButton"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/profileDeliveryAddressTV" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/profilePhoneNumberEditButton"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/bg_edit"
+                    android:src="@drawable/ic_edit"
+                    android:tint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/profilePhoneNumberTV"
+                    app:layout_constraintTop_toBottomOf="@+id/profileDeliveryAddressEditButton" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.airbnb.lottie.LottieAnimationView
@@ -221,8 +304,9 @@
                 android:id="@+id/profilePaymentRV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:overScrollMode="never"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -235,10 +319,11 @@
                 android:id="@+id/appCompatImageButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="2dp"
-                android:background="@color/gray_purple"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_edit"
                 android:src="@drawable/ic_add_card"
-                app:layout_constraintEnd_toEndOf="@+id/profilePaymentRV"
+                android:tint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profilePaymentRV" />
 
             <com.airbnb.lottie.LottieAnimationView
@@ -314,19 +399,32 @@
                 android:id="@+id/profilePasswordValueTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
                 android:drawablePadding="4dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="*******"
+                android:layout_marginEnd="16dp"
                 android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/profilePasswordEditButton"
+                app:layout_constraintEnd_toStartOf="@+id/profilePasswordEditButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/profilePasswordTV"
+                app:layout_constraintTop_toTopOf="@+id/profilePasswordEditButton" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/profilePasswordEditButton"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/bg_edit"
+                android:src="@drawable/ic_edit"
+                android:tint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/profilePasswordTV"
-                app:layout_constraintTop_toBottomOf="@+id/profilePasswordLAV"
-                app:layout_constraintVertical_bias="0.0"
-                app:drawableEndCompat="@drawable/ic_edit" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/profilePasswordValueTV"
+                app:layout_constraintTop_toBottomOf="@+id/profilePasswordTV" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

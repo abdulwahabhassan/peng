@@ -96,12 +96,13 @@
         android:textStyle="bold"
         app:cornerRadius="24dp"
         android:visibility="invisible"
+        app:strokeColor="@color/purple_500"
+        app:strokeWidth="1.5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view5"
-        app:strokeColor="@color/purple_500"
-        app:strokeWidth="1.5dp" />
+         />
 
     <TextView
         android:id="@+id/textView8"

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/editProfileTitleTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Enter new email address"
+        android:textColor="?colorOnSurface"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/progressIndicator"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editProfileFieldValueET"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="13dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:hint="email address"
+        android:fontFamily="@font/roboto_medium"
+        android:imeOptions="actionDone"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editProfileDoneButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileTitleTV"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/black"
+        app:indicatorSize="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editProfileDoneButton"
+        app:layout_constraintEnd_toEndOf="@+id/editProfileDoneButton"
+        app:layout_constraintStart_toStartOf="@+id/editProfileDoneButton"
+        app:layout_constraintTop_toTopOf="@+id/editProfileDoneButton"
+        app:trackColor="@color/white"
+        app:trackThickness="2dp"
+        tools:max="100"
+        tools:progress="50" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/editProfileDoneButton"
+        android:layout_width="32dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="16dp"
+        android:text="Done"
+        android:src="@drawable/ic_done"
+        android:background="@drawable/bg_edit_profile_done"
+        app:layout_constraintBottom_toBottomOf="@+id/editProfileFieldValueET"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editProfileFieldValueET"
+        app:layout_constraintTop_toTopOf="@+id/editProfileFieldValueET" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
