@@ -19,7 +19,7 @@ class PaymentCardsAdapter(
     DiffUtil.ItemCallback<PaymentCard>() {
 
     override fun areItemsTheSame(oldItem: PaymentCard, newItem: PaymentCard): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.cardNumber == newItem.cardNumber
     }
 
     override fun areContentsTheSame(oldItem: PaymentCard, newItem: PaymentCard): Boolean {

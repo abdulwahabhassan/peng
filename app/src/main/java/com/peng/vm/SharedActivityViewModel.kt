@@ -125,7 +125,7 @@ class SharedActivityViewModel @Inject constructor(
     }
 
     private suspend fun fetchAndUpdatePaymentCardList() {
-        val paymentCards = PaymentCardEntity.paymentCardEntities.map { favouriteItemEntity ->
+        val paymentCards = paymentCardRepository.getAllPaymentCards().map { favouriteItemEntity ->
             favouriteItemEntity.mapToPaymentCard()
         }.map { paymentCard ->
             if (paymentCard.cardNumber ==

@@ -1,22 +1,36 @@
 package com.peng.ui.fragment
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.peng.Utils
+import com.peng.contract.GalleryActivityContract
+import com.peng.databinding.DialogAddPaymentCardBinding
 import com.peng.databinding.DialogEditProfileBinding
 import com.peng.databinding.FragmentProfileBinding
+import com.peng.db.PaymentCardEntity
 import com.peng.model.FavouriteItem
 import com.peng.model.PaymentCard
+import com.peng.model.PaymentCardOptions
 import com.peng.model.VMResult
 import com.peng.ui.adapter.FavouriteAdapter
 import com.peng.ui.adapter.PaymentCardsAdapter
@@ -36,8 +50,22 @@ class ProfileFragment : Fragment() {
     @Inject
     lateinit var utils: Utils
     private var bottomSheetDialog: BottomSheetDialog? = null
+    private var image: String? = null
+    private val openGallery = registerForActivityResult(GalleryActivityContract()) { imagePath ->
+        if (imagePath.isNotEmpty()) {
+            Toast.makeText(requireContext(), "image path: $imagePath", Toast.LENGTH_SHORT).show()
+            image = imagePath
+            displaySelectedPhoto(imagePath)
+        } else {
+           Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show()
+        }
+    }
 
-        override fun onCreateView(
+    private fun displaySelectedPhoto(imageUri: String) {
+        Glide.with(this).load(imageUri).into(binding.profileUserPhotoIV)
+    }
+
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -50,12 +78,22 @@ class ProfileFragment : Fragment() {
 
         binding.profileDetailsMaterialToolbar.setupWithNavController(findNavController())
 
+        enableImageSelection()
+
         viewModel.cartItems.observe(viewLifecycleOwner) { result ->
             when(result) {
                 is VMResult.Success -> {
                     binding.profileCartQuantityTV.text = result.data.size.toString()
                 }
                 else -> {}
+            }
+        }
+
+        binding.profileEditUserPhoto.setOnClickListener {
+            if (haveStoragePermission()) {
+                openGallery.launch(Unit)
+            } else {
+                requestPermission()
             }
         }
 
@@ -133,12 +171,19 @@ class ProfileFragment : Fragment() {
                 ) {
                         dialog: BottomSheetDialog?, fieldValue: String ->
                     //action to update phone number
-                    binding.profilePasswordValueTV.text = fieldValue.map { c: Char -> "*" }.joinToString("")
+                    binding.profilePasswordValueTV.text = fieldValue.map { c: Char -> "*" }
+                        .joinToString("")
                     dialog?.dismiss()
                     bottomSheetDialog = null
                 }
             }
 
+        }
+
+        binding.profileAddNewCardButton.setOnClickListener {
+            if (bottomSheetDialog == null) {
+                showDialogToAddNewCard()
+            }
         }
 
         initFavouriteAdapter()
@@ -186,6 +231,10 @@ class ProfileFragment : Fragment() {
         binding.profileShoppingCartLAV.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToCartFragment()
             findNavController().navigate(action)
+        }
+
+        if (!haveStoragePermission()) {
+            requestPermission()
         }
     }
 
@@ -258,6 +307,109 @@ class ProfileFragment : Fragment() {
         }
         bottomSheetDialog?.show()
 
+    }
+
+    private fun showDialogToAddNewCard() {
+        val dialogBinding = DialogAddPaymentCardBinding.inflate(
+            LayoutInflater.from(requireContext()),
+            this.binding.root,
+            false
+        )
+
+        dialogBinding.addPaymentCardDoneButton.setOnClickListener {
+
+            val cardType = PaymentCardOptions.values().random().name
+            val cardTitle = dialogBinding.addPaymentCardNameET.text.toString().trim()
+            val cardNumber = dialogBinding.addPaymentCardNumberET.text.toString().trim()
+            val cardExpiryMonth = dialogBinding.addPaymentCardExpiryMonth.text.toString().trim()
+            val cardExpiryYear = dialogBinding.addPaymentCardExpiryYear.text.toString().trim()
+            val cardCVV = dialogBinding.addPaymentCardCVVET.text.toString().trim()
+
+            if (
+                cardType.isNotEmpty() &&
+                cardTitle.isNotEmpty() &&
+                cardNumber.isNotEmpty() &&
+                cardExpiryMonth.isNotEmpty() &&
+                cardExpiryYear.isNotEmpty() &&
+                cardCVV.isNotEmpty()
+            ) {
+                val card = PaymentCard(
+                    cardType = cardType,
+                    cardTitle = cardTitle,
+                    cardNumber = cardNumber,
+                    cardExpiryMonth = cardExpiryMonth.toInt(),
+                    cardExpiryYear = cardExpiryYear.toInt(),
+                    cardCVV = cardCVV.trim()
+                )
+                viewModel.insertItemToPaymentCards(card)
+                bottomSheetDialog?.dismiss()
+                bottomSheetDialog = null
+            } else {
+                Toast.makeText(requireContext(), "Incomplete fields", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog?.setContentView(dialogBinding.root)
+        bottomSheetDialog?.dismissWithAnimation = true
+        bottomSheetDialog?.setCanceledOnTouchOutside(false)
+        bottomSheetDialog?.setOnDismissListener {
+            bottomSheetDialog = null
+        }
+        bottomSheetDialog?.setOnCancelListener {
+            bottomSheetDialog = null
+        }
+        bottomSheetDialog?.show()
+
+    }
+
+    private val requestPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted -> if (isGranted) { enableImageSelection() } else {
+        val showRationale =
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                requireActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        if (showRationale) {
+            requestPermission()
+        } else {
+            goToSettings()
+        }
+    }
+    }
+
+    private fun requestPermission() {
+        if (!haveStoragePermission()) {
+            requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+    }
+
+    private fun haveStoragePermission() =
+        ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+
+
+    private fun goToSettings() {
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${requireActivity().packageName}")).apply {
+            addCategory(Intent.CATEGORY_DEFAULT)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }.also { intent ->
+            startActivity(intent)
+        }
+    }
+
+    private fun enableImageSelection() {
+        if (haveStoragePermission()) {
+            binding.profileEditUserPhoto.setOnClickListener {
+                openGallery.launch(Unit)
+            }
+        } else {
+            requestPermission()
+        }
     }
 
 

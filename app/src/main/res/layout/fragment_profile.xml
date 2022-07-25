@@ -130,7 +130,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/profileLAV">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/shapeableImageView"
+                    android:id="@+id/profileUserPhotoIV"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:scaleType="centerCrop"
@@ -156,7 +156,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/profileEmailAddressTV"
                     app:layout_constraintEnd_toStartOf="@+id/profileNameEditButton"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintStart_toEndOf="@+id/profileUserPhotoIV"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -190,7 +190,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/profilePhoneNumberTV"
                     app:layout_constraintEnd_toStartOf="@+id/profileDeliveryAddressEditButton"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintStart_toEndOf="@+id/profileUserPhotoIV"
                     app:layout_constraintTop_toBottomOf="@+id/profileEmailAddressTV" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -223,7 +223,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/profileDeliveryAddressTV"
                     app:layout_constraintEnd_toStartOf="@+id/profileEmailAddressEditButton"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintStart_toEndOf="@+id/profileUserPhotoIV"
                     app:layout_constraintTop_toBottomOf="@+id/profileNameTV" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -256,7 +256,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/profilePhoneNumberEditButton"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+                    app:layout_constraintStart_toEndOf="@+id/profileUserPhotoIV"
                     app:layout_constraintTop_toBottomOf="@+id/profileDeliveryAddressTV" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
@@ -272,6 +272,18 @@
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/profilePhoneNumberTV"
                     app:layout_constraintTop_toBottomOf="@+id/profileDeliveryAddressEditButton" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/profileEditUserPhoto"
+                    android:layout_width="36dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:backgroundTint="@android:color/transparent"
+                    android:contentDescription="Edit image button"
+                    android:src="@drawable/ic_edit_photo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/profileUserPhotoIV"
+                    app:tint="@color/black" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.airbnb.lottie.LottieAnimationView
@@ -316,7 +328,7 @@
                 tools:listitem="@layout/item_payment_card" />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/appCompatImageButton"
+                android:id="@+id/profileAddNewCardButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="16dp"
@@ -335,7 +347,7 @@
                 android:scaleY="1.2"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatImageButton"
+                app:layout_constraintTop_toBottomOf="@+id/profileAddNewCardButton"
                 app:lottie_autoPlay="true"
                 app:lottie_cacheComposition="true"
                 app:lottie_fileName="favourite.json"

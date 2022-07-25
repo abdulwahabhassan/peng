@@ -51,6 +51,7 @@
         <entry key="app/src/main/res/drawable/ic_tab_indicator_inactive.xml" value="0.1185" />
         <entry key="app/src/main/res/font/roboto_medium.xml" value="0.20051282051282052" />
         <entry key="app/src/main/res/layout-v26/fragment_products.xml" value="0.2046875" />
+        <entry key="app/src/main/res/layout/activity_gallery.xml" value="0.2109375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19427083333333334" />
         <entry key="app/src/main/res/layout/dialog_edit_profile.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.25" />
@@ -71,6 +72,7 @@
         <entry key="app/src/main/res/layout/item_result_found.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/item_review.xml" value="0.2203125" />
         <entry key="app/src/main/res/layout/item_shopping_item.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/item_store_image.xml" value="0.2109375" />
       </map>
     </option>
   </component>

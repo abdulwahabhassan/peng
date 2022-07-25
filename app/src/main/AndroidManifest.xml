@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.peng">
-
+    <!-- permission to use internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- permission to access network state -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- permission to read external storage -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Peng"
@@ -22,6 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.activity.GalleryActivity"
+            android:exported="false"
+            android:label="Gallery" />
+
         <meta-data
             android:name="co.paystack.android.PublicKey"
             android:value="pk_test_a804b8ac54b1345aecb562758e6d23d3a604bbbb"/>

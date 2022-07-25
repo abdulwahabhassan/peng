@@ -58,7 +58,6 @@ data class PaymentCardEntity(
 
 fun PaymentCardEntity.mapToPaymentCard(): PaymentCard {
     return PaymentCard(
-        id = this.id,
         cardType = this.cardType,
         cardTitle = this.cardTitle,
         cardNumber = this.cardNumber,
