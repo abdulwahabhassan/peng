@@ -117,6 +117,20 @@ class SharedActivityViewModel @Inject constructor(
         _cartItems.value = VMResult.Success(cartItems)
     }
 
+    fun updateUserEmail(email: String) {
+        viewModelScope.launch {
+            dataStorePrefsRepository.updateUserEmail(email)
+        }
+
+    }
+
+    fun updateProductsFilter(priceLowRange: Int, priceHighRange: Int, rating: Float) {
+        viewModelScope.launch {
+            dataStorePrefsRepository.updateProductsFilter(priceLowRange, priceHighRange, rating)
+        }
+
+    }
+
     private suspend fun fetchAndUpdateFavouriteItemList() {
         val favouriteItems = favouriteRepository.getAllFavouriteItems().map { favouriteItemEntity ->
             favouriteItemEntity.mapToFavouriteItem()

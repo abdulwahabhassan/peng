@@ -36,11 +36,13 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
         return AppConfigPreferences(
             gridColumns = preferences[PreferencesKeys.GRID] ?: 2,
             selectedPaymentCardNumber = preferences[PreferencesKeys.SELECTED_PAYMENT_CARD] ?: "5060666666666666666",
-            userEmail = preferences[PreferencesKeys.USER_EMAIL] ?: "devhassan.org@gmail.com"
+            userEmail = preferences[PreferencesKeys.USER_EMAIL] ?: "devhassan.org@gmail.com",
+            filterByPriceLowRange = preferences[PreferencesKeys.FILTER_BY_PRICE_LOW_RANGE] ?: 0,
+            filterByPriceHighRange = preferences[PreferencesKeys.FILTER_BY_PRICE_HIGH_RANGE] ?: 0,
+            filterByRating = preferences[PreferencesKeys.FILTER_BY_RATING] ?: 0f,
         )
     }
 
-    // update the grid columns pref
     suspend fun updateGridPref(columns: Int) {
         dataStore.edit { mutablePreferences ->
             mutablePreferences[PreferencesKeys.GRID] = columns
@@ -59,12 +61,23 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
         }
     }
 
+    suspend fun updateProductsFilter(priceLowRange: Int, priceHighRange: Int, rating: Float) {
+        dataStore.edit { mutablePreferences ->
+            mutablePreferences[PreferencesKeys.FILTER_BY_PRICE_LOW_RANGE] = priceLowRange
+            mutablePreferences[PreferencesKeys.FILTER_BY_PRICE_HIGH_RANGE] = priceHighRange
+            mutablePreferences[PreferencesKeys.FILTER_BY_RATING] = rating
+        }
+    }
+
     // data class to hold all configurable fields in app settings screen and in-app configurable actions
     // that represent a user's preferences
     data class AppConfigPreferences(
         val gridColumns: Int = 2,
         val selectedPaymentCardNumber: String = "",
-        val userEmail: String = ""
+        val userEmail: String = "",
+        val filterByPriceLowRange: Int = 0,
+        val filterByPriceHighRange: Int = 0,
+        val filterByRating: Float = 0f,
     )
 
     // object to hold preference keys used to retrieve and update user preferences
@@ -72,6 +85,10 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
         val GRID = intPreferencesKey("grid")
         val SELECTED_PAYMENT_CARD = stringPreferencesKey("preferred_payment_card")
         val USER_EMAIL = stringPreferencesKey("user_email")
+        val FILTER_BY_PRICE_LOW_RANGE = intPreferencesKey("filter_by_price_low_range")
+        val FILTER_BY_PRICE_HIGH_RANGE = intPreferencesKey("filter_by_price_high_range")
+        val FILTER_BY_RATING = floatPreferencesKey("filter_by_rating")
+
 
     }
 }

@@ -20,8 +20,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import com.peng.R
 import com.peng.Utils
 import com.peng.contract.GalleryActivityContract
 import com.peng.databinding.DialogAddPaymentCardBinding
@@ -36,6 +41,7 @@ import com.peng.ui.adapter.FavouriteAdapter
 import com.peng.ui.adapter.PaymentCardsAdapter
 import com.peng.vm.SharedActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 
@@ -264,6 +270,31 @@ class ProfileFragment : Fragment() {
 
     private fun initPaymentCardsRecyclerViewAdapter() {
         binding.profilePaymentRV.adapter = paymentCardsRecyclerViewAdapter
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean { return false }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val card = paymentCardsRecyclerViewAdapter
+                    .currentList[viewHolder.bindingAdapterPosition]
+
+                viewModel.removeItemFromPaymentCards(card)
+
+                Snackbar.make(
+                    binding.root,
+                    "Removed " + card.cardType.lowercase(Locale.getDefault()).replace("_", " "),
+                    Snackbar.LENGTH_LONG
+                ).setAction("Undo") { viewModel.insertItemToPaymentCards(card) }
+                    .setTextColor(requireContext().getColor(R.color.white))
+                    .setActionTextColor(requireContext().getColor(R.color.white))
+                    .setBackgroundTint(requireContext().getColor(R.color.black))
+                    .show()
+            }
+        }).attachToRecyclerView(binding.profilePaymentRV)
     }
 
     private fun initPaymentCardsAdapter() {

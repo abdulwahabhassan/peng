@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
 import android.view.View.*
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,8 +16,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.slider.Slider
+import com.google.android.material.snackbar.Snackbar
+import com.peng.PriceInputMax
 import com.peng.R
 import com.peng.Utils
+import com.peng.databinding.DialogAddPaymentCardBinding
+import com.peng.databinding.DialogProductsFilterBinding
 import com.peng.databinding.FragmentProductsBinding
 import com.peng.model.Product
 import com.peng.model.SearchProductSuggestion
@@ -24,6 +33,7 @@ import com.peng.ui.adapter.ProductsAdapter
 import com.peng.ui.adapter.SearchProductSuggestionsAdapter
 import com.peng.vm.SharedActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 
@@ -35,6 +45,7 @@ class ProductsFragment : Fragment() {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var searchProductSuggestionsAdapter: SearchProductSuggestionsAdapter
     private val viewModel: SharedActivityViewModel by activityViewModels()
+    private var bottomSheetDialog: BottomSheetDialog? = null
     @Inject
     lateinit var utils: Utils
     private val productsAdapterObserver = object : RecyclerView.AdapterDataObserver() {
@@ -180,8 +191,81 @@ class ProductsFragment : Fragment() {
 
         binding.productsGridButton.setOnClickListener { changeGridLayout() }
 
-        binding.productsFilterButton.setOnClickListener {  }
+        binding.productsFilterButton.setOnClickListener {
+            if (bottomSheetDialog == null) {
+                showDialogToFilter()
+            }
+        }
 
+    }
+
+    private fun showDialogToFilter() {
+        val dialogBinding = DialogProductsFilterBinding.inflate(
+            LayoutInflater.from(requireContext()),
+            this.binding.root,
+            false
+        )
+
+        bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog?.setContentView(dialogBinding.root)
+        bottomSheetDialog?.dismissWithAnimation = true
+        bottomSheetDialog?.setCanceledOnTouchOutside(false)
+        bottomSheetDialog?.setOnDismissListener {
+            bottomSheetDialog = null
+        }
+        bottomSheetDialog?.setOnCancelListener {
+            bottomSheetDialog = null
+        }
+
+        PriceInputMax(dialogBinding.filterProductsPriceFromET).listen()
+        PriceInputMax(dialogBinding.filterProductsPriceToET).listen()
+        dialogBinding.filterProductsPriceFromET.setText(viewModel.appConfigPreferences.value?.filterByPriceLowRange.toString())
+        dialogBinding.filterProductsPriceToET.setText(viewModel.appConfigPreferences.value?.filterByPriceHighRange.toString())
+        dialogBinding.filterProductsRatingSlider.valueFrom = 0f
+        dialogBinding.filterProductsRatingSlider.valueTo = 4f
+        dialogBinding.filterProductsRatingSlider.setLabelFormatter { value ->
+            "${value.toInt()} star"
+        }
+        dialogBinding.filterProductsRatingSlider.value =
+            viewModel.appConfigPreferences.value?.filterByRating ?: 0f
+        dialogBinding.filterProductsRatingSliderValueTV.text =
+            "${(viewModel.appConfigPreferences.value?.filterByRating ?: 0f).toInt()} star and above"
+
+        dialogBinding.filterProductsRatingSlider.addOnSliderTouchListener(
+            object : Slider.OnSliderTouchListener {
+                override fun onStartTrackingTouch(slider: Slider) {}
+
+                override fun onStopTrackingTouch(slider: Slider) {
+                    dialogBinding.filterProductsRatingSliderValueTV.text = "${slider.value.toInt()} star and above"
+                }
+            }
+        )
+        dialogBinding.filterProductsDoneButton.setOnClickListener {
+            val lowRange = dialogBinding.filterProductsPriceFromET.text.toString()
+                .replace(Regex("\\D"), "").toInt()
+            val highRange = dialogBinding.filterProductsPriceToET.text.toString()
+                .replace(Regex("\\D"), "").toInt()
+            if (lowRange < highRange || lowRange == highRange) {
+                viewModel.updateProductsFilter(
+                    lowRange,
+                    highRange,
+                    dialogBinding.filterProductsRatingSlider.value
+                )
+                bottomSheetDialog?.dismiss()
+            } else {
+                Snackbar.make(
+                    dialogBinding.root,
+                    "Invalid price filter specified",
+                    Snackbar.LENGTH_LONG
+                ).setTextColor(requireContext().getColor(R.color.black))
+                    .setActionTextColor(requireContext().getColor(R.color.black))
+                    .setBackgroundTint(requireContext().getColor(R.color.white))
+                    .setAnchorView(dialogBinding.root)
+                    .show()
+            }
+
+        }
+        bottomSheetDialog?.show()
     }
 
     private fun initSearchProductSuggestionsAdapter() {

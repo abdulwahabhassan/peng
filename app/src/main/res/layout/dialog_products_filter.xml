@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/filterProductsDoneButton"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_done"
+        android:text="Save"
+        android:textAllCaps="false"
+        app:cornerRadius="24dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/filterProductsRatingSlider"
+        app:layout_constraintStart_toStartOf="@+id/filterProductsRatingSlider"
+        app:layout_constraintTop_toBottomOf="@+id/filterProductsRatingSlider"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/filterProductsPriceToET"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:hint="to"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/filterProductsPriceFromET"
+        app:layout_constraintEnd_toEndOf="@+id/filterPriceSliderTitleTV"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/filterProductsPriceFromET"
+        app:layout_constraintTop_toTopOf="@+id/filterProductsPriceFromET" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/filterProductsPriceFromET"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:hint="from"
+        android:layout_marginTop="8dp"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/filterProductsPriceToET"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterPriceSliderTitleTV" />
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/filterProductsRatingSliderTitleTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginHorizontal="16dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Filter by rating"
+        android:textColor="?colorOnSurface"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterProductsPriceFromET" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/filterPriceSliderTitleTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginHorizontal="16dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Filter by price (₦)"
+        android:textColor="?colorOnSurface"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/filterProductsRatingSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        app:layout_constraintEnd_toEndOf="@+id/filterProductsRatingSliderTitleTV"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/filterProductsRatingSliderTitleTV"
+        app:layout_constraintTop_toBottomOf="@+id/filterProductsRatingSliderValueTV"
+        app:trackColor="@color/gray_purple"
+        android:stepSize="1"
+        tools:value="2"
+        tools:valueFrom="0"
+        tools:valueTo="4" />
+
+    <TextView
+        android:id="@+id/filterProductsRatingSliderValueTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="5"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/filterProductsRatingSliderTitleTV"
+        app:layout_constraintTop_toBottomOf="@+id/filterProductsRatingSliderTitleTV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
