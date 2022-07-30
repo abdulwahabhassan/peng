@@ -288,10 +288,15 @@ class ProfileFragment : Fragment() {
                     binding.root,
                     "Removed " + card.cardType.lowercase(Locale.getDefault()).replace("_", " "),
                     Snackbar.LENGTH_LONG
-                ).setAction("Undo") { viewModel.insertItemToPaymentCards(card) }
-                    .setTextColor(requireContext().getColor(R.color.white))
-                    .setActionTextColor(requireContext().getColor(R.color.white))
-                    .setBackgroundTint(requireContext().getColor(R.color.black))
+                ).setAction("Undo") {
+                    viewModel.insertItemToPaymentCards(card)
+                    if (card.selected) {
+                        viewModel.updateSelectedPaymentCard(card.cardNumber)
+                    }
+                }
+                    .setTextColor(requireContext().getColor(R.color.black))
+                    .setActionTextColor(requireContext().getColor(R.color.black))
+                    .setBackgroundTint(requireContext().getColor(R.color.transparent_yellow))
                     .show()
             }
         }).attachToRecyclerView(binding.profilePaymentRV)
@@ -303,9 +308,7 @@ class ProfileFragment : Fragment() {
 
             },
             onActivateRadioButtonClicked = {position: Int, itemAtPosition: PaymentCard ->
-                viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                    viewModel.updateSelectedPaymentCard(itemAtPosition.cardNumber)
-                }
+                viewModel.updateSelectedPaymentCard(itemAtPosition.cardNumber)
             }
         )
     }
@@ -324,7 +327,18 @@ class ProfileFragment : Fragment() {
         dialogBinding.editProfileTitleTV.text = "Enter new $fieldName "
         dialogBinding.editProfileFieldValueET.hint = fieldName
         dialogBinding.editProfileDoneButton.setOnClickListener {
-            onDoneClicked(bottomSheetDialog, dialogBinding.editProfileFieldValueET.text.toString())
+            if (dialogBinding.editProfileFieldValueET.text.toString().trim().isEmpty()) {
+                Snackbar.make(
+                    dialogBinding.root,
+                    "Empty field!",
+                    Snackbar.LENGTH_LONG
+                ).setTextColor(requireContext().getColor(R.color.black))
+                    .setBackgroundTint(requireContext().getColor(R.color.transparent_pink))
+                    .setAnchorView(dialogBinding.root)
+                    .show()
+            } else {
+                onDoneClicked(bottomSheetDialog, dialogBinding.editProfileFieldValueET.text.toString().trim())
+            }
         }
         bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog?.setContentView(dialogBinding.root)
@@ -348,14 +362,12 @@ class ProfileFragment : Fragment() {
         )
 
         dialogBinding.addPaymentCardDoneButton.setOnClickListener {
-
             val cardType = PaymentCardOptions.values().random().name
             val cardTitle = dialogBinding.addPaymentCardNameET.text.toString().trim()
             val cardNumber = dialogBinding.addPaymentCardNumberET.text.toString().trim()
             val cardExpiryMonth = dialogBinding.addPaymentCardExpiryMonth.text.toString().trim()
             val cardExpiryYear = dialogBinding.addPaymentCardExpiryYear.text.toString().trim()
             val cardCVV = dialogBinding.addPaymentCardCVVET.text.toString().trim()
-
             if (
                 cardType.isNotEmpty() &&
                 cardTitle.isNotEmpty() &&
@@ -376,9 +388,15 @@ class ProfileFragment : Fragment() {
                 bottomSheetDialog?.dismiss()
                 bottomSheetDialog = null
             } else {
-                Toast.makeText(requireContext(), "Incomplete fields", Toast.LENGTH_SHORT).show()
+                Snackbar.make(
+                    dialogBinding.root,
+                    "Incomplete field(s)!",
+                    Snackbar.LENGTH_LONG
+                ).setTextColor(requireContext().getColor(R.color.black))
+                    .setBackgroundTint(requireContext().getColor(R.color.transparent_pink))
+                    .setAnchorView(dialogBinding.root)
+                    .show()
             }
-
         }
 
         bottomSheetDialog = BottomSheetDialog(requireContext())

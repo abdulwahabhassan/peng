@@ -8,4 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray_purple">#FFEBEAEF</color>
+    <color name="red">#FF0000</color>
+    <color name="transparent_green">#EBFFED</color>
+    <color name="transparent_purple">#F6EBFF</color>
+    <color name="transparent_yellow">#FFF5E7</color>
+    <color name="transparent_pink">#FFEBEB</color>
+    <color name="transparent_ash">#D9D9D9</color>
+    <color name="transparent_blue">#DBE9FF</color>
+    <color name="blue">#215FFF</color>
+    <color name="dark_blue">#010991</color>
 </resources>

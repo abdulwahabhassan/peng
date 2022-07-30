@@ -35,7 +35,7 @@ class DataStorePrefsRepository @Inject constructor (private val dataStore: DataS
     private fun mapUserPreferences(preferences: Preferences): AppConfigPreferences {
         return AppConfigPreferences(
             gridColumns = preferences[PreferencesKeys.GRID] ?: 2,
-            selectedPaymentCardNumber = preferences[PreferencesKeys.SELECTED_PAYMENT_CARD] ?: "5060666666666666666",
+            selectedPaymentCardNumber = preferences[PreferencesKeys.SELECTED_PAYMENT_CARD] ?: "",
             userEmail = preferences[PreferencesKeys.USER_EMAIL] ?: "devhassan.org@gmail.com",
             filterByPriceLowRange = preferences[PreferencesKeys.FILTER_BY_PRICE_LOW_RANGE] ?: 0,
             filterByPriceHighRange = preferences[PreferencesKeys.FILTER_BY_PRICE_HIGH_RANGE] ?: 0,

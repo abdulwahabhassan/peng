@@ -7,6 +7,7 @@
     android:overScrollMode="never"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -100,13 +101,13 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_medium"
             android:text="No. 12 6th Avenue, Boulevard Road, Lagos Island"
-            app:layout_constraintEnd_toStartOf="@+id/editAddressIB"
+            app:layout_constraintEnd_toStartOf="@+id/checkOutEditAddressIB"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/checkOutDeliveryAddressTV"
             app:layout_constraintTop_toBottomOf="@+id/checkOutDeliveryAddressTV" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/editAddressIB"
+            android:id="@+id/checkOutEditAddressIB"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
@@ -125,32 +126,32 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:drawableStart="@drawable/ic_phone"
             android:drawablePadding="4dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Phone Number"
-            android:layout_marginTop="16dp"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editAddressIB" />
+            app:layout_constraintTop_toBottomOf="@+id/checkOutEditAddressIB" />
 
         <TextView
             android:id="@+id/checkOutPhoneNumberValueTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_medium"
-            android:layout_marginStart="20dp"
             android:text="+2348167039661"
-            app:layout_constraintEnd_toStartOf="@+id/editPhoneNumberIB"
+            app:layout_constraintEnd_toStartOf="@+id/checkOutEditPhoneNumberIB"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/checkOutPhoneNumberTV"
             app:layout_constraintTop_toBottomOf="@+id/checkOutPhoneNumberTV" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/editPhoneNumberIB"
+            android:id="@+id/checkOutEditPhoneNumberIB"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
@@ -168,25 +169,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
             android:drawableStart="@drawable/ic_card"
             android:drawablePadding="4dp"
-            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Payment Method"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editPhoneNumberIB" />
+            app:layout_constraintTop_toBottomOf="@+id/checkOutEditPhoneNumberIB" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout4"
-            android:layout_width="match_parent"
+            android:id="@+id/checkoutSelectedPaymentCardCL"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_payment_card"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintEnd_toStartOf="@+id/checkoutAddNewCardButton"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkOutPaymentMethodTV">
 
@@ -234,18 +235,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/checkoutSelectAnotherCardTV"
+            android:id="@+id/checkoutSwitchCardTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/roboto_medium"
             android:padding="4dp"
-            android:text="Select another card"
+            android:text="Switch card"
             android:textColor="@color/purple_500"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayout4"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkoutSelectedPaymentCardCL" />
 
         <TextView
             android:id="@+id/checkOutDeliveryAddressTV"
@@ -267,7 +269,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginHorizontal="32dp"
-            android:layout_marginVertical="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="32dp"
             android:fontFamily="@font/roboto_bold"
             android:text="Pay"
             android:textAllCaps="false"
@@ -276,7 +279,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkoutSelectAnotherCardTV"
+            app:layout_constraintTop_toBottomOf="@+id/checkoutSwitchCardTV"
             app:strokeColor="@color/purple_500"
             app:strokeWidth="1.5dp" />
 
@@ -287,11 +290,11 @@
             android:indeterminate="true"
             android:visibility="invisible"
             app:indicatorColor="@color/black"
-            app:trackColor="@color/gray_purple"
             app:layout_constraintBottom_toBottomOf="@+id/checkoutPayButton"
             app:layout_constraintEnd_toEndOf="@+id/checkoutPayButton"
             app:layout_constraintStart_toStartOf="@+id/checkoutPayButton"
-            app:layout_constraintTop_toTopOf="@+id/checkoutPayButton" />
+            app:layout_constraintTop_toTopOf="@+id/checkoutPayButton"
+            app:trackColor="@color/gray_purple" />
 
         <TextView
             android:id="@+id/textView8"
@@ -421,5 +424,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkoutTotalTV" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/checkoutAddNewCardButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_edit"
+            android:src="@drawable/ic_add_card"
+            android:tint="@color/black"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/checkoutSelectedPaymentCardCL"
+            app:layout_constraintTop_toBottomOf="@+id/checkOutPaymentMethodTV" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

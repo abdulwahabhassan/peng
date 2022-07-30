@@ -194,6 +194,10 @@ class SharedActivityViewModel @Inject constructor(
             if (entity != null && entity.cardType == item.cardType) {
                 paymentCardRepository.updatePaymentCard(entity)
             } else {
+                //automatically make card to be default if no card is selected as default
+                if (dataStorePrefsRepository.fetchInitialPreferences().selectedPaymentCardNumber.isEmpty()) {
+                    dataStorePrefsRepository.updateSelectedPaymentCard(item.cardNumber)
+                }
                 paymentCardRepository.insertPaymentCard(item.mapToPaymentCardEntity())
             }
             fetchAndUpdatePaymentCardList()
@@ -204,7 +208,13 @@ class SharedActivityViewModel @Inject constructor(
         viewModelScope.launch {
             val entity = paymentCardRepository.getPaymentCard(item.cardNumber)
             if (entity != null && entity.cardType == item.cardType) {
+                //if this card is the default card, remove this card from data store as well
                 paymentCardRepository.removePaymentCard(entity)
+                if (item.selected) {
+                    val card = paymentCardRepository.getAllPaymentCards().getOrNull(0)
+                    //assign new card to be default else no card if no card is available
+                    dataStorePrefsRepository.updateSelectedPaymentCard(card?.cardNumber ?: "")
+                }
             }
             fetchAndUpdatePaymentCardList()
         }
@@ -266,9 +276,12 @@ class SharedActivityViewModel @Inject constructor(
         dataStorePrefsRepository.updateGridPref(columns)
     }
 
-    suspend fun updateSelectedPaymentCard(cardNumber: String) {
-        dataStorePrefsRepository.updateSelectedPaymentCard(cardNumber)
-        fetchAndUpdatePaymentCardList()
+    fun updateSelectedPaymentCard(cardNumber: String) {
+        viewModelScope.launch {
+            dataStorePrefsRepository.updateSelectedPaymentCard(cardNumber)
+            fetchAndUpdatePaymentCardList()
+        }
+
     }
 
 }
