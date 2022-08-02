@@ -44,6 +44,7 @@ class ProductDetailsFragment : Fragment() {
     private var pageChangeCallBack: ViewPager2.OnPageChangeCallback? = null
     private var isInCart by Delegates.notNull<Boolean>()
     private var isFavourite by Delegates.notNull<Boolean>()
+
     @Inject
     lateinit var utils: Utils
 
@@ -61,7 +62,7 @@ class ProductDetailsFragment : Fragment() {
         binding.productDetailsMaterialToolbar.setupWithNavController(findNavController())
 
         viewModel.cartItems.observe(viewLifecycleOwner) { result ->
-            when(result) {
+            when (result) {
                 is VMResult.Success -> {
                     binding.cartQuantityTV.text = result.data.size.toString()
                 }
@@ -125,8 +126,7 @@ class ProductDetailsFragment : Fragment() {
             if (viewModel.isItemInCart(args.productId)) {
                 isInCart = true
                 binding.productDetailsAddToCartButton.setImageResource(R.drawable.ic_added_to_cart)
-            }
-            else {
+            } else {
                 isInCart = false
                 binding.productDetailsAddToCartButton.setImageResource(R.drawable.ic_add_to_cart)
             }
@@ -138,8 +138,7 @@ class ProductDetailsFragment : Fragment() {
             if (viewModel.isItemInFavourite(args.productId)) {
                 isFavourite = true
                 binding.productDetailsFavouriteIV.setImageResource(R.drawable.ic_favourite_selected)
-            }
-            else {
+            } else {
                 isFavourite = false
                 binding.productDetailsFavouriteIV.setImageResource(R.drawable.ic_favourite_unselected)
             }
@@ -189,9 +188,10 @@ class ProductDetailsFragment : Fragment() {
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.productDetailsBottomSheetDialog)
         bottomSheetBehavior.peekHeight = 550
         bottomSheetBehavior.isHideable = true
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when(newState) {
+                when (newState) {
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         binding.showBottomSheetButton.visibility = VISIBLE
                     }
@@ -202,7 +202,7 @@ class ProductDetailsFragment : Fragment() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                when(slideOffset) {
+                when (slideOffset) {
                     in -1F..0F -> {
                         binding.showBottomSheetButton.visibility = VISIBLE
                         binding.showBottomSheetButton.alpha = abs(slideOffset)
@@ -211,7 +211,8 @@ class ProductDetailsFragment : Fragment() {
             }
 
         })
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED, BottomSheetBehavior.STATE_HIDDEN -> {
@@ -228,7 +229,7 @@ class ProductDetailsFragment : Fragment() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                when(slideOffset) {
+                when (slideOffset) {
                     in 0F..1F -> {
                         binding.reviewsRV.visibility = VISIBLE
                         binding.productDetailsReviewTV.visibility = VISIBLE
@@ -265,31 +266,35 @@ class ProductDetailsFragment : Fragment() {
 
     private fun initProductImagesAdapter() {
 
-        productImagesViewPagerAdapter = object : FragmentStateAdapter(childFragmentManager, lifecycle) {
-            private val fragments = arrayOf(
-                ProductImageFragment(""),
-                ProductImageFragment(""),
-                ProductImageFragment(""),
-                ProductImageFragment(""),
-                ProductImageFragment(""),
-                ProductImageFragment("")
-            )
+        productImagesViewPagerAdapter =
+            object : FragmentStateAdapter(childFragmentManager, lifecycle) {
+                private val fragments = arrayOf(
+                    ProductImageFragment(""),
+                    ProductImageFragment(""),
+                    ProductImageFragment(""),
+                    ProductImageFragment(""),
+                    ProductImageFragment(""),
+                    ProductImageFragment("")
+                )
 
-            override fun createFragment(position: Int) = fragments[position]
+                override fun createFragment(position: Int) = fragments[position]
 
-            override fun getItemCount(): Int = fragments.size
-        }
+                override fun getItemCount(): Int = fragments.size
+            }
 
 
     }
 
     private fun setUpTabLayoutMediator() {
-        TabLayoutMediator(binding.productDetailsImagesTL, productImagesViewPager) { tab, tabPosition ->
+        TabLayoutMediator(
+            binding.productDetailsImagesTL,
+            productImagesViewPager
+        ) { tab, tabPosition ->
             tab.setIcon(R.drawable.ic_tab_indicator_inactive)
             pageChangeCallBack = object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    if(tabPosition == position) {
+                    if (tabPosition == position) {
                         tab.setIcon(R.drawable.ic_tab_indicator_active)
                     } else {
                         tab.setIcon(R.drawable.ic_tab_indicator_inactive)
@@ -306,7 +311,7 @@ class ProductDetailsFragment : Fragment() {
     }
 
     private fun initReviewsAdapter() {
-        reviewsRecyclerViewAdapter = ReviewsAdapter {position: Int, itemAtPosition: Review ->
+        reviewsRecyclerViewAdapter = ReviewsAdapter { position: Int, itemAtPosition: Review ->
 
         }
     }

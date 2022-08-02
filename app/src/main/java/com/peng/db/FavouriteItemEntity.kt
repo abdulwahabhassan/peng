@@ -7,7 +7,7 @@ import com.peng.model.CartItem
 import com.peng.model.FavouriteItem
 
 @Entity(tableName = "favourite_item")
-data class FavouriteItemEntity (
+data class FavouriteItemEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: String,

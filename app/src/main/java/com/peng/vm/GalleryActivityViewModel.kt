@@ -33,7 +33,8 @@ class GalleryActivityViewModel(application: Application) : AndroidViewModel(appl
                 MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.DISPLAY_NAME,
                 MediaStore.Video.Media.SIZE,
-                MediaStore.Images.Media.DATA)
+                MediaStore.Images.Media.DATA
+            )
 
             val selection = null
 
@@ -51,7 +52,8 @@ class GalleryActivityViewModel(application: Application) : AndroidViewModel(appl
 
                 val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
                 val displayNameColumn = cursor.getColumnIndexOrThrow(
-                    MediaStore.Images.Media.DISPLAY_NAME)
+                    MediaStore.Images.Media.DISPLAY_NAME
+                )
                 val sizeColumn = cursor.getColumnIndex(MediaStore.Images.Media.SIZE)
                 val dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
 
@@ -62,7 +64,8 @@ class GalleryActivityViewModel(application: Application) : AndroidViewModel(appl
                     val data = cursor.getString(dataColumn)
 
                     val contentUri = ContentUris.withAppendedId(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id
+                    )
 
                     val image = MediaStoreImage(id, contentUri, displayName, size, data)
                     images += image

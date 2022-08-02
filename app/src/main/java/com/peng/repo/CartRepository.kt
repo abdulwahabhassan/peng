@@ -10,7 +10,7 @@ import com.peng.db.CartItemLocalDao
 import javax.inject.Inject
 
 // Repository to manage cart items
-class CartRepository @Inject constructor (private val cartItemLocalDao: CartItemLocalDao) {
+class CartRepository @Inject constructor(private val cartItemLocalDao: CartItemLocalDao) {
 
     suspend fun getAllCartItems(): List<CartItemEntity> {
         return cartItemLocalDao.getAllCartItems()

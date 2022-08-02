@@ -7,7 +7,7 @@ import com.peng.db.FavouriteItemLocalDao
 import javax.inject.Inject
 
 // Repository to manage cart items
-class FavouriteRepository @Inject constructor (private val favouriteItemLocalDao: FavouriteItemLocalDao) {
+class FavouriteRepository @Inject constructor(private val favouriteItemLocalDao: FavouriteItemLocalDao) {
 
     suspend fun getAllFavouriteItems(): List<FavouriteItemEntity> {
         return favouriteItemLocalDao.getAllFavouriteItems()

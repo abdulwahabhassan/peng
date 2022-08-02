@@ -34,13 +34,14 @@ class ProductsAdapter(
 }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var viewHolder : RecyclerView.ViewHolder? = null
+        var viewHolder: RecyclerView.ViewHolder? = null
         when (viewType) {
             VIEW_TYPE_RESULT_TEXT -> {
-                val view =  LayoutInflater.from(parent.context).inflate(
+                val view = LayoutInflater.from(parent.context).inflate(
                     R.layout.item_result_found,
                     parent,
-                    false)
+                    false
+                )
                 val binding = ItemResultFoundBinding.bind(view)
                 viewHolder = ResultTextVH(binding)
             }
@@ -48,21 +49,24 @@ class ProductsAdapter(
                 val view = LayoutInflater.from(parent.context).inflate(
                     R.layout.item_product,
                     parent,
-                    false)
+                    false
+                )
                 val binding = ItemProductBinding.bind(view)
                 viewHolder = ProductVH(
                     binding,
                     onItemClick = { position ->
-                       try {
-                           val itemAtPosition = currentList[position]
-                           this.onItemClicked(position, itemAtPosition)
-                       } catch (e: Exception) { }
+                        try {
+                            val itemAtPosition = currentList[position]
+                            this.onItemClicked(position, itemAtPosition)
+                        } catch (e: Exception) {
+                        }
                     },
                     onItemAddToCart = { position ->
                         try {
                             val itemAtPosition = currentList[position]
                             this.onItemAddedToCart(position, itemAtPosition)
-                        } catch (e: Exception) { }
+                        } catch (e: Exception) {
+                        }
 
                     }
                 )
@@ -85,6 +89,7 @@ class ProductsAdapter(
         list?.add(0, Product("*", "*", "*", 0.00, "*", list.size))
         super.submitList(list)
     }
+
     override fun getItemCount(): Int = currentList.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -98,7 +103,7 @@ class ProductsAdapter(
 
     inner class ProductVH(
         private val binding: ItemProductBinding,
-        onItemClick: (position: Int,) -> Unit,
+        onItemClick: (position: Int) -> Unit,
         onItemAddToCart: (position: Int) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
@@ -135,7 +140,7 @@ class ProductsAdapter(
         fun bind(size: Int) {
             Timber.d("$size")
             with(binding) {
-               binding.resultTV.text = "Found \n$size Result"
+                binding.resultTV.text = "Found \n$size Result"
             }
         }
     }

@@ -29,21 +29,24 @@ class PaymentCardsAdapter(
 }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentCardVH {
-        val binding = ItemPaymentCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemPaymentCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PaymentCardVH(
             binding,
             onItemClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onItemClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
 
             },
             onActivateRadioButtonClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onActivateRadioButtonClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
 
             }
         )
@@ -81,7 +84,7 @@ class PaymentCardsAdapter(
                     .lowercase(Locale.getDefault())
                     .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
                 paymentCardNumberTV.text = paymentCard.cardNumber.chunked(4).joinToString(" ")
-                when(paymentCard.cardType) {
+                when (paymentCard.cardType) {
                     PaymentCardOptions.MASTER_CARD.name -> {
                         paymentCardIV.setImageResource(R.drawable.ic_master_card)
                     }

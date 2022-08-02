@@ -8,11 +8,13 @@ import com.bumptech.glide.Glide
 import com.peng.databinding.ItemStoreImageBinding
 import com.peng.model.MediaStoreImage
 
-class GalleryAdapter(private val onClick: (MediaStoreImage) -> Unit)
-    : ListAdapter<MediaStoreImage, GalleryAdapter.ImageViewHolder>(MediaStoreImage.DiffCallback) {
+class GalleryAdapter(private val onClick: (MediaStoreImage) -> Unit) :
+    ListAdapter<MediaStoreImage, GalleryAdapter.ImageViewHolder>(MediaStoreImage.DiffCallback) {
 
-    inner class ImageViewHolder(private val itemBinding : ItemStoreImageBinding, onClick: (MediaStoreImage) -> Unit)
-        : RecyclerView.ViewHolder(itemBinding.root){
+    inner class ImageViewHolder(
+        private val itemBinding: ItemStoreImageBinding,
+        onClick: (MediaStoreImage) -> Unit
+    ) : RecyclerView.ViewHolder(itemBinding.root) {
 
         init {
             itemBinding.imageView.setOnClickListener {
@@ -21,16 +23,16 @@ class GalleryAdapter(private val onClick: (MediaStoreImage) -> Unit)
             }
         }
 
-            fun bind(item: MediaStoreImage, viewHolder: ImageViewHolder) = with(itemBinding) {
+        fun bind(item: MediaStoreImage, viewHolder: ImageViewHolder) = with(itemBinding) {
 
-                root.tag = item
+            root.tag = item
 
-                Glide.with(itemBinding.root.context)
-                    .load(item.contentUri)
-                    .thumbnail(0.33f)
-                    .centerCrop()
-                    .into(imageView)
-            }
+            Glide.with(itemBinding.root.context)
+                .load(item.contentUri)
+                .thumbnail(0.33f)
+                .centerCrop()
+                .into(imageView)
+        }
 
     }
 

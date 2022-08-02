@@ -31,28 +31,32 @@ class CartAdapter(
 }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemVH {
-        val binding = ItemCartItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemCartItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CartItemVH(
             binding,
             onItemClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onItemClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
 
             },
             onMinusButtonClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onMinusButtonClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
 
             },
             onPlusButtonClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onPlusButtonClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
 
             }
         )

@@ -11,7 +11,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 // Repository to manage all user preferences / configurations
-class DataStorePrefsRepository @Inject constructor (private val dataStore: DataStore<Preferences>) {
+class DataStorePrefsRepository @Inject constructor(private val dataStore: DataStore<Preferences>) {
 
     // an observable flow of user preferences in datastore that can be collected in view models
     val appConfigPreferencesFlow: Flow<AppConfigPreferences> = dataStore.data.catch { exception ->

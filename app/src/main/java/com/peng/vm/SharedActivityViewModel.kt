@@ -25,15 +25,17 @@ class SharedActivityViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     private val favouriteRepository: FavouriteRepository,
     private val paymentCardRepository: PaymentCardRepository
-): ViewModel() {
+) : ViewModel() {
 
     private var _products:
             MutableLiveData<VMResult<List<Product>>> = MutableLiveData(VMResult.Loading())
     val products: LiveData<VMResult<List<Product>>> = _products
 
     private var _searchProductSuggestion:
-            MutableLiveData<VMResult<List<SearchProductSuggestion>>> = MutableLiveData(VMResult.Loading())
-    val searchProductSuggestion: LiveData<VMResult<List<SearchProductSuggestion>>> = _searchProductSuggestion
+            MutableLiveData<VMResult<List<SearchProductSuggestion>>> =
+        MutableLiveData(VMResult.Loading())
+    val searchProductSuggestion: LiveData<VMResult<List<SearchProductSuggestion>>> =
+        _searchProductSuggestion
 
     private var _cartItems:
             MutableLiveData<VMResult<List<CartItem>>> = MutableLiveData(VMResult.Loading())
@@ -48,8 +50,10 @@ class SharedActivityViewModel @Inject constructor(
     val paymentCards: LiveData<VMResult<List<PaymentCard>>> = _paymentCards
 
     private var _appConfigPreferences:
-            MutableLiveData<DataStorePrefsRepository.AppConfigPreferences> = MutableLiveData(DataStorePrefsRepository.AppConfigPreferences())
-    val appConfigPreferences: LiveData<DataStorePrefsRepository.AppConfigPreferences> = _appConfigPreferences
+            MutableLiveData<DataStorePrefsRepository.AppConfigPreferences> =
+        MutableLiveData(DataStorePrefsRepository.AppConfigPreferences())
+    val appConfigPreferences: LiveData<DataStorePrefsRepository.AppConfigPreferences> =
+        _appConfigPreferences
 
     init {
         collectAppConfigPreferences()
@@ -143,7 +147,8 @@ class SharedActivityViewModel @Inject constructor(
             favouriteItemEntity.mapToPaymentCard()
         }.map { paymentCard ->
             if (paymentCard.cardNumber ==
-                dataStorePrefsRepository.fetchInitialPreferences().selectedPaymentCardNumber)
+                dataStorePrefsRepository.fetchInitialPreferences().selectedPaymentCardNumber
+            )
                 paymentCard.copy(selected = true)
             else
                 paymentCard
@@ -225,7 +230,7 @@ class SharedActivityViewModel @Inject constructor(
         cartItems: List<CartItem>
     ): List<Product> {
         val cartItemIds = cartItems.map { it.id }
-        val productIds =  products.map { it.id }
+        val productIds = products.map { it.id }
         val commonIds = cartItemIds.intersect(productIds)
         return products.map { product: Product ->
             if (commonIds.contains(product.id)) {
@@ -241,7 +246,7 @@ class SharedActivityViewModel @Inject constructor(
         favouriteItems: List<FavouriteItem>
     ): List<Product> {
         val favouriteItemIds = favouriteItems.map { it.id }
-        val productIds =  products.map { it.id }
+        val productIds = products.map { it.id }
         val commonIds = favouriteItemIds.intersect(productIds)
         return products.map { product: Product ->
             if (commonIds.contains(product.id)) {

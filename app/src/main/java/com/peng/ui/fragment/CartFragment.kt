@@ -27,6 +27,7 @@ class CartFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SharedActivityViewModel by activityViewModels()
     private lateinit var cartRecyclerViewAdapter: CartAdapter
+
     @Inject
     lateinit var utils: Utils
 
@@ -90,7 +91,8 @@ class CartFragment : Fragment() {
             }, onPlusButtonClicked = { position: Int, itemAtPosition: CartItem ->
                 viewModel.updateCartItemQuantity(itemAtPosition.copy(quantity = itemAtPosition.quantity + 1))
             },
-            utils)
+            utils
+        )
     }
 
     override fun onDestroy() {

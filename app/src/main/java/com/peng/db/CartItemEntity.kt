@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.peng.model.CartItem
 
 @Entity(tableName = "cart_item")
-data class CartItemEntity (
+data class CartItemEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
     val id: String,

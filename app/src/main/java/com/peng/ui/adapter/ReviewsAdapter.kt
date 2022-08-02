@@ -37,9 +37,10 @@ class ReviewsAdapter(
                 try {
                     val itemAtPosition = currentList[position]
                     this.onItemClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
 
-        })
+            })
     }
 
     override fun getItemCount(): Int = currentList.size
@@ -52,7 +53,10 @@ class ReviewsAdapter(
         holder.itemView.startAnimation(animation)
     }
 
-    inner class ReviewVH(private val binding: ItemReviewBinding, onItemClick: (position: Int) -> Unit) :
+    inner class ReviewVH(
+        private val binding: ItemReviewBinding,
+        onItemClick: (position: Int) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {

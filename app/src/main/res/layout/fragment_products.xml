@@ -213,7 +213,6 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         android:visibility="invisible"
-        android:paddingBottom="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

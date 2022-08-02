@@ -28,14 +28,16 @@ class CheckOutItemsAdapter(
 }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckOutItemVH {
-        val binding = ItemCheckoutItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemCheckoutItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CheckOutItemVH(
             binding,
             onItemClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onItemClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
             }
         )
 

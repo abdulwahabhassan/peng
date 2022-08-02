@@ -11,30 +11,39 @@ import timber.log.Timber
 
 class SearchProductSuggestionsAdapter(
     private val onItemClicked: (position: Int, itemAtPosition: SearchProductSuggestion) -> Unit
-) : ListAdapter<SearchProductSuggestion, SearchProductSuggestionsAdapter.SearchProductsResultVH>(object :
-    DiffUtil.ItemCallback<SearchProductSuggestion>() {
+) : ListAdapter<SearchProductSuggestion, SearchProductSuggestionsAdapter.SearchProductsResultVH>(
+    object :
+        DiffUtil.ItemCallback<SearchProductSuggestion>() {
 
-    override fun areItemsTheSame(oldItem: SearchProductSuggestion, newItem: SearchProductSuggestion): Boolean {
-        return oldItem.text == newItem.text
-    }
+        override fun areItemsTheSame(
+            oldItem: SearchProductSuggestion,
+            newItem: SearchProductSuggestion
+        ): Boolean {
+            return oldItem.text == newItem.text
+        }
 
-    override fun areContentsTheSame(oldItem: SearchProductSuggestion, newItem: SearchProductSuggestion): Boolean {
-        return oldItem == newItem
-    }
+        override fun areContentsTheSame(
+            oldItem: SearchProductSuggestion,
+            newItem: SearchProductSuggestion
+        ): Boolean {
+            return oldItem == newItem
+        }
 
-}) {
+    }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchProductsResultVH {
-        val binding = ItemProductSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemProductSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return SearchProductsResultVH(
             binding,
             onItemClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onItemClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
 
-        })
+            })
     }
 
     override fun getItemCount(): Int = currentList.size

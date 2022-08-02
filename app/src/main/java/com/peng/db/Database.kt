@@ -22,7 +22,8 @@ abstract class Database : RoomDatabase() {
     abstract fun paymentCardLocalDao(): PaymentCardLocalDao
 
     companion object {
-        @Volatile private var instance: Database? = null
+        @Volatile
+        private var instance: Database? = null
 
         fun getInstance(context: Context): Database {
             Timber.d("database get instance")

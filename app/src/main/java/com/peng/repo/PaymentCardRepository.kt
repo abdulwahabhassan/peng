@@ -5,7 +5,7 @@ import com.peng.db.PaymentCardLocalDao
 import javax.inject.Inject
 
 // Repository to manage payment cards
-class PaymentCardRepository @Inject constructor (private val paymentCardLocalDao: PaymentCardLocalDao) {
+class PaymentCardRepository @Inject constructor(private val paymentCardLocalDao: PaymentCardLocalDao) {
 
     suspend fun getAllPaymentCards(): List<PaymentCardEntity> {
         return paymentCardLocalDao.getAllPaymentCards()

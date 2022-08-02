@@ -53,6 +53,7 @@ class ProfileFragment : Fragment() {
     private val viewModel: SharedActivityViewModel by activityViewModels()
     private lateinit var favouriteRecyclerViewAdapter: FavouriteAdapter
     private lateinit var paymentCardsRecyclerViewAdapter: PaymentCardsAdapter
+
     @Inject
     lateinit var utils: Utils
     private var bottomSheetDialog: BottomSheetDialog? = null
@@ -63,7 +64,7 @@ class ProfileFragment : Fragment() {
             image = imagePath
             displaySelectedPhoto(imagePath)
         } else {
-           Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -87,7 +88,7 @@ class ProfileFragment : Fragment() {
         enableImageSelection()
 
         viewModel.cartItems.observe(viewLifecycleOwner) { result ->
-            when(result) {
+            when (result) {
                 is VMResult.Success -> {
                     binding.profileCartQuantityTV.text = result.data.size.toString()
                 }
@@ -108,8 +109,7 @@ class ProfileFragment : Fragment() {
                 showDialogToEditProfileField(
                     "name",
                     binding.profileNameTV.text.toString()
-                ) {
-                        dialog: BottomSheetDialog?, fieldValue: String ->
+                ) { dialog: BottomSheetDialog?, fieldValue: String ->
                     //action to update name
                     binding.profileNameTV.text = fieldValue
                     dialog?.dismiss()
@@ -125,8 +125,7 @@ class ProfileFragment : Fragment() {
                 showDialogToEditProfileField(
                     "email address",
                     binding.profileEmailAddressTV.text.toString()
-                ){
-                        dialog: BottomSheetDialog?, fieldValue: String ->
+                ) { dialog: BottomSheetDialog?, fieldValue: String ->
                     //action to update email address
                     binding.profileEmailAddressTV.text = fieldValue
                     dialog?.dismiss()
@@ -142,8 +141,7 @@ class ProfileFragment : Fragment() {
                 showDialogToEditProfileField(
                     "delivery address",
                     binding.profileDeliveryAddressTV.text.toString()
-                ){
-                        dialog: BottomSheetDialog?, fieldValue: String ->
+                ) { dialog: BottomSheetDialog?, fieldValue: String ->
                     //action to update delivery address
                     binding.profileDeliveryAddressTV.text = fieldValue
                     dialog?.dismiss()
@@ -158,8 +156,7 @@ class ProfileFragment : Fragment() {
                 showDialogToEditProfileField(
                     "phone number",
                     binding.profilePhoneNumberTV.text.toString()
-                ) {
-                        dialog: BottomSheetDialog?, fieldValue: String ->
+                ) { dialog: BottomSheetDialog?, fieldValue: String ->
                     //action to update phone number
                     binding.profilePhoneNumberTV.text = fieldValue
                     dialog?.dismiss()
@@ -174,8 +171,7 @@ class ProfileFragment : Fragment() {
                 showDialogToEditProfileField(
                     "password",
                     binding.profilePasswordValueTV.text.toString()
-                ) {
-                        dialog: BottomSheetDialog?, fieldValue: String ->
+                ) { dialog: BottomSheetDialog?, fieldValue: String ->
                     //action to update phone number
                     binding.profilePasswordValueTV.text = fieldValue.map { c: Char -> "*" }
                         .joinToString("")
@@ -251,14 +247,15 @@ class ProfileFragment : Fragment() {
     private fun initFavouriteAdapter() {
         favouriteRecyclerViewAdapter = FavouriteAdapter(
             onItemClicked = { position: Int, itemAtPosition: FavouriteItem ->
-                val action = ProfileFragmentDirections.actionProfileFragmentToProductDetailsFragment(
-                    itemAtPosition.name,
-                    itemAtPosition.id,
-                    itemAtPosition.image,
-                    itemAtPosition.description,
-                    itemAtPosition.price.toString(),
-                    itemAtPosition.rating,
-                )
+                val action =
+                    ProfileFragmentDirections.actionProfileFragmentToProductDetailsFragment(
+                        itemAtPosition.name,
+                        itemAtPosition.id,
+                        itemAtPosition.image,
+                        itemAtPosition.description,
+                        itemAtPosition.price.toString(),
+                        itemAtPosition.rating,
+                    )
                 findNavController().navigate(action)
 
             }, onFavouriteButtonClicked = { position: Int, itemAtPosition: FavouriteItem ->
@@ -276,7 +273,9 @@ class ProfileFragment : Fragment() {
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
-            ): Boolean { return false }
+            ): Boolean {
+                return false
+            }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val card = paymentCardsRecyclerViewAdapter
@@ -307,7 +306,7 @@ class ProfileFragment : Fragment() {
             onItemClicked = { position: Int, itemAtPosition: PaymentCard ->
 
             },
-            onActivateRadioButtonClicked = {position: Int, itemAtPosition: PaymentCard ->
+            onActivateRadioButtonClicked = { position: Int, itemAtPosition: PaymentCard ->
                 viewModel.updateSelectedPaymentCard(itemAtPosition.cardNumber)
             }
         )
@@ -337,7 +336,10 @@ class ProfileFragment : Fragment() {
                     .setAnchorView(dialogBinding.root)
                     .show()
             } else {
-                onDoneClicked(bottomSheetDialog, dialogBinding.editProfileFieldValueET.text.toString().trim())
+                onDoneClicked(
+                    bottomSheetDialog,
+                    dialogBinding.editProfileFieldValueET.text.toString().trim()
+                )
             }
         }
         bottomSheetDialog = BottomSheetDialog(requireContext())
@@ -415,18 +417,21 @@ class ProfileFragment : Fragment() {
 
     private val requestPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { isGranted -> if (isGranted) { enableImageSelection() } else {
-        val showRationale =
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                requireActivity(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-        if (showRationale) {
-            requestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            enableImageSelection()
         } else {
-            goToSettings()
+            val showRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            if (showRationale) {
+                requestPermission()
+            } else {
+                goToSettings()
+            }
         }
-    }
     }
 
     private fun requestPermission() {
@@ -443,7 +448,10 @@ class ProfileFragment : Fragment() {
 
 
     private fun goToSettings() {
-        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${requireActivity().packageName}")).apply {
+        Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.parse("package:${requireActivity().packageName}")
+        ).apply {
             addCategory(Intent.CATEGORY_DEFAULT)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }.also { intent ->

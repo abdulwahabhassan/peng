@@ -42,6 +42,7 @@ class CheckOutFragment : Fragment() {
     private var selectedPaymentCard: PaymentCard? = null
     private var bottomSheetDialog: BottomSheetDialog? = null
     var totalAmount by Delegates.notNull<Double>()
+
     @Inject
     lateinit var utils: Utils
 
@@ -54,12 +55,12 @@ class CheckOutFragment : Fragment() {
                 override fun handleOnBackPressed() {
                     if (!binding.checkOutProgressIndicator.isVisible) {
                         //if transaction is not in progress, allow activity to handle back button
-                            //pressed
+                        //pressed
                         isEnabled = false
                         activity?.onBackPressed()
                     } else {
                         //otherwise beg customer to stay on the page while the app processes their
-                            //transaction
+                        //transaction
                         isEnabled = true
                         Toast.makeText(
                             requireContext(),
@@ -111,7 +112,7 @@ class CheckOutFragment : Fragment() {
         binding.checkoutPayButton.setOnClickListener {
             when (val result = viewModel.paymentCards.value) {
                 is VMResult.Success -> {
-                    if(result.data.isEmpty() || result.data.find { it.selected } == null) {
+                    if (result.data.isEmpty() || result.data.find { it.selected } == null) {
                         Snackbar.make(
                             binding.root,
                             "Please add a payment method",
@@ -121,22 +122,22 @@ class CheckOutFragment : Fragment() {
                             .setAnchorView(binding.checkoutPayButton)
                             .show()
                     } else {
-                            //callPayStack()
-                            viewModel.clearCart()
-                            val action = CheckOutFragmentDirections.actionCheckOutFragmentToSuccessFragment()
-                            findNavController().navigate(action)
-                        }
+                        //callPayStack()
+                        viewModel.clearCart()
+                        val action =
+                            CheckOutFragmentDirections.actionCheckOutFragmentToSuccessFragment()
+                        findNavController().navigate(action)
                     }
                 }
             }
+        }
 
         binding.checkOutEditAddressIB.setOnClickListener {
             if (bottomSheetDialog == null) {
                 showDialogToEditCheckOutDetailsField(
                     "delivery address for this delivery",
                     binding.checkOutDeliveryAddressValueTv.text.toString()
-                ){
-                        dialog: BottomSheetDialog?, fieldValue: String ->
+                ) { dialog: BottomSheetDialog?, fieldValue: String ->
                     //action to update phone number
                     binding.checkOutDeliveryAddressValueTv.text = fieldValue
                     dialog?.dismiss()
@@ -152,8 +153,7 @@ class CheckOutFragment : Fragment() {
                 showDialogToEditCheckOutDetailsField(
                     "phone number for this delivery",
                     binding.checkOutPhoneNumberValueTv.text.toString()
-                ){
-                        dialog: BottomSheetDialog?, fieldValue: String ->
+                ) { dialog: BottomSheetDialog?, fieldValue: String ->
                     //action to update phone number
                     binding.checkOutPhoneNumberValueTv.text = fieldValue
                     dialog?.dismiss()
@@ -166,7 +166,7 @@ class CheckOutFragment : Fragment() {
         binding.checkoutSwitchCardTV.setOnClickListener {
             when (val result = viewModel.paymentCards.value) {
                 is VMResult.Success -> {
-                    val  currentCard = result.data.find {
+                    val currentCard = result.data.find {
                         it.cardNumber == binding.checkoutPaymentCardNumberTV.text.toString()
                             .replace(" ", "")
                     }
@@ -287,8 +287,10 @@ class CheckOutFragment : Fragment() {
         }
         binding.checkoutPaymentCardNameTV.text = selectedPaymentCard?.cardType?.lowercase(
             Locale.getDefault()
-        )?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
-        binding.checkoutPaymentCardNumberTV.text = selectedPaymentCard?.cardNumber?.chunked(4)?.joinToString(" ")
+        )
+            ?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        binding.checkoutPaymentCardNumberTV.text =
+            selectedPaymentCard?.cardNumber?.chunked(4)?.joinToString(" ")
     }
 
     private fun callPayStack() {
@@ -307,45 +309,57 @@ class CheckOutFragment : Fragment() {
                     .setAmount((totalAmount * 100).toInt())
                     .setEmail(viewModel.appConfigPreferences.value?.userEmail)
                     .setCard(card)
-                PaystackSdk.chargeCard(requireActivity(), charge, object : Paystack.TransactionCallback {
-                    override fun onSuccess(transaction: Transaction?) {
-                        //send ref to business owner for confirmation
-                        Toast.makeText(
-                            requireContext(),
-                            "Successful payment ${transaction?.reference}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        viewModel.clearCart()
-                        val action = CheckOutFragmentDirections.actionCheckOutFragmentToSuccessFragment()
-                        findNavController().navigate(action)
-                    }
+                PaystackSdk.chargeCard(
+                    requireActivity(),
+                    charge,
+                    object : Paystack.TransactionCallback {
+                        override fun onSuccess(transaction: Transaction?) {
+                            //send ref to business owner for confirmation
+                            Toast.makeText(
+                                requireContext(),
+                                "Successful payment ${transaction?.reference}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            viewModel.clearCart()
+                            val action =
+                                CheckOutFragmentDirections.actionCheckOutFragmentToSuccessFragment()
+                            findNavController().navigate(action)
+                        }
 
-                    override fun beforeValidate(transaction: Transaction?) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Before validate ${transaction?.reference}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                        override fun beforeValidate(transaction: Transaction?) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Before validate ${transaction?.reference}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
 
-                    override fun onError(error: Throwable?, transaction: Transaction?) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Error due to ${error?.message} " +
-                                    "Ref: ${transaction?.reference}",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        binding.checkoutPayButton.visibility = VISIBLE
-                        binding.checkOutProgressIndicator.visibility = INVISIBLE
-                    }
+                        override fun onError(error: Throwable?, transaction: Transaction?) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Error due to ${error?.message} " +
+                                        "Ref: ${transaction?.reference}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            binding.checkoutPayButton.visibility = VISIBLE
+                            binding.checkOutProgressIndicator.visibility = INVISIBLE
+                        }
 
-                })
+                    })
             } else {
-                Toast.makeText(requireContext(), "Invalid Card: Please select a valid card", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Invalid Card: Please select a valid card",
+                    Toast.LENGTH_SHORT
+                ).show()
                 binding.checkoutPayButton.visibility = VISIBLE
                 binding.checkOutProgressIndicator.visibility = INVISIBLE
             }
-        } ?: Toast.makeText(requireContext(), "Please select a payment method to use", Toast.LENGTH_SHORT).show()
+        } ?: Toast.makeText(
+            requireContext(),
+            "Please select a payment method to use",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun initCheckOutRecyclerViewAdapter() {
@@ -385,7 +399,10 @@ class CheckOutFragment : Fragment() {
                     .setAnchorView(dialogBinding.root)
                     .show()
             } else {
-                onDoneClicked(bottomSheetDialog, dialogBinding.editProfileFieldValueET.text.toString().trim())
+                onDoneClicked(
+                    bottomSheetDialog,
+                    dialogBinding.editProfileFieldValueET.text.toString().trim()
+                )
             }
         }
         bottomSheetDialog = BottomSheetDialog(requireContext())

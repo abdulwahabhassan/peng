@@ -30,21 +30,24 @@ class FavouriteAdapter(
 }) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteItemVH {
-        val binding = ItemFavouriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemFavouriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavouriteItemVH(
             binding,
             onItemClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onItemClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
 
             },
             onFavouriteButtonClick = { position ->
                 try {
                     val itemAtPosition = currentList[position]
                     this.onFavouriteButtonClicked(position, itemAtPosition)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
             }
         )
 

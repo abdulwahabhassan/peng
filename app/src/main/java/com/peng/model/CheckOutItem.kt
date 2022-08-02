@@ -1,7 +1,5 @@
 package com.peng.model
 
-import com.peng.db.CartItemEntity
-
 data class CheckOutItem(
     val id: String,
     val name: String,

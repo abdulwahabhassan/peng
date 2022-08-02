@@ -19,10 +19,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
-import com.peng.PriceInputMax
+import com.peng.PriceInputMask
 import com.peng.R
 import com.peng.Utils
-import com.peng.databinding.DialogAddPaymentCardBinding
 import com.peng.databinding.DialogProductsFilterBinding
 import com.peng.databinding.FragmentProductsBinding
 import com.peng.model.Product
@@ -33,7 +32,6 @@ import com.peng.ui.adapter.ProductsAdapter
 import com.peng.ui.adapter.SearchProductSuggestionsAdapter
 import com.peng.vm.SharedActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import javax.inject.Inject
 
 
@@ -46,6 +44,7 @@ class ProductsFragment : Fragment() {
     private lateinit var searchProductSuggestionsAdapter: SearchProductSuggestionsAdapter
     private val viewModel: SharedActivityViewModel by activityViewModels()
     private var bottomSheetDialog: BottomSheetDialog? = null
+
     @Inject
     lateinit var utils: Utils
     private val productsAdapterObserver = object : RecyclerView.AdapterDataObserver() {
@@ -141,7 +140,7 @@ class ProductsFragment : Fragment() {
         })
 
         viewModel.cartItems.observe(viewLifecycleOwner) { result ->
-            when(result) {
+            when (result) {
                 is VMResult.Success -> {
                     binding.productsCartQuantityTV.text = result.data.size.toString()
                 }
@@ -168,7 +167,7 @@ class ProductsFragment : Fragment() {
         initSearchProductSuggestionsAdapterRVAdapter()
 
         viewModel.products.observe(viewLifecycleOwner) { result ->
-            when(result) {
+            when (result) {
                 is VMResult.Success -> {
                     productsAdapter.submitList(result.data.toMutableList())
                 }
@@ -178,7 +177,7 @@ class ProductsFragment : Fragment() {
         }
 
         viewModel.searchProductSuggestion.observe(viewLifecycleOwner) { result ->
-            when(result) {
+            when (result) {
                 is VMResult.Success -> {
                     searchProductSuggestionsAdapter.submitList(result.data)
                 }
@@ -217,8 +216,8 @@ class ProductsFragment : Fragment() {
             bottomSheetDialog = null
         }
 
-        PriceInputMax(dialogBinding.filterProductsPriceFromET).listen()
-        PriceInputMax(dialogBinding.filterProductsPriceToET).listen()
+        PriceInputMask(dialogBinding.filterProductsPriceFromET).listen()
+        PriceInputMask(dialogBinding.filterProductsPriceToET).listen()
         dialogBinding.filterProductsPriceFromET.setText(viewModel.appConfigPreferences.value?.filterByPriceLowRange.toString())
         dialogBinding.filterProductsPriceToET.setText(viewModel.appConfigPreferences.value?.filterByPriceHighRange.toString())
         dialogBinding.filterProductsRatingSlider.valueFrom = 0f
@@ -236,7 +235,8 @@ class ProductsFragment : Fragment() {
                 override fun onStartTrackingTouch(slider: Slider) {}
 
                 override fun onStopTrackingTouch(slider: Slider) {
-                    dialogBinding.filterProductsRatingSliderValueTV.text = "${slider.value.toInt()} star and above"
+                    dialogBinding.filterProductsRatingSliderValueTV.text =
+                        "${slider.value.toInt()} star and above"
                 }
             }
         )
@@ -269,7 +269,7 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initSearchProductSuggestionsAdapter() {
-        searchProductSuggestionsAdapter = SearchProductSuggestionsAdapter (
+        searchProductSuggestionsAdapter = SearchProductSuggestionsAdapter(
             onItemClicked = { position: Int, itemAtPosition: SearchProductSuggestion ->
                 binding.root.requestFocus()
                 binding.productsSearchViewET.isCursorVisible = false
@@ -290,26 +290,26 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initProductsAdapter() {
-        productsAdapter = ProductsAdapter (
+        productsAdapter = ProductsAdapter(
             onItemClicked = { position: Int, itemAtPosition: Product ->
-            findNavController().navigate(
-                ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment(
-                    itemAtPosition.name,
-                    itemAtPosition.id,
-                    itemAtPosition.image,
-                    itemAtPosition.description,
-                    itemAtPosition.price.toString(),
-                    itemAtPosition.rating
+                findNavController().navigate(
+                    ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment(
+                        itemAtPosition.name,
+                        itemAtPosition.id,
+                        itemAtPosition.image,
+                        itemAtPosition.description,
+                        itemAtPosition.price.toString(),
+                        itemAtPosition.rating
+                    )
                 )
-            )
-        },
-        onItemAddedToCart = { position: Int, itemAtPosition: Product ->
-            viewModel.addOrRemoveItemFromCart(itemAtPosition.mapToCartItem())
-            if (!itemAtPosition.isInCart) {
-                binding.productsShoppingCartLAV.playAnimation()
-            }
-            productsAdapter.notifyItemChanged(position)
-        },
+            },
+            onItemAddedToCart = { position: Int, itemAtPosition: Product ->
+                viewModel.addOrRemoveItemFromCart(itemAtPosition.mapToCartItem())
+                if (!itemAtPosition.isInCart) {
+                    binding.productsShoppingCartLAV.playAnimation()
+                }
+                productsAdapter.notifyItemChanged(position)
+            },
             utils
         )
         productsAdapter.stateRestorationPolicy =
@@ -338,10 +338,16 @@ class ProductsFragment : Fragment() {
     }
 
     private fun setGridIcon(columns: Int) {
-        when(columns) {
-            1 -> { binding.productsGridButton.setImageResource(R.drawable.ic_grid_2_column) }
-            2 -> { binding.productsGridButton.setImageResource(R.drawable.ic_grid_3_column) }
-            3 -> { binding.productsGridButton.setImageResource(R.drawable.ic_grid_1_column) }
+        when (columns) {
+            1 -> {
+                binding.productsGridButton.setImageResource(R.drawable.ic_grid_2_column)
+            }
+            2 -> {
+                binding.productsGridButton.setImageResource(R.drawable.ic_grid_3_column)
+            }
+            3 -> {
+                binding.productsGridButton.setImageResource(R.drawable.ic_grid_1_column)
+            }
         }
     }
 
@@ -354,6 +360,7 @@ class ProductsFragment : Fragment() {
         super.onStop()
         productsAdapter.unregisterAdapterDataObserver(productsAdapterObserver)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
