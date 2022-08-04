@@ -126,7 +126,7 @@ class ProductsFragment : Fragment() {
                     viewModel.fetchProducts(binding.productsSearchViewET.text.toString())
                 }
             }
-            return@setOnKeyListener true
+            return@setOnKeyListener false
         }
 
         binding.productsSearchViewET.addTextChangedListener(object : TextWatcher {
